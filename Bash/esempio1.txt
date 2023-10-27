@@ -1,0 +1,11 @@
+#!/bin/sh
+# this is a comment
+echo "the number of arguments is $#"
+echo "the arguments are $*"
+echo "the first is $1"
+echo "my process number is $$"
+
+echo "enter a number from the keyboard: "
+read number
+echo "the number you entered was $number"
+

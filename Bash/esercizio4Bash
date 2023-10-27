@@ -1,0 +1,32 @@
+#!/bin/bash
+#print and verify file owner
+#stat command
+stat_cmnd=$(which stat)
+#file to be verified
+file=$1
+if [ -f "$file" ]; then
+	size=$($stat_cmnd --format="%s" $file)
+	units="B"
+fi
+if [ "$size" -gt "1024" ]; then
+	size=$(expr $size/1024)
+	unit="KB"
+fi
+if [ "$size" -gt "1024" ]; then
+	size=$(expr $size/1024)
+        unit="MB"
+fi
+if [ "$size" -gt "1024" ]; then
+        size=$(expr $size/1024)
+        unit="GB"
+fi
+if [ "$size" -gt "1024" ]; then
+        size=$(expr $size/1024)
+        unit="TB"
+fi
+echo "$file is $size $units"
+
+
+
+
+

@@ -1,0 +1,475 @@
+regole auree
+
+
+								*POLITICHE DI ACCESSO*
+Discretionary Acces Control (DAC)
+- policy dettata dal proprietario della risorsa che decide come gestire gli  accessi (uso classico del pc)
+Mandatory acces control (MAC)
+- policy dettata dal sistema e decisa per tutti a priori (ambiente militare)
+Role Based Acces Control (RBAC)
+- a seconda della posizione e del ruolo la policy cambia (studenti, prof, sysadmin)
+
+							
+							*DEFINIRE UNA POLITICA DI SICUREZZA*
+Matrice che associa un utente ai permessi per ogni risorsa
+
+	------------------------
+	| s\o | car | tas | ...
+	------------------------
+	| us1 |  x  |  -  | ...
+	------------------------
+	| us2 |  -  |  -  | ...
+	------------------------
+	| us3 |  x  |  x  | ...
+	------------------------
+	| ... | ... | ... | ...
+	------------------------
+
+Per tanti utenti non è gestibile --> COME POSSIAMO SFRUTTARE LE NOSTRE CONOSCENZE PER COMPRIMERE LA STRUTTURA DATI SENZA PERDERE PEZZI?
+
+* divido le persone/utenti secondo il loro ruolo e posizione (se ho 50k utenti ma essi fanno parte di 5 gruppi da 10k -> anzichè avere 50k linee ne avrò 5) ACCES CONTROL LIST ACL
+	------------------------
+	| g\o | car | tas | ... 
+	------------------------
+	| gr1 |  x  |  x  | ...
+	------------------------
+	| gr2 |  -  |  -  | ...
+	------------------------
+	| ... | ... | ... | ...
+	------------------------
+	DA TENERE IN UN LUOGO SICURO PER TENERE SANA E SALVA LA POLICY - in Linux/Unix è contenuta nella I-NODE
+							I-NODE -> struttura dati su HD in struttura chiamata I-NODE TABLE e contienete i metadati dei 									file 
+
+							*CAPABILITY*
+garantisce l'accesso attraverso dei TOKEN
+tenuta nel KERNEL dell'OS per mantenere la protezione alta -> se qualcuno ne entra in possesso E' quella persona per il computer -> IMPORANTE
+usato in Windows
+
+Una banca tiene traccia di chi ha l'accesso alla cassetta di sicurezza, deve tenere al sicuro l'elenco -> ACCES CONTROL LIST
+		AUTENTICAZIONE - la banca controlla chi entra
+		PARTECIPAZIONE - la banca partecipa
+		FALSIFICAZIONE - l'elenco è al sicuro
+		DELEGAZIONE    - bisogna aggiunger euna entry ma è complesso                                                    
+                ELIMINAZIONE   - è facile da rimuovere una entry
+
+Io ho le chiavi della cassetta e posso decidere a chi darle, se voglio darle -> CAPABILITY
+		AUTENTICAZIONE - la banca non controlla
+		PARTECIPAZIONE - la banca non partecipa
+		FALSIFICAZIONE - la chiave non è modificabile/copiabile
+		DELEGAZIONE    - la chiave può essere data a chiunque
+		ELIMINAZIONE   - è difficile farsi dare la chiave indietro
+
+ACL E CAPABILITY HANNO PRO E CONTRO INVERSI
+	--> ACL USATA DI PIU'
+
+Il controllo di accesso è gestito dal Reference Monitor, un software che gesticìsce OGNI accesso e il cui funzionamento è ASSICURATO al 100%
+					--> passaggio a livello
+				 -------------------------------------------------
+			:-) ---->|----> soggetto --> richiesta di accesso --      |
+			         |                            ^            |      |
+				 |                            | -deny-     |      |
+				 |      policies -->reference monitor  <----      |
+				 |                   ^            |               |
+				 |                   | -grant-    ----> log       |
+				 |                 object                         |---> PC
+				 --------------------------------------------------
+
+								*UTENTE SU UNIX*
+Tutti coloro che sono presenti nel file /etc/passwd
+				username:password:UID:GID:name:homedir:shell
+				UID - User ID - numero 16b (per root è 0)
+				GID - Group ID - numero 16b (per root è 0)
+				password contiene x ora perché le password sono in /etc/shadow
+
+				root ha controllo totale tolte:
+				* LA CONOSCENZA delle password, ma può RISCRIVERLA
+				* la RISCRITTURA dei file Read Only
+
+				/etc/group conteiene groupname:password:GID:list_of_users
+
+								*SOGGETTI*
+processi distinti da PID -> generati da exec e fork -> oguno di loro ha un UID/GID reale e un UID/GID effettivo
+effective UID è usato per gestire i processi
+
+				          :real UID 1001  p1 <---------
+				     :effective UID 800   |           |
+							  | -comando- |
+							  |          /
+							  -----> P2 -        :real UID 1001
+							        ^ |     :effective UID -800- --> 462 (esegue il processo con UID 462)
+							        \-|<----\
+								  ------>P3  :real UID 1001
+								        :effective UID 462
+
+Ad ogni oggetto possono accedere 3 tipi di utente
+		* OWNER
+		* GROUP
+		* OTHER - qualunque altra cosa
+Ogni soggetto può avere 3 operazioni --> si necessita di 3 bit
+		* READ 		r
+		* WRITE 	w
+		* EXECUTE	x
+				
+				+ 7 = 111 = TUTTO
+				+ 6 = 110 = solo read and write
+				+ 5 = 101 = solo read e execute
+				+ 4 = 100 = solo read
+				+ 3 = 011 = solo write e execute
+				+ 2 = 010 = solo write
+				+ 1 = 001 = solo execute
+
+chmod fa modificare i diritti di accesso
+	sia con numeri sia con parole
+		sudo chmod 0754 file.txt ->user tutto, group leggi esegui, other solo leggi
+
+Ogni utente ha una sua directory di cui possiede tutti i permessi (rwx) e può modificare i permessi degli altri utenti per accedervi
+
+GETFACL mostra nome,proprietario,gruppo e file ACL esistente
+		getfacl nome_file_o_cartella
+
+SETFACL modifica ACL
+			setfacl -m u:nome_utente:xxx nome_file_o_cartella  - xxx può essere numero (7,6,5,..,1) o rwx,rw-,r--,...,--x
+			setfacl -m g:nome_gruppo:xxx nome_file_o_cartella
+			setfacl -m o
+
+			setfacl -x u:.....                                 - rimuove i permessi
+
+							*GREP*
+Permette di cercare stringhe all'interno di file 
+	grep stringa file
+Ha opzioni principali
+	-c conta le righe dove c'è match
+	-i fa cercare la stringa indipendentemente dal case (hello, HELLO, HellO, heLLo,heLlo,...)
+	-v stampa le linee
+	-n stampa il numro di riga
+Grep usa anche le espressioni regolari per fare le richerche
+	[:::] dove ::: sono caratteri -> grep cercherà tutte li stringhe che contengono quei caratteri
+					   ^ indica tutte tranne ciò che c'è dopo
+	.       caratteri qualunque
+
+							*FORMATI DI UN PROGRAMMA*
+Sorgente -> dato in pasto al compilatore ---> UNA VOLTA dava il codice OGGETTO --> poi lo dava al LINKER---|
+				|									   |--->ESEGUIBILE
+				|									   |
+				------------> ora fa sia compilazione sia linking assieme -----------------|
+
+
+		foo.c ---> foo.o ---> foo.out <-- eseguito con un LOADER
+		      comp       link
+
+							*ELF*
+Executable and Linkable Format ---> formato per eseguibili LINUX, videogiochi Sony, ....
+Formato BINARIO 
+Contiene il codice e TUTTE le info necessarie alla esecuzione
+Composto da:
+	* ELF Header
+	* Sezioni
+	* Segmenti
+
+
+					--------------------------------------------
+					|	ELF Header      |
+					-------------------------
+					| program header table  |
+					-------------------------
+					| .text			|
+					-------------------------
+					| .rodata               |
+					-------------------------
+					| .bss                  |
+					-------------------------
+					| .plt		        |
+					-------------------------
+					| .got		        |
+					-------------------------
+					| .got.plt              |
+					|------------------------
+					|.symtab		|
+					-------------------------
+
+HEADER
+
+readelf -h nome --> permette di leggere il file elf di un eseguibile per leggere le informazioni
+
+e_entry: entry point in memoria centrale
+e_phoff: offset della Program Header Table
+e_shoff:
+e_flags:
+.....
+
+SEZIONI
+contiene tutte le info per il linking
+
+readelf -S nome
+
+sh_type:
+sh_flags:
+sh_addr:
+sh_offset:
+.......
+
+SEGMENTI
+dividono il file elf in spezzoni per .....
+
+readelf -l nome
+
+p_typr:
+p_flags:
+.......
+
+
+
+		SORGENTE --> vi,vim,neovim,emacs
+		ELF FILE --> readelf
+		OBJECT   --> objdump
+
+
+						*EXEC*
+legge il path e cerca il file
+lo carica in memoria
+verifica se è un elf --> legge l'ELF Header --> legge il MAGIC NUMBER (e altro) e se è 7f 45 4c 46
+se non lo è
+	* se inizia con #! allor chiama l'interprete corretto
+	* se è simile a /proc/sys/fs/binfmt_misc allora il kernel chiama il comando di interprete specifico
+se lo è:
+	* se è DYNAMIC-LINKED il kernel legge l'interprete specificato nell'ELF, lo chiama (attraverso il LINKER DINAMICO) 
+	  per il file e gli da' controllo
+	* se è STATIC-LINKED il kernel lo carica
+
+	readelf -a cookie | grep interpreter fa vedere che interprete è usato
+viene allocata la memoria virtuale per
+	* il binario
+	* le librerie
+	* lo heap
+	* lo stack
+	* la memoria mappata specificatamente dal programma
+	* il codice kernel nella prima metà della memoria
+
+Dopo la compilazione il programma non entra subito in esecuzione ma fa dei passi precedenti e poi chiama il main del programma
+						
+						*ARGOMENTI*
+
+IN C
+	argc -> #argomenti
+	argv -> array contenente gli argomenti
+	envp -> variabili di ambiente
+
+						*SYSTEM CALL*
+
+Durante l'esecuzione il programma esegue delle Syscall per fare entrare l'os in modalità KERNEL e fargli eseguire ciò che è necessario.
+Per vedere quali system call sono usate in un comando basta usare 
+			strace comando -l
+Su Linux ce ne sono 300 -> visibili usando "man 2 open"
+Durante l'esecuzione l'SO comunica con i processi usando le SIGNAL
+	syscall speciali che stoppano il processo
+	hanno un numero assiociato
+		9 --> chiamata SIGKILL -->il processo invoca ABORT su se stesso (fa SO se il processo non si ammazza)
+
+
+Un processo muore in due modi:
+	1: fa la exit();
+	2: riceve SIGKILL
+
+							*ALL PROCESSES MUST BE    R E A P E D*
+						
+Un processo dienta Zombie quando termina e deve essere rimosso dal padre con wait();
+Quando viene rimosso si libera spazio per un altro processo
+Se il padre muore prima i processi vengono rimossi da un DAEMON che cambia il loro PID a 1. Il processo padre con PID 1 fa periodicamente la wait();
+
+							*PRIVILEDGE ESCALATION*
+COMPLETE MEDIATION
+Ogni tanto un processo necessita di più diritti di accesso di quelli che possiede --> Fa una scalata di privilegio, ma deve essere fatta in modo tale 											    che non si creino problemi
+In UNIX si chiama Set-UID --> permette a utenti SENZA root che esegue un programma di usufruire dei diritti di accesso del programma quando lo usa
+	ESEMPIO passwd
+		
+		$ ls -l /usr/bin/passwd
+		-rwSr-xr-x 1 root root 41284 Sep 12 2012 /usr/bin/passwd
+
+		passwd è di ROOT, ma quando lo eseguo DIVENTO io ROOT (finchè lo uso)
+
+							*I DUE USER ID*
+
+Ogni processo ha DUE UID:
+	* Real UID --> UID del vero padrone del processo --> quelli su passwd
+	* Effective UID --> identifica i privilegi di un processo --> l'accesso si basa su di esso
+Di norma sono uguali. Quando Set-UID viene eseguito l'EUID cambia a quello di root (0) --> lo si può capire se nei permessi c'é una S (vedi sopra)
+
+								*BASH*
+
+.....
+
+								*ASSEMBLY*
+
+	LABEL OPCODE OPERAND COMMENT --> unico obbligatorio è opcode
+	commento ; o # --> noi #	
+	usiamo MASM
+	
+	dati salvabili in registri o variabili <---- in memoria
+			  ^
+			  |
+			speciali in chip
+			UNICI MANIPOLABILI
+					
+
+	byte B 			=      ~1/2B~   =	4b
+	word			=	1B	=	8b
+	double word		=	4B	=	16b
+	quadruple word		=	8B	=	32b
+	double quadruple word	=	16B	=	64b
+
+	registri sia a 64b, che 32b, che 16b che 8b a seconda di quali bit voglio
+		ESEMPIO
+			rax = 64b
+			eax = 32b
+			ax  = 16b -> ah+al (higher e lower)
+			al  = 8b
+	
+	LITTLE ENDIAN!!!!
+
+	SOLO DUE TIPI DI DATO	
+		* NUMERI --> notazione binaria
+			+ 100 -> 0110 0100
+		* CARATTERI --> UTF8 --> OGNUNO OCCUPA 1B
+			+ 100 -> 00110001 00110000 00110000
+				    1        0         0
+
+	I DATI HANNO BISONO DI RISERVAMENTO DI SPAZIO IN MEMOORIA
+		ESEMPIO
+			buffer:		resb	64 #byte
+			wordvar:	resw	1  #word
+			realarray:	resq	10 #array
+
+					db	0x55 ->85 numero O 'U'
+					db	'hello'
+		
+	Per spostare da memoria a registri bisogna usare delle ADDRESSING MODES
+		1 Accedere ai dati dai registri
+		2 "	   "   "   da immediato
+		3 "        "   "   da memoria
+			a Modalità Diretta
+			b "        Indiretta
+				* Registrer addressing -> muove i dati da e in i registri --> mov rdx,rcx
+					+ a registro
+						mov rdx,rcx
+					+ a immediato
+						mov rax,100 --> NON COSI', è vago, bisogna specificare
+						mov DWORD PTR rax,100 --> usa solo i primi 32b
+				* Indirect Addressing --> voglio usare i puntatori --> [registro]
+						mov rcx,[rax] --> metto in rcx il contenuto dell'indirizzo di memoria di rax
+						   rax                              rcx
+						--------                         --------
+						| 1000-|------> memoria -------> | .... |
+						--------        ad indirizzo     --------
+						                1000
+						
+	INDIRIZZAMENTO DIRETTO è intuitivo ma poco flessibile
+	"              INDIRETTO non è intuitivo ma è flessibile
+
+							*LITTLE ENDIAN*
+
+Dati salvati al contrario
+	
+	mov	eax,0xc001ca75	#carico diretto ----> | c0 | 01 | ca | 75 |
+	mov	rcx,0x10000 	#65536
+	mov	[rcx],eax	#carico eax all'INDIRIZZO 65536 in LITTLE ENDIAN --> | 75 | ca | 01 | c0 |
+	mov	bh,[rcx]	#carico 0x75 che si trova a 65536 IN MEMORIA 
+
+							*GIOCARE CON L'ASSEMBLY*
+
+ESEMPIO:
+	LOOP	add	rax,3
+		jmp	LOOP
+
+somma di 20 elementi di array
+		xor	rax   #contatore
+		xor	rbx   #somma
+		lea	rcx,a #inzirizzo array
+	sumloop:
+		mov
+		add
+		....
+	
+LEA Load Effective Address -> carica in 1 l'ndirizzo della variabile 
+	lea	rcx,buffer |_________> carico in rax il contenuto di buffer INDIRETTAMENTE
+	mov	rax,[rcx]  |
+
+
+add dest,src	#a=a+b
+sub dest,src	#a=a-b
+inc dest	#++
+dec dest	#--
+neg dest	#...
+cmp dest,src    #confronta (b-a) e poi <0,>0,=0 modifica STATUS REGISTER a seconda
+
+mul 	dest,src	#a=a*b SENZA segno
+    	può essere uno solo, l'altro è supposto in rax
+imul	dest,src	#a=a*b CON segno
+div
+idiv
+
+CONTROLLO DI FLUSSO
+opcode label
+	controlla tra gli STATUS REGISTER della la cmp
+je	#solo se destinazione=origine
+jg	#solo se destinazione>origine
+jge	#solo se destinazione>=origine
+jl	#solo se destinazione<origine
+jle	#solo se destinazione<=origine
+jmp	#non condizionata
+
+SYSCALL
+usabili salvando sul registro rax il numero della syscall, negli altri registri inserisco gli argomenti e poi chiamo syscall
+i ritorni sono eax
+	* sys_read 	0	rdi=file_descriptor(0 stIn)	rsi=caratteri letti	rdx=numero caratteri da leggere
+	* sys_write	1	rdi=file_descriptor(1 schermo)	rsi=caratteri stampare	rdx=numero caratteri da stampare
+
+	leggere 100B da stdin a SP
+	mov rdi,0
+	mov rsi,rsp #in rsi valore dello SP --> se ho buffer uso lea rsi,buffer
+	mov rdx,100
+	mov rax,0
+	syscall
+
+								*SHELL CODE*
+
+Codice in linguaggio macchina --> utile per sfruttare le vulnerabilità usando le INJECTION
+										     |
+										     v
+				non sulla Harvard			durante l'esecuzione di un processo si
+				       ^				inserisce del codice in più
+				       |
+Funziona perché nelle architetture di V.N. la memoria contiene SIA istruzioni SIA dati --> si possono aggiungere cose in mezzo
+
+	PROGRAMMA DA COPIARE myFirstInjection.c
+			--> può fare segmentation fault (causa sezione dell'IF)
+			    uso gdb -q nome
+			    la runno finchè non segmenta
+			    faccio la info proc map
+			    x/s $rip --> 0x7fffffffdb20:	"ciao"  		CONTENUTO della stringa COLPEVOLE
+			    x/i $rip --> 0x7fffffffdb20:	movsxd 0x61(%rcx),%ebp	ISTRUZIONE COLPEVOLE
+
+
+	objdump -M intel -d nomeEseg
+		vedo la objdump
+	
+	objcopy --dump-section .text=RawFile nomeEseg
+		copiare l'elf fuori dall'elf
+	
+	hexdump -C RawFile
+		vedere la hexdump a byte
+
+	shellCodeInjection --> fa aprire una shell a un processo aperto --> con diritti di ROOT
+	shellCodeInjection.s --> shellCode
+		poi uso objcopy per metterlo su un file con SOLO la parte di testo
+
+	HO BISOGNO DI UN PAZIENTE 0 PER TESTARE PRIMA DI INIETTARE --> *CARRIER*
+	carrier.c --> carrier --> tiene un pezzo di memoria di 1000B
+				  legge e mette su questo pezzo RawFile
+				  lo esegue
+
+	gcc -o carrier carrier.c
+
+	cat RawFile - | ./carrier
+
+	ESERCIZIOOOOOOO
+		fare una iniezione per aprire il file Flag in root usando myFirstInjection

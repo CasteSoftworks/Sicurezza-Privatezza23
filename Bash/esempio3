@@ -1,0 +1,7 @@
+#!/bin/bash
+echo "nome?"
+read USER_NAME
+echo "CIAO $USER_NAME"
+echo "creero un file chiamato ${USER_NAME}_file"
+touch "${USER_NAME}_file"
+
