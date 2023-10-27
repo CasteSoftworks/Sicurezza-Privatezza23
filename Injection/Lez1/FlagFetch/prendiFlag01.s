@@ -1,3 +1,5 @@
+#open a file called Flag in the root dir using a code injection in myFirstInjection
+#tentative n°1 - NOT WORKING
 .intel_syntax noprefix
 .globl _start
 .section .text
