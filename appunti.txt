@@ -472,4 +472,85 @@ Funziona perché nelle architetture di V.N. la memoria contiene SIA istruzioni S
 	cat RawFile - | ./carrier
 
 	ESERCIZIOOOOOOO
-		fare una iniezione per aprire il file Flag in root usando myFirstInjection
+		fare una iniezione per aprire il file Flag in root usando myFirstInjection --> done and dusted
+
+
+								*MEMORY ERROR EXPLOITS*
+S M A S H I N G   the stack
+
+Usata da Morris per l'Internet Worm
+
+-citazione di Aleph One-
+E' possibile corrompere lo stack con l'overflow di un array e causare un salto ad una routine casuale
+
+	---------------------
+	|    kernel space   |
+	---------------------
+	|     stack         | --> roba in main --> int a,b;
+	---------------------
+	|     heap          | --> roba in heap (malloc,...) --> int *ptr=(int *)malloc(2*sizeof(int));
+	---------------------
+	|     bss           | --> roba non inizializzata --> static int i;
+	---------------------
+	|     data          | --> roba inizializzata --> int x=2; (in globale)
+	---------------------
+	|     text          | --> programma vero e proprio
+	---------------------
+
+								*LO STACK*
+LIFO
+Usato O dal programmatore O dal compilatore
+rispetta naturamente le chiamate di un programma
+		|esempio
+		------>	main					main -> callA -> callB -> callC
+				callA					main     callA    callB
+					callB					 main     callA
+						callC					  main
+I dati possono essere aggiunti in unità da multipli di 64b
+La maggior parte delle CPU hanno istruzioni e registri specifici per la gestione dello STACK
+		
+		RUNTIME STACK
+			SS 	stack segment
+			RSP	stack pointer <--- punta all'ultima operazione che è occupata
+
+		PUSH
+			inserisce una quad word sullo stack sottraendo 8 da RSP e salvando il risultato in [RSP]
+			push reg/imm
+			      |
+			      -------------------> sub	rsp, 8          RICORDA L'ESADECIMALEEEEEE
+			      			   mov	[rsp], reg/imm
+
+		POP
+			legge una quad word da [RSP] e aggiunge 8 a RSP
+			POP reg/imm
+			      |
+			      -------------------> mov	reg/mem, [RSP]
+			      			   add	RSP, 8
+
+		SCRIVERE UN PROGRAMMA ASSEMBLER CHE INVERTE IL CONTENUTO DI UNA STRINGA
+			ESEMPIO
+			INPUT: 	CACCA
+			OUTPUT:	ACCAC
+
+							*LO STACK E LE CHIAMATE DI FUNZIONE*
+
+Lo stack contiene i function pointer --> si allocano sia le funzioni sia i parametri passati ad esse <-- l'insieme di queste si dice STACK FRAME
+
+	ESEMPIO vedi foto
+	---------
+	|   jj  | | --> bar
+	---------
+	|   ii  | |
+	--------- |
+	| iiii  | |
+	--------- | --> foo
+	|  iii  | |
+	--------- |
+	|   ii  | |
+	---------
+	|   10  | | 
+	--------- | --> main
+	|   x   | |
+	---------
+
+Contiene inoltre gli INDIRIZZI DI RITORNO dalle funzioni
