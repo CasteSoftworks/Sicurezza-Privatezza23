@@ -581,4 +581,11 @@ Prima del return il compilatore aggiunge tre istruzino dette EPILOGO
 		A COSA SERVE L'EPILOGO?
 		serve a annullare il prologo riportando lo stack alla situzaione precedente alla chiamata
 
+		USARE COOKIE.C per vincere --> 
+			scambiare cookie e buf[80] (cookie in alto)
+			gcc -fno-stack-protector -o cookie cookie.c --> -fno-stack-protector serve a disabilitare le protezioni MODERNE al buffer 
+									overflow
+			objdump -M intel -d cookie --> *PER CAPIRE QUANTO SPAZIO E' ALLOCATO a BUF*
+			./cookie
+			in input una dimensione adeguata di caratteri a caso e in fondo 0x41424344 (ABCD) IN LITTLE ENDIAN (DCBA)
 
