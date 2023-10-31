@@ -553,4 +553,8 @@ Lo stack contiene i function pointer --> si allocano sia le funzioni sia i param
 	|   x   | |
 	---------
 
-Contiene inoltre gli INDIRIZZI DI RITORNO dalle funzioni
+Contiene inoltre gli INDIRIZZI DI RITORNO dalle funzioni (prima che ne vnga chiamata una salva si salva sullo stack l'indirizzo della istruzione successiva ala funzione attuale)
+	CALL NOMESOTTOROUTINE --> push rip
+				  jmp  nomesottoroutine
+	
+	RET 		      --> pop rip
