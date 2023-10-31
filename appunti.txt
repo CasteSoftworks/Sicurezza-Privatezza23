@@ -558,3 +558,27 @@ Contiene inoltre gli INDIRIZZI DI RITORNO dalle funzioni (prima che ne vnga chia
 				  jmp  nomesottoroutine
 	
 	RET 		      --> pop rip
+
+
+							*PASSARE I PRAMETRI*
+Fino a 6 argometi sui registri
+Gli altri sullo stack  --> di norma lo fa il compilatore
+
+
+							*USARE RBP*
+Prima dell'inizio della funzione il compilatore inserisce due/tre istruzioni dette PROLOGO
+				push 	rpb
+				mov  	rbp,rsp
+				(sub Local_bytes, %esp) --> opzionale (tiene spazio per va locali)
+
+Prima del return il compilatore aggiunge tre istruzino dette EPILOGO
+				movl	rsp,rbp
+				pop	rbp
+				ret
+
+		A COSA SERVE IL PROLOGO?
+		serve a fare in modo che RSP possa cambiare senza modificare RBP inizale prima che questo venga modificato dalla sotto-routine
+		A COSA SERVE L'EPILOGO?
+		serve a annullare il prologo riportando lo stack alla situzaione precedente alla chiamata
+
+
