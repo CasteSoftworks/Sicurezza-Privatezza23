@@ -589,3 +589,37 @@ Prima del return il compilatore aggiunge tre istruzino dette EPILOGO
 			./cookie
 			in input una dimensione adeguata di caratteri a caso e in fondo 0x41424344 (ABCD) IN LITTLE ENDIAN (DCBA)
 
+	A CASA
+	foto (cookie modificato con 0x01020305 invece di 0x41424344)
+
+							*STRATEGIA DI ATTACCO*
+INIETTARE:
+	come le iniezioni in aula
+		shell code scritto
+GIA' PRONTO:
+
+
+--> devo fare l'hijack del flusso di controllo
+				FOTO/retHijack.c scopri quale xx e modifica +8 a +16/24/32 (scopri) e fai funzionare (value of x=13)
+
+COMANDI UTILI
+	COMPILAZIONE
+		gcc -fno-stack-protection -z execstack -g
+	DIABILITARE ASLR
+		echo 0 > /proc/sys/kernel/randomize_va_space
+		sudo sysctl -k kernel.randomize_va_space=0
+	ENABLE CORE DUMP
+		unlimit -c unlimited
+	VEDERE CORE DUMP
+		gdb -q exectable core
+
+NUOVO PROGRAMMA cookie ma con prima buf e poi cookie (come originale)
+		ricorda che
+			       RA
+			       RBP
+			       buffer
+			       cookie
+
+						sbufferare non va --> devo saltare l'if sbufferando fino a ra (con a ra l'indirizzo della print 
+								      nell'if IN LITTLE ENDIAN) vedi script python in foto (buf+=.... con address
+								      vero)
