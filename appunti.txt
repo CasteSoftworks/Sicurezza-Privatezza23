@@ -623,3 +623,12 @@ NUOVO PROGRAMMA cookie ma con prima buf e poi cookie (come originale)
 						sbufferare non va --> devo saltare l'if sbufferando fino a ra (con a ra l'indirizzo della print 
 								      nell'if IN LITTLE ENDIAN) vedi script python in foto (buf+=.... con address
 								      vero)
+
+
+
+									*INJECTION CON CAMBIO DELLA RET*
+
+Fare una iniezione di shell su un file SENZA debolezze (gravi, c'è una gets comunque) modificando la ret alla fine del main per saltare ad un indirizzo di stack dove abbiamo caricato il nostro codice.
+vedi README in Injection/Lez2/ShellConRetMod per la procedura
+
+PER CASA --> injection di shell su un programma stile vittima ma con un buffer di 4 !!!
