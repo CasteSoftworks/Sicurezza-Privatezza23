@@ -1,6 +1,6 @@
 # Ignore files with extension `.class` & `.exe`
 *.class
 *.exe
-
+.guidaGit
 # Unignore all with extensions
 !*.*
