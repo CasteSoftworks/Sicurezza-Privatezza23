@@ -1,5 +1,5 @@
 #Ignore all files without extension
 *
-#Unignore all files with extensions
+#Unignore all files with extensions and directories
 !*.*
 !*/
