@@ -590,7 +590,7 @@ Prima del return il compilatore aggiunge tre istruzino dette EPILOGO
 			in input una dimensione adeguata di caratteri a caso e in fondo 0x41424344 (ABCD) IN LITTLE ENDIAN (DCBA)
 
 	A CASA
-	foto (cookie modificato con 0x01020305 invece di 0x41424344)
+	foto (cookie modificato con 0x01020305 invece di 0x41424344) --> basta copiare il metodo precedente cambiando la parte di appiccico finale
 
 							*STRATEGIA DI ATTACCO*
 INIETTARE:
@@ -601,10 +601,20 @@ GIA' PRONTO:
 
 --> devo fare l'hijack del flusso di controllo
 				FOTO/retHijack.c scopri quale xx e modifica +8 a +16/24/32 (scopri) e fai funzionare (value of x=13)
+				--> FATTO vedi C/returnAddressHijack/rethijack.c --> +4 al primo e +16 al secondo fa saltare da c=function() a
+										printf(...) senza passare per x=10
+											|
+											|
+											v
+										uso gdb con vari breakpoint per studiare l'evoluzione dello stack nei
+										vari stadi e capire quanto devo spostare considerando che la printf
+										in assembly occupa diverse linee di mov e una lea, mentre x=10 occupa
+										una sola movl --> noi dobbiamo saltare alla istruzione subito dopo
+												  skippando una mov post call e la movl stessa
 
 COMANDI UTILI
 	COMPILAZIONE
-		gcc -fno-stack-protection -z execstack -g
+		gcc -fno-stack-protection -z execstack fileSorg -o eseguibile
 	DIABILITARE ASLR
 		echo 0 > /proc/sys/kernel/randomize_va_space
 		sudo sysctl -k kernel.randomize_va_space=0
@@ -616,19 +626,19 @@ COMANDI UTILI
 NUOVO PROGRAMMA cookie ma con prima buf e poi cookie (come originale)
 		ricorda che
 			       RA
-			       RBP
-			       buffer
-			       cookie
-
+			       RBP					probabilmente come per esercizio precedente (retHijack) con studio di stack
+			       buffer								^
+			       cookie								|
+												|
 						sbufferare non va --> devo saltare l'if sbufferando fino a ra (con a ra l'indirizzo della print 
 								      nell'if IN LITTLE ENDIAN) vedi script python in foto (buf+=.... con address
 								      vero)
 
 
 
-									*INJECTION CON CAMBIO DELLA RET*
+								*INJECTION CON CAMBIO DELLA RET*
 
 Fare una iniezione di shell su un file SENZA debolezze (gravi, c'è una gets comunque) modificando la ret alla fine del main per saltare ad un indirizzo di stack dove abbiamo caricato il nostro codice.
-vedi README in Injection/Lez2/ShellConRetMod per la procedura
+vedi README in Injection/Lez2/ShellConRetMod per la procedura --> l'indirizzo può variare a seconda dello stato del PC in quel momento, ATTENZIONE
 
 PER CASA --> injection di shell su un programma stile vittima ma con un buffer di 4 !!!
