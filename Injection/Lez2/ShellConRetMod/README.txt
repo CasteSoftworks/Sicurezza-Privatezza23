@@ -45,5 +45,5 @@ gdb vittima
 gdb vittima
 	set follow-exec-mode new
 	r < payload2
-
+	r
 	dovrebbe andare
