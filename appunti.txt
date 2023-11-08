@@ -167,7 +167,7 @@ Composto da:
 	* Segmenti
 
 
-					--------------------------------------------
+					-------------------------
 					|	ELF Header      |
 					-------------------------
 					| program header table  |
@@ -642,3 +642,271 @@ Fare una iniezione di shell su un file SENZA debolezze (gravi, c'è una gets com
 vedi README in Injection/Lez2/ShellConRetMod per la procedura --> l'indirizzo può variare a seconda dello stato del PC in quel momento, ATTENZIONE
 
 PER CASA --> injection di shell su un programma stile vittima ma con un buffer di 4 !!!
+
+							*CONTROMISURE AI MEMORY ERROR*
+
+LATO SVILUPPATORE:	Non usare funzioni vulnerabili tipo gets() e scanf() ma funzioni come strncpy,strncat,... che sono SICURE (la N)
+								'------> NON far copiare più B di quanti devono
+								'------> PROBLEMA PER SOFTWARE LEGACY (vecchio)
+LATO SO:		Randomizzare il layout dell'address space --> ASLR
+								'------> risolve per il software legacy su sistemi MODERNI
+								'------> rende molto difficile trovare i RA
+								'		'------> ci sono metodi per superare ma sono molto complessi
+								'------> si può scoprire tramite programmino che stampa l'indirizzo in HEAP e STACK d
+									 di due variabili
+LATO COMPILATORE:	Implementare una Stack Guard --> disabilitata da -fno-stack-protector --> inventato da Chris Eagle
+						'------> è un blocco nello stack di dimensione variabile e segreta --> serve a obbilgare alla modifica
+													'	       quel pezzo
+										 canary in inglese <----'		  '
+										  '	'-> il canarino delle miniere	  '
+					   esempio di canarino: 0x00dba000 <------'					  '
+								'							  '--> se viene trovata una
+								'--> 00 termina gets()					       modifica blocca la
+								'--> a0 termina scanf()					       esecuzione
+								'--> detto TERMINATOR								     '
+														segna di errore di <-'
+														stack smashing
+LATO HARDWARE:		Non permettere l'esecuzione dallo Stack
+(ma anche SW)				'
+	'			'--> si contavviene legermente il principio di Von Neumann e si decide che lo stack NON può contenre codice
+	'
+	'--> -z execstack rimuove l'implementazione SW
+	'--> su Windows implementato con DEP (Data Execution Prevention) su XP e server 2003 --> evita che il codice venga eseguito dallo stack e heap					'----> sia SW che HW
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------   __  __   _   _ __      ___   ___ ___ 
+ |  \/  | /_\ | |\ \    / /_\ | _ \ __|
+ | |\/| |/ _ \| |_\ \/\/ / _ \|   / _| 
+ |_|  |_/_/ \_\____\_/\_/_/ \_\_|_\___|
+                                       
+
+NIST 800-83 --> un programma diffuso su un sistema, di norma di nascosto, con l'intento di compromettere la confidenzialità, integrità o disponibilit
+		del sistema vittima
+
+Diversi tipi --> Worm, Trojan, Backdoor, Keylogger, Logic Bomb, ...
+
+							*COMPOSIZIONDE DI UN MALWARE*
+	
+							--------------------------
+							| Propagazione | Payload | --> COSA FA
+							--------------------------
+								'
+								'---> COME SI MUOVE
+
+							*CLASSIFICAZIONE*
+
+Possono essere divisi in diversi modi
+			'
+			'--------------------> Come si diffonde				|----> MODO 1
+			'--------------------> Cosa fanno una volta ce hanno infettato  |
+			'
+			'--------------------> Se hanno bisogno di un sistema ospite	|
+			'		       VIRUS					|
+			'--------------------> Se sono "autonomi" (hanno tutto ciò che	|
+			'		       può servire al loro funzionamento)	|
+			'		       WORM, TROJAN, BOTS			|----> MODO 2
+			'--------------------> Se si replicano				|
+			'		       WORM					|
+			'--------------------> Se non si replicano			|
+					       TROJAN					|
+
+					       		*PROLIFERAZIONE*
+
+Infezione di altro software
+Sfruttamento di un exploit
+Social Engeneering per rimuovere feature di sicurezza
+
+							*AZIONI DEL PAYLOAD*
+
+Nascondersi
+Compromettere file
+Rubare informazioni
+Distruggere la macchina
+
+							*KIT DI ATTACCO*
+
+All'inizio dovevano essere precisissimi e specifici
+Poi sono nati dei META-MALWARE --> enerano il codice malevolo a partire da poche informazioni 
+		'
+		'----> Zeus e Angler
+		'----> Comprabili da soggetti poco raccomandabili
+							
+							*CHI LO FA*
+
+* Chi ha motivazioni politiche				--> ?
+* Criminali 						--> pochi
+* Organizzazioni Criminali 				--> mafia?
+* Organizzazioni che vendono al miglior offerente	--> data brokers
+* Intelligence						--> CIA, NSA, FSB, Mossad, ...
+* Smanettoni						--> rarizzimi ormai
+
+Grossi movimenti di soldi, molto difficile ormai
+
+							*ADVANCED PERSISTEN THREAT*
+
+Avanzato e persistente, come da nome
+	'--------------> usato dall'intelligence     |
+	'--------------> come prima cosa si nasconde |---> esempio SOLAR WINDS (1k anni umani di sviluppo, sgamato dopo 10 mesi dopo un controllo
+	'--------------> mandato a bersagli PRECISI  |     casuale sul traffico di rete)
+
+Tecniche specifiche di attacco e di mimesi
+
+								*VIRUS*
+
+Programmi che INFETTANO un altro programma --> appiccicandosi al programma ospite (intero alla fine/inizio o a pezzi in giro)
+		'
+		'-----> sposta l'entry point al pezzo di virus e poi all'inizio dell'ospite --> file ELF
+		'-----> può fare tutto ciò che può fare l'ospite --> se root sono guai
+					'---> può provare a fare Priviledge Escalation
+
+
+				--------
+				 HEADER
+				--------
+				PROGRAM
+				--------
+
+
+
+COME INFETTANO 			--> infection vector
+QUANDO SI ATTIVANO		--> trigger 
+COSA FANNO			--> payload
+
+FASI
+		IDLE/DORMIENTE --> non fa nulla finchè non c'è un trigger --> non sempre presente
+		ATTIVAZIONE    --> il trigger avviene
+			PROPAGAZIONE --> si riproduce
+			ESECUZIONE   --> esegue il payload
+
+MACRO VIRUS
+	Si attaccano a file vari (PDF, DOCX, immagini, ...) che sono scritti in diversi linguaggi --> Office in VisualBasic
+	Il virus è scritto nello stesso linguaggio ed è contenuto in questi file
+	Più semplici da scrivere e indipendenti dalla piattaforma
+
+	MELISSA --> primo macro virus 
+	  '---> infettava tutti i futuri documenti aperti con office
+	  '---> mandava se stesso a 50 indirizzi su Outlook
+	  '---> si segnava sulla macchina
+	  '---> si attivava se il minuto era = all'ora
+
+Una volta venivano identificati dalla SIGNATURE --> stringa UNIVOCA nel codice, quando trovata veniva aggiunta alla lista
+					'-->ORA NON PIU' --> sono stati sviluppati VIRUS CIFRATI
+									|
+									|
+									v
+					prima c'è il virus criptato POI la routine di decriptazione e encriptazione
+									|
+									v
+					sgamabile attarverso la routine di decrptazione e encriptazione --> la signature diventa la routine
+									|
+									v
+					evitabile attraverso la modifica (ogni volta) della routine --> la signature cambiano ogni volta
+									| '--> VIRUS POLIMORFICO
+									v
+					Kaspersky capisce che POST decriptazione il virus è in CHIARO --> lo si becca adesso in una VM che
+									|				  l'antivirus apre apposta
+									|				   '--> ANALISI STATICA
+									v
+					evitabile facendo in modo che il virus si modifichi da solo di generazione in generazione
+									| '--> VIRUS METAMORFICO
+									v
+					sgamabile in esecuzione per vedere cosa fa --> se fa cose sospette lo flaggo
+					                                  '--> ANALISI DINAMICA
+
+CLASSIFICAZIONE
+	DIPENDENTE DAL BERASGLIO
+		BOOT SECTOR --> zona dove c'è il kernel e che lo carica --> infetta OGNI volta che viene acceso/riavviato
+		ESEGUIBILI  --> si appiccica all'eseguibile --> infetta al lancio
+		DOCUMENTI   --> "    "       a un file --> infetta all'apertura
+		SPARSO      --> mix di quelli sopra
+	DIPENDENTE DALLA MIMESI
+	???
+
+								*WORM*
+
+Malware AUTONOMO
+Sfrutto problemi esterni (exploit) per farlo eseguire/proliferare --> ad esempio il SERVIZIO DI RETE
+						'				'---> ascolta il traffico delle porte e risponde di conseguenza
+						'--> spesso si manda in giro sulla rete A CASO
+								|
+								|
+								v
+						può farlo attraverso svariati modi
+										'---> email
+										'---> login
+										'---> app di messaggistica
+
+In generale un Worm attacca una macchina (che ha un certo IP) e da qui si propaga in diversi modi
+										'---> cerca sistemi collegati
+										'---> genera un IP a caso (o semi caso)
+
+La crescita è inizialmente lenta, poi veloce e di nuovo lento a ciclo
+	 
+	|                 ..
+	|                .
+	|              :
+	|            : 
+	|           :
+	|         .
+	|        .
+	|      .
+	|    .
+	|..::_______________
+
+Il primo Worm è INTERNET WORM, altri sono MELISSA, CODE RED, STUXNET
+
+								*RAMSONWARE*
+
+Criminalità organizzata, chiede un ricatto per riavere i dati, che vengono criptate fino al pagamento (o anche oltre)
+			'---> scoperti dopo segnalazioni da utenti O sonde automatiche
+
+Ad esempio WANNACRY, che chiedeva 300$ in BTC per dare la chiave di cifratura
+			'
+			'----> fermato perché pingava un sito web e se questo non rispondeva si attivava <-- KILL SWITCH
+
+								*MOBILE CODE WORMS*
+
+Malware eseguibile da piattaforme diverse
+Spesso scritto in Java/Javascript/VBScript
+
+Il primo fu Cabir nel 2004, lo seguirono Lasco e CommWarrior nel 2005
+Usavano Bluetooth e MMS, ORA usano i Marketplace (specialmente su Android)
+
+								*DRIVE-BY-DOWNLOADS*
+
+Viene inividuata una vulnerabilità su un Browser, si fa scaricare (al momento della connessione ad un server) un documento che si autoesegue e sfrutta
+la vulnerabilità del browser per replicarsi 
+
+								*CLICK-JACKING*
+
+Banner che spingono al click per infettare ("HAI VINTO UN IPHONE", "ALLARGA IL PENE", ...) e fare cose (dall'innocuo cancellarti le mail a cose più 
+serie)
+
+								*SOCIAL ENGENEERING*
+
+Fregare l'untente convincendolo ad aiutare inconsapevolmente la sua infezione --> tipo gli scammer
+								
+								*COSA PUO' FARE IL PAYLOAD*
+
+DISTRUZIONE DEL SISTEMA
+	Stuxnet --> rompeva le centrifughe
+	Chernobyl Virus --> cancella il boot sector (Win 95/98)
+PROPAGAZIONE DI WORM
+	Internet Worms --> vedi sopra
+RANSOMWARE --> dall'arrivo delle criptovalute sono popolarissimi e efficaci
+	Wannacry --> vedi sopra
+CREAZIONE DI BOTNET
+	Prendere il controllo del sistema e usarlo per i miei scopi
+				'--> DDoS
+				'--> Keylogger
+				'--> Cryptominer
+				'--> invio di malware
+				'--> manipolazione di informazioni
+				'--> controllo del traffico
+SPYWARE
+	Controlla ogni azione che avviene sulla macchina --> spesso un worm, che fa jailbreak e ottiene i diritti di root
+				'--> intercetta telefonate             |
+				'--> intercetta messaggi               |---> e le invia a chi di dovere
+				'--> controlla contatti		       |
+				'--> tiene sotto controllo le immagini |
+	Molto più facilmente creabili per Android
+	Il più famoso era PEGASUS della NSO, usato spesso dalle agenzie d'intelligence --> ora deprecato UFFICIALMENTE
