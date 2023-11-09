@@ -890,23 +890,132 @@ Fregare l'untente convincendolo ad aiutare inconsapevolmente la sua infezione --
 DISTRUZIONE DEL SISTEMA
 	Stuxnet --> rompeva le centrifughe
 	Chernobyl Virus --> cancella il boot sector (Win 95/98)
+
 PROPAGAZIONE DI WORM
 	Internet Worms --> vedi sopra
+
 RANSOMWARE --> dall'arrivo delle criptovalute sono popolarissimi e efficaci
 	Wannacry --> vedi sopra
+
 CREAZIONE DI BOTNET
-	Prendere il controllo del sistema e usarlo per i miei scopi
+	Prendere il controllo del sistema e usarlo per i miei scopi --> un migliaio conosciute
 				'--> DDoS
 				'--> Keylogger
 				'--> Cryptominer
 				'--> invio di malware
-				'--> manipolazione di informazioni
-				'--> controllo del traffico
+				'--> spam
+				'--> controllo del traffico delle informazioni --> questionari, statistiche, ...
+				'
+				'--> SCONFIGGIBILE "tagliando la testa" al principale, ma è difficile e poco utile --> facilmente sostituito
+										'
+										'----> la REMOTE CONTROL FACILITY/COMMAND&CONTROL Network
+											'-> il server per il nostro
 SPYWARE
-	Controlla ogni azione che avviene sulla macchina --> spesso un worm, che fa jailbreak e ottiene i diritti di root
+	Controlla ogni azione che avviene sulla macchina --> spesso su cellulari --> jailbreak e ottiene i diritti di root
 				'--> intercetta telefonate             |
 				'--> intercetta messaggi               |---> e le invia a chi di dovere
 				'--> controlla contatti		       |
 				'--> tiene sotto controllo le immagini |
-	Molto più facilmente creabili per Android
-	Il più famoso era PEGASUS della NSO, usato spesso dalle agenzie d'intelligence --> ora deprecato UFFICIALMENTE
+	Molto più facilmente creabili per Android ----,----> funzionava ance su Apple
+	Il più famoso era PEGASUS della NSO, usato spesso dalle agenzie d'intelligence --> ora deprecato UFFICIALMENTE ;-)
+
+PHISHING
+	...
+
+BACKDOOR
+	Punto di ingresso nascosto nella macchina ad uso futuro creato DURANTE la creazione O aggiunto in seguito -> ad esempio il servizio di rete
+	Usato anche per scopi legittimi (debugging)
+
+ROOTKIT
+	Una serie di programmi che vengono installati per dare all'attaccante i permessi di root
+	Di varia natura
+		PERSISTENTI --> a ogni boot in memoria
+		AD ATTIVAZIONE --> si attivano al lancio del programma ospite e allo spegnimento si annulla
+		USER MODE --> meno pericoloso
+		KERNEL MODEc --> più pericoloso
+		VM BASED --> sostituiscono il sistema con una esatta copia in VM --> "letale"
+	Ad esempio cambiano le syscall
+	MOLTO COMPLESSO
+
+							*COME E' STATO CONTRASTATO NEGLI ANNI*
+
+Idealmente la difesa da una QUALUNQUE minaccia è divisa in tre fasi
+	PREVENZIONE
+	IDENTIFICAZIONE
+	RIMOZIONE
+
+In IT Security la difesa si dvide in
+	POLICY --> linee guida per l'uso (solo gli amministratori possono fare X, ...)
+	AWARENESS --> rendere consapevoli gli utenti (attenzione a leggere l'indirizzo mail del mittente, ...)
+	VULNERABILITY MITIGATION --> ridurre al minimo le vulnerabilità
+	THREAT MITIGATION --> ridurre le minacce al sistema
+	DETECTION --> sgamare la minaccia
+	REMOVAL --> eliminare la minaccia
+
+
+								*GLI ANTIVIRUS*
+
+Antivirus
+' '--->4 GENERAZIONI
+' '		1a --> controllo della signature --> funzionava solo a "infezione nota"  (vedi sopra per dettagli)
+' '		2a --> congelava il SW sulla macchina e creare una signature per CIASCUN programma		--> INTEGRITY CHECKING
+' '									'					|
+' '									'-> se il software cambiava essa cambiava -> allarme di potenziale minaccia
+' '		3a --> esecuzione controllata del malware per analisi (vedi sopra per dettagli)
+' '		4a --> simulazione e confronto attraverso Machine Learning --> non sono SOLO passivi, ma anche ATTIVI <-- Detection in semi real time
+' '											'
+' '											'---> possono creare FALSI POSITIVI
+' ' 
+' '--->Funzionano o a SIGNATURE BASED o a BEHAVIOUR BASED --> in realtà in entrambi ormai perché gira tutt'ora il malware vecchio
+' '	'-> stringa univoca   '-> a seconda delle syscall (tra le altre cose)
+' '
+' '							*LE SIGNATURE*
+' '
+' '--->Segreto industriale dei produttori --> qui spiegato la minor o miglior difesa --> dati raccolti O da sensori sulla rete O sulle macchine degli
+' '     utenti
+' '													'--> raccolti e analizzati in automatico
+' '--->Per ridurre la concorrenza esiste il CME --> Common Signature Enumeration
+' '						'---> di MITRE e finanziato dagli USA
+' '						'---> mira a dare un identificatore unico e comune a ogni malware
+' '
+' '--->Virus Total, di Google, analizza i file degli utenti che glielo forniscono usando diversi antivirus ONLINE e pseudo-gratuitamente
+v
+ORA SONO CHIAMATI EDR --> Endpoint Detection & Recovery				    |
+	Analizzzando in automatico con Machine Learning, AI e Threat Intelligence   |--> Next Generation Antivirus
+									'-> analisi |
+
+							*ABRA WORM*
+
+Presentato a Purdue Uni
+Worm --> infetta una e tenta di infettare altre
+In particolare cerca di rubare dei file
+
+	SCHEMA				   ssh           ssh
+				attaccante ---> INTERNET ---> vittima
+					^		      | |
+					'----------------------	|
+								v
+							       server
+
+Prova ad usare ssh per connettersi con una bruteforce tra le password nel suo dizionario
+Deve rubare dei file
+	'-->TUTTI quelli che contengono la parola "abracadara"
+	'-->fa ls e grep per trovare i file
+Esfiltra il codice (sia sul PC per debug, sia sul server) usando SCP (copia tramite ssh)
+Tenta di infettare le altre macchine
+	'--> copia se stesso nelle macchine infettate e da loro tenta di trovare altri
+
+Tutto su doker (VM) --> vedi guida qui:  https://git.laser.di.unimi.it/teozoia/abraworm
+	VITTIMA usa la 2222 sulla 12345
+	ATTACCANTE usa la 2222 sulla 22
+eventualmente eliminare con 
+	rm -r ssh* --> per eliminare i file ssh
+su un terminale
+	sudo docker-compose up --force-recreate
+
+su un altro terminale
+	cd worm
+	python3 AbraWorm.py
+
+
+	FARE RAMSON WARE con libreria crypto?
