@@ -841,12 +841,12 @@ In generale un Worm attacca una macchina (che ha un certo IP) e da qui si propag
 
 La crescita è inizialmente lenta, poi veloce e di nuovo lento a ciclo
 	 
-	|                 ..
+	|                   .
 	|                .
-	|              :
+	|              .
 	|            : 
 	|           :
-	|         .
+	|          .
 	|        .
 	|      .
 	|    .
@@ -1016,6 +1016,5 @@ su un terminale
 su un altro terminale
 	cd worm
 	python3 AbraWorm.py
-
 
 	FARE RAMSON WARE con libreria crypto?
