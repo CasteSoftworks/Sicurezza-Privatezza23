@@ -1017,4 +1017,125 @@ su un altro terminale
 	cd worm
 	python3 AbraWorm.py
 
-	FARE RAMSON WARE con libreria crypto?
+	FARE RAMSON WARE con libreria crypto? --> TBD
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+								*NETWORK SECURITY*
+
+Nuove tecnice diverse da quelle "in locale" viste precedentemente
+	L'ambientazione è la stessa
+		|
+		v					:-) <--> [sistema] <--> >:-)
+	ma con più/diverse componenti nel sistema
+
+								*COME FUNZIONA UNA RETE*
+
+ENDPOINT --> oggetto che riceve/host	
+PLUMBING --> link
+Router/Switch --> fanno passare le info reindirizzandole tra link
+Una rete è in insieme di calcolatri interconnessi per facilitare lo scambio di informazioni	
+Gli host comunicano attraverso messaggi, codificati come segnali elettrici attraverso passaggi fisici (cavi, onde)
+
+	Computer --> inviano e ricevono
+	Routers --> inoltrano pacchetti
+	Canali --> vie di passaggio
+
+LAN (Local Area Network) --> rete locale (entro 1 km circa)
+	Tutti connessi a tutti --> una volta attraverso gli HUB --> fa un broadcast a tutti i computer della rete e solo il destinatario lo apre
+			       '-> ora attraverso le SWITCH ------> invia solo al destinatario
+
+MAN (Metropolitan Area Network) --> rete a dimensione cittadina
+
+WAN (Wide Area Network) --> rete a grande distanza --> Internet ad esempio
+			'-> insieme di LAN e MAN gestiti da infrastruttura di instradamento
+
+Ogni computer si collega alla rete con una Network Interface Card --> due tipi, spesso combinati --> Ethernet
+						'						 '-> WiFi
+						'
+						v
+				configurabile in diversi modi, per esempio Promiscua
+Ogni computer sulla rete è identificato da DUE componenti
+					'---> MAC --> univoco AL MONDO e legato alla scheda di rete
+					'      '--> 48b (6 ottetti) --> i primi 3 sono forniti da un ente di certificazione (dipendenti dal
+					'      '			manufactorer)
+					'      '--> modificabile ma non fatto di norma
+					'      '--> visibile con ifconfig
+					'
+					'---> IP  --> univoco NELLA RETE LOCALE (una volta al Mondo) e generato da SW (dinamicamente)
+					      '--> IPv4 32b (di norma) divisi in 4B dai valori da 0 a 255 separati da .
+					      '--> IPv6 128b divisi in 8 gruppi da 2B ciascuno in esadecimale separati da :
+					      '--> normalmente è dinamico, solo alcuni lo hanno statico
+
+SWITCHING
+	'--> Circuit --> come il vecchio sistema telefononico
+	'	     '-> unico circuito con scambi fisici su dispositivi
+	'	     '-> circuito mantenuto fino alla fine della trasmissione --> percorso unico
+	'
+	'--> Packet --> dati divisi in pacchetti --> 1500B ciascuno in media
+		    '-> pacchetti inviati sulla rete in maniera indipendente --> anche in maniera disordinata, vengono riordinati dal ricevente
+		    '-> mandati cercando di avere l'efficienza maggiore
+		    '-> l'importante è il punto di inizio e di fine, non il percorso
+
+PROTOCOLLI
+	'--> Connectionless --> mandano i dati appena ne ha abbastanza da mandare --> UDP
+	'--> Connection-Oriented --> si occupa prima di mandare di creare una connessione stabile e affidabile --> simula una commutazione a circuito
+	'			 '-> dopo avere creato la connessione invia                                        finta
+	'			 '-> dopo l'invio chiude la connessione --> TCP
+	'
+	'--> i 7 livelli OSI e i 4 segmenti di TCP/IP
+		|  				|
+		v				v
+		APPLICAZIONE			APPLICAZIONE
+		PRESENTAZIONE			TRASPORTO
+		SESSIONE			INTERNET
+		TRASPORTO			INTERFACCIA DI RETE
+		NETWORK
+		DATA LINK
+		FISICO
+
+ARP e ARC
+	ARP request vuole mandare una cosa --> chiede indirizzo, chi lo a risponde e poi si invia
+					   					'-> se nessuno risponde NON manda su LAN ma su Internet
+
+								*OBIETTIVO PRIMARIO*
+
+Il canale di comunicazione può essere usato come nuovo modo di violazione, così come router/switch (utili per sniffare il traffico) e protocolli (SSH,
+HTTP, ...)
+La rete può essere usata per propagare il Malware
+
+Sfruttano principalmente i problemi della implementazione della rete
+
+								*ATTACCHI PASSIVI*
+
+Intercettazione di dati e analisi del traffico
+Insidioso e difficile da scoprire
+
+								*ATTACCHI ATTIVI*
+
+Modifica/falsificazione di dati passati e Denial Of Service (DOS)
+
+								*SPOOFING*
+
+Interpretazione 
+Modifica dell'indirizo sorgente di un pacchetto per assumere l'identità di diverse cose come:
+	* un server
+	* un router
+	* un utente
+	* un computer
+	* un servizio web
+		+ un sito
+		+ un servizio mail
+	* un servizo gps
+
+I sistemi ORIGINARIAMENTE non fornivano un servizio di autenticazione (anche ora raro)
+Maschero il mio ip con un altro (potenzialmente con quello di un altro)
+IPv4 lo permette
+
+							*PACKET SNIFFING*
+
+Intercettare il traffico di rete 
+	facile su doppino e ethernet
+	più complesso su fibra
+
+Su LAN su hub semplice --> si può rendere la nostra scheda di rete PROMISCUA --> intercetta TUTTI i pacchetti, anzichè solo quelli per lei
