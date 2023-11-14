@@ -1132,10 +1132,37 @@ I sistemi ORIGINARIAMENTE non fornivano un servizio di autenticazione (anche ora
 Maschero il mio ip con un altro (potenzialmente con quello di un altro)
 IPv4 lo permette
 
-							*PACKET SNIFFING*
+								*PACKET SNIFFING*
 
 Intercettare il traffico di rete 
-	facile su doppino e ethernet
+	facile su doppino, ethernet e onda radio
 	più complesso su fibra
 
-Su LAN su hub semplice --> si può rendere la nostra scheda di rete PROMISCUA --> intercetta TUTTI i pacchetti, anzichè solo quelli per lei
+Su LAN su hub è semplice --> si può rendere la nostra scheda di rete PROMISCUA --> intercetta TUTTI i pacchetti, anzichè solo quelli per lei
+Su LAN con switch è più complesso
+Su LAN a onde radio (WiFi) basta una antenna di ricezione e una scheda PROMISCUA
+Ancora più facile con satelliti
+
+Su Fibra bisogna intercettare il segnale luminoso, attaccarsi direttamente il cavo
+
+Ormai il traffico è crittografato, quindi l'intercettazione non è più così facile/utile
+
+Esistono KIT SNIFFER (tipo quelli da malware) per sniffare e analizzare i pacchetti su una rete --> Wireshark
+						'-> sia per scopi benevoli
+						'-> sia per scopi malevoli
+
+Difficilmente scopribile in quanto attacco PASSIVO
+
+Evitabile attraverso la criptazione dei pacchetti
+
+								*FINGERPRINTING*
+
+Prima fase di un attacco, è ricognizione
+Sfrutta i protocolli di rete --> fa l'impronta di un sistema per poterlo riconoscere (scoprire tutte le informazioni) e da lì analizzarlo
+
+								*PORT SCANNING*
+
+Sondare le porte di rete di un sistema mandando pacchetti a ciascuna per analizzare la loro risposta (se sono aperte, che servizi ospitano, ...)
+Dopo avere scoperto i servizi aperti si cercano (su CVE) le vulnerabilità di ciascuno
+
+Si può fare con nmap, ma ormai si sa come funziona --> difficile farlo ormai, troppe richieste fanno partire l'allarme
