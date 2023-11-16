@@ -1277,7 +1277,7 @@ Comando rsh (Remote Shell)
 											'-> ogni volta che si effettuava una connessione si
 											'   controllava che fosse segnato qui l'hostname
 											'-> se non c'era in /etc/hosts.equiv si cercava su .rhosts
-Shimomura (da ora in poi S) aveva creato una connessione accreditata (su hosts.equiv) tra il suo computer e quello della (AZIENDA) (d'ora in poi A)
+Shimomura (da ora in poi S) aveva creato una connessione accreditata (su hosts.equiv) tra il suo computer e quello della NSA (d'ora in poi A)
 		  accreditata
 	       S ------------> A
 
@@ -1285,7 +1285,7 @@ Mitnick (da ora in poi M) esegue
 		1 finger indirizzo_S
 		2 shmount -e indirizzo_S (elenca tutte le macchine con connessioni accreditate)
 		3 manda una 20ina di SYN alla macchina di S --> lei risponde con altrettanti SYN/ACK
-			--> M vuole capire in che modo viene creato Y --> aumenta di 400 la X del suo SYN --> capisce l'algoritmo
+			--> M vuole capire in che modo viene creato Y --> capisce che il +1 è +400 --> capisce l'algoritmo
 		4 fa una SYN-flood su A e la mette fuori uso (lo tiene attivo)
 		5 fa un nuovo SYN a S fingendosi A sulla porta 53	|IP_A|IP_S|53| X |...|
 			--> S fa SYN Y/ACK X+1 a A			|IP_S|IP_A|53|X+1| Y |
@@ -1297,7 +1297,7 @@ Mitnick (da ora in poi M) esegue
 		8 chiude la SYN-flood su A, che riprende a funzionare
 		9 ruba dei documenti MA non cancella i log --> S lo sgama, si allea con l'FBI e dopo un mese lo catturano
 										'-> 5 anni di carcere e divieto di uso di Internet per altri 5
-
+Subito dopo l'attacco ne avvennero molti altri finché il protocollo il TCP
 ORA molto difficile fare il punto 3 perché hanno migliorato gli algoritmi
 
 								*DOS E DDOS*
