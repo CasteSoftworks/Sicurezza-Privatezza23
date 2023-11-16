@@ -1166,3 +1166,136 @@ Sondare le porte di rete di un sistema mandando pacchetti a ciascuna per analizz
 Dopo avere scoperto i servizi aperti si cercano (su CVE) le vulnerabilità di ciascuno
 
 Si può fare con nmap, ma ormai si sa come funziona --> difficile farlo ormai, troppe richieste fanno partire l'allarme
+
+								*PROTOCOLLO ARP*
+
+pacchetto ip (livello 3):
+			|IPsrc|IPdst| IP | data |                                                  le entry durano pochi secondi
+													     ^
+quando passa al livello 2 (internet) PRIMA si controlla se il destinatario è sulla LAN -_> usa una tabella   |
+	'												'-> ARP CACHE che relaziona IP a MAC
+	'												    | IP addr | MAC addr |
+	'--> se lo trova e appiccica al pacchetto IP la sua parte (MAC src e MAC dst) e lo manda sulla LAN a tutti
+	'	|MACsrc|MACdst|IPsrc|IPdst| IP | data |						'--> il destinatario lo riceve e lo legge
+	'--> se NON lo trova, prima di mandare al router, fa una ARP request a TUTTI sulla rete --> "chi ha questo IP?"
+		|MACsrc|BROADCAST|IPdest?|								|
+		  |											|
+		  |											|
+		  |											v
+		  |									chi lo ha risponde con questo pacchetto
+		  |									|MACsrc|      |IPdest
+		  |						         			  ^
+		  --------------------------------------------------------------------------------'
+
+		  						*MITM: MAN IN THE MIDDLE*
+
+L'attaccante si mette in mezzo tra due host e intercetta le informazioni scambiate da essi, arrivando anche a modificre le stesse
+Sfrutta varie cose --> ARP CACHE poisoning <-- vediamo questo
+		   '-> DNS spoofing
+		   '-> SSL hijacking
+
+		   						*ARP CACHE POISONING*
+
+Ogni volta che ARP riceve un pacchetto essa si salva l'IP e MAC per tenere aggiornate le entry (che durano poco, vedi sopra)
+											   '-> evita di dover fare continue richieste ARP
+E' stateless, non si ricorda delle richieste --> se riceve una risposta "si fida" di avere fatto una domanda a riguardo e che il dato sia giusto
+									'
+									'--> può essere fregato mandando risposte a richieste NON eseguite
+									'--> si può dire di essere una macchina con diverso IP mandando una reply con 
+									     l'IP da sostituire e il proprio MAC
+Mandiamo risposte senza avere ricevuto richieste --> GRATUITOUS REQUESTS
+								
+								*HALF-MITM con ARP POISONING*
+							<		<
+						----------- SWITCH ------------	 MSG:
+					    v	|	MSG   |        MSG    |  |ip 	11.12.13.14
+					MSG	|             |               |  |mac 	cc:dd:ee:ff
+						v	      v               v
+						A             B               C
+					10.11.12.13	11.12.13.14	      12.13.14.15
+					aa:bb:cc:dd	bb:cc:dd:ee  	      cc:dd:ee:ff
+
+				ora A pensa che il mac di B sia quello di C e manda a C il traffico da A a B
+Da aggiornare periodicamente durante l'attacco (mediamente ogni 40 secondi)
+E' HALF perchè intercettiamo solo ciò che esce da A verso B, non anche da B ad A
+							
+								*FULL MITM*
+
+Intecetta sia da A a B sia da B a A
+Manda il doppio dei pacchetti ARP
+Ettercap ad esempio è un tool che lo fa
+
+				PARTE 1:	        <               <
+				      		----------- SWITCH ------------  MSG:
+                                            v   |       MSG   |        MSG    |  |ipsrc 11.12.13.14
+                                        MSG     |             |               |  |mac   cc:dd:ee:ff        
+                                                v             v               v  |ipdst 10.11.12.13
+                                                A             B               C
+                                        10.11.12.13     11.12.13.14           12.13.14.15
+                                        aa:bb:cc:dd     bb:cc:dd:ee           cc:dd:ee:ff
+						|
+						v
+					ora A pensa che il MAC di B sia quello di C
+
+				PARTE 2:                                <
+				      		----------- SWITCH ------------  MSG:
+                                                |             |  v     MSG    |  |ipsrc 10.11.12.13
+                                                |             | MSG           |  |mac   cc:dd:ee:ff        
+                                                v             v               v  |ipdst 11.12.13.14
+                                                A             B               C
+                                        10.11.12.13     11.12.13.14           12.13.14.15
+                                        aa:bb:cc:dd     bb:cc:dd:ee           cc:dd:ee:ff
+							      |
+							      v
+							ora B pensa che il MAC di A sia quello di C
+		
+				Con le due parti C riceve il traffico completo tra A e B
+
+Ci si protegge con entry statiche --> casi rari e particolari come per esempio una Caserma
+
+								*DOS E DDOS*
+
+Denial Of Service e Distributed Denial Of Service --> vanno a minare la DISPONIBILITA' di un servizio --> non si riesce a difendere
+	'			'
+	'			'
+	'			'---> stessa cosa ma più macchine fanno l'attacco
+	'			^
+	'			'
+	'--> blocca un utente legittimato a farlo dall'usare un servizio/sistema sulla rete
+	'--> mira a far esaurire una risorsa su un sistema --> tempo di CPU, memoria, BANDA, la macchina in se (Brain distruggeva la GPU)
+
+	esempio in locale --> riempie la tabella dei processi del computer
+		while true{
+			fork();
+		}
+
+	In locale si può riempire il FS, creare processi (su), uccidere processi, ...
+	Sulla rete si possoo mandare pacchetti malformati, una marea di pacchetti, smurf
+
+								*SMURF ATTACK*
+
+Si fa un enorme numero di PING alla macchina e le si blocca la connettività
+
+Comodo fare così:
+	ATTACCANTE crea un pacchetto di PING ma modifica SRC mettendo l'indirizzo della vittima e come DST broadcast di una rete grossa e lo manda
+	tutti gli host della rete ricevono un PING dalla vittima e le rispondono
+	la VITTIMA riceve un numero altissimo di ping bloccandola
+	
+	SOLVED --> i router bloccano i pacchetti in broadcast
+
+								*TCP HIJACKING*
+
+Va a saturare la tabella delle connessioni TCP di una macchina
+
+	La connessione TCP funziona a SYN e ACK in THREE HAND-SHAKE
+				     		SYN X	
+				---  		---->		---  		X e Y sono generati a caso dalle macchine
+			  HOST	'_'  		<----		'_' SERVER
+				     	   ACK X+1 e SYN Y
+						---->
+						ACK Y+1
+
+	Il server aspetta l'ACK Y+1 per finalizzare la connessione --> riconosce un utente in base a IP/MAC e y+1
+
+Si continuano a fare SYN X al server, che risponde con SYN Y|ACK X+1, ma non si risponde MAI con ACK Y+1        
+	Il server continua a creare nuove voci nella sua tabella fino a saturarla e non essere più disponibile
