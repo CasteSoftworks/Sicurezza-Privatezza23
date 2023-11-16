@@ -1253,12 +1253,59 @@ Ettercap ad esempio è un tool che lo fa
 
 Ci si protegge con entry statiche --> casi rari e particolari come per esempio una Caserma
 
+								*TCP HIJACKING*
+
+Vedi sotto come funziona il TCP (SYN e ACK)
+Facciamo in modo che l'utente chieda A NOI il SYN, che lo chiediamo al server, che riponde a noi, che rispondiamo all'utente che risponde a noi 
+che rispondiamo al server --> ci mettiamo in mezzo come tramite
+	Devo sapere il valore di X e di Y
+				'-> complesso perché è generato dal server e client
+
+Come si capiscono X e Y?
+	'--> si sniffa il traffico
+	'--> si indovina
+
+Il primo lo fece (si suppone, ma lui nega) Mitnick 
+								
+							    *L'ATTACCO DI MITNICK*
+
+Comando rsh (Remote Shell)
+				rsh ip_address shell_command --> se si omette shell_command ci si connette con rlogin
+				NON LO PUO' FARE CON TUTTI
+					c'è un sistema di login
+					--> ai tempi di Mitnick c'erano .rhosts e /etc/hosts.equiv
+											'-> ogni volta che si effettuava una connessione si
+											'   controllava che fosse segnato qui l'hostname
+											'-> se non c'era in /etc/hosts.equiv si cercava su .rhosts
+Shimomura (da ora in poi S) aveva creato una connessione accreditata (su hosts.equiv) tra il suo computer e quello della (AZIENDA) (d'ora in poi A)
+		  accreditata
+	       S ------------> A
+
+Mitnick (da ora in poi M) esegue 
+		1 finger indirizzo_S
+		2 shmount -e indirizzo_S (elenca tutte le macchine con connessioni accreditate)
+		3 manda una 20ina di SYN alla macchina di S --> lei risponde con altrettanti SYN/ACK
+			--> M vuole capire in che modo viene creato Y --> aumenta di 400 la X del suo SYN --> capisce l'algoritmo
+		4 fa una SYN-flood su A e la mette fuori uso (lo tiene attivo)
+		5 fa un nuovo SYN a S fingendosi A sulla porta 53	|IP_A|IP_S|53| X |...|
+			--> S fa SYN Y/ACK X+1 a A			|IP_S|IP_A|53|X+1| Y |
+			--> A dovrebbe mandare un ACK Y+1 ma non può
+				--> M manda un ACK con Y+1 calcolato
+				    dal passo 3				|IP_A|IP_S|53|Y+1|...|
+		6 S apre la connessione a M come se fosse A
+		7 M esegue 'echo ++ > ~/rhosts' --> mette ++ in rhost --> vuole dire che CHIUNQUE è affidabile
+		8 chiude la SYN-flood su A, che riprende a funzionare
+		9 ruba dei documenti MA non cancella i log --> S lo sgama, si allea con l'FBI e dopo un mese lo catturano
+										'-> 5 anni di carcere e divieto di uso di Internet per altri 5
+
+ORA molto difficile fare il punto 3 perché hanno migliorato gli algoritmi
+
 								*DOS E DDOS*
 
 Denial Of Service e Distributed Denial Of Service --> vanno a minare la DISPONIBILITA' di un servizio --> non si riesce a difendere
 	'			'
 	'			'
-	'			'---> stessa cosa ma più macchine fanno l'attacco
+	'			'---> stessa cosa ma più macchine fanno l'attacco <-- SPESSO BOTNET --> record di traffico 2.3 Tb/s (2020)
 	'			^
 	'			'
 	'--> blocca un utente legittimato a farlo dall'usare un servizio/sistema sulla rete
@@ -1272,6 +1319,8 @@ Denial Of Service e Distributed Denial Of Service --> vanno a minare la DISPONIB
 	In locale si può riempire il FS, creare processi (su), uccidere processi, ...
 	Sulla rete si possoo mandare pacchetti malformati, una marea di pacchetti, smurf
 
+	Usato per sabotaggio
+
 								*SMURF ATTACK*
 
 Si fa un enorme numero di PING alla macchina e le si blocca la connettività
@@ -1283,7 +1332,7 @@ Comodo fare così:
 	
 	SOLVED --> i router bloccano i pacchetti in broadcast
 
-								*TCP HIJACKING*
+								*TCP DOS*
 
 Va a saturare la tabella delle connessioni TCP di una macchina
 
