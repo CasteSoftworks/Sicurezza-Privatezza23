@@ -1348,3 +1348,35 @@ Va a saturare la tabella delle connessioni TCP di una macchina
 
 Si continuano a fare SYN X al server, che risponde con SYN Y|ACK X+1, ma non si risponde MAI con ACK Y+1        
 	Il server continua a creare nuove voci nella sua tabella fino a saturarla e non essere più disponibile
+
+								*COSA E' UN BROWSER?*
+
+Programma che interpreta diversi file ipertestuali e li traduce in pagine più human readable e interfaccia l'utente a tutto ciò che è sotto
+	Spesso si usano linguaggi di markup (HTML, ...), abbellimento (CSS, ...), da database (SQL, ...) e di programmazione vera e 
+	propria (JavaScript, ...)
+
+Può aggiustare un sorgente (solo per lui) per renderlo visibile e conforme allo standard HTML
+
+Permette di vedere la sorgente e di ispezionare la pagina nella sua completezza
+
+								*LA CONSOLE DEL BROWSER*
+
+Ci si interagisce con javascript
+	Si possono lanciare funzioni interne al documento o usare comandi generici
+
+E' un interprete
+
+Fa eseguire tutto lato client --> mai server --> il rendering è SOLO lato client, il server da' solo le impostazioni di BASE
+
+									*PHP*
+
+Permette di lanciare, in locale, un Web Server semplice per lo sviluppo
+Utile per vedere le risposte del server e confrontarle con le risposte del client
+			php -s 127.0.0.1:8000 apre un server IN LOCALE sulla macchina alla porta 8000
+
+			se usiamo netstat -tulpn possiamo vedere che c'è un server PHP "in ascolto" al localhost --> aspetta una connessione
+
+								    *COME USARLO*
+
+ip localhost nella barra del browser più : e porta
+			
