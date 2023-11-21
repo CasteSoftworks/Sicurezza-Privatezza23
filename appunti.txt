@@ -1376,7 +1376,19 @@ Utile per vedere le risposte del server e confrontarle con le risposte del clien
 
 			se usiamo netstat -tulpn possiamo vedere che c'è un server PHP "in ascolto" al localhost --> aspetta una connessione
 
-								    *COME USARLO*
+								*PAGINE STATICHE*
 
-ip localhost nella barra del browser più : e porta
-			
+HTML normale su server (no interazione)
+
+								*PAGINE DINAMICHE*
+
+Quando la parte server inserisce dati dinamici in base alla richiesta ad una pagina web
+		tipo il login "buongiorno GIACOMO"
+Serve un linguaggio di BackEnd --> PHP
+
+								*VULNERABILITA'*
+
+Possono esistere metodi di input NON controllati, vulnerabili alla Injection --> javascript ad esempio
+Possiamo estrarre i cookie, magari quelli di sessione
+
+
