@@ -15,13 +15,13 @@ Matrice che associa un utente ai permessi per ogni risorsa
 
 	------------------------
 	| s\o | car | tas | ...
-	------------------------
+	------+-----+-----+-----
 	| us1 |  x  |  -  | ...
-	------------------------
+	------+-----+-----+-----
 	| us2 |  -  |  -  | ...
-	------------------------
+	------+-----+-----+-----
 	| us3 |  x  |  x  | ...
-	------------------------
+	------+-----+-----+-----
 	| ... | ... | ... | ...
 	------------------------
 
@@ -30,11 +30,11 @@ Per tanti utenti non è gestibile --> COME POSSIAMO SFRUTTARE LE NOSTRE CONOSCEN
 * divido le persone/utenti secondo il loro ruolo e posizione (se ho 50k utenti ma essi fanno parte di 5 gruppi da 10k -> anzichè avere 50k linee ne avrò 5) ACCES CONTROL LIST ACL
 	------------------------
 	| g\o | car | tas | ... 
-	------------------------
+	------+-----+-----+-----
 	| gr1 |  x  |  x  | ...
-	------------------------
+	------+-----+-----+-----
 	| gr2 |  -  |  -  | ...
-	------------------------
+	------+-----+-----+-----
 	| ... | ... | ... | ...
 	------------------------
 	DA TENERE IN UN LUOGO SICURO PER TENERE SANA E SALVA LA POLICY - in Linux/Unix è contenuta nella I-NODE
@@ -1389,6 +1389,16 @@ Serve un linguaggio di BackEnd --> PHP
 								*VULNERABILITA'*
 
 Possono esistere metodi di input NON controllati, vulnerabili alla Injection --> javascript ad esempio --> xss payload
-Possiamo estrarre i cookie, magari quelli di sessione
-
 Ci si può difendere facendo filtraggio dell'input --> ci sono librerie, non fare a mano
+
+								*XSS REFLECTED*
+
+Creo un link speciale con il mio payload e lo mando all'utente 
+Possiamo estrarre i cookie, magari quelli di sessione
+Possiamo inserire un keylogger
+
+vedi xss game appspot (tipo pwn/bandit)
+
+							*XSS STORED O SQL INJECTION*
+
+Attacco direttamente il server lascianogli il Payload nel database.
