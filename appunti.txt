@@ -1388,7 +1388,7 @@ Serve un linguaggio di BackEnd --> PHP
 
 								*VULNERABILITA'*
 
-Possono esistere metodi di input NON controllati, vulnerabili alla Injection --> javascript ad esempio
+Possono esistere metodi di input NON controllati, vulnerabili alla Injection --> javascript ad esempio --> xss payload
 Possiamo estrarre i cookie, magari quelli di sessione
 
-
+Ci si può difendere facendo filtraggio dell'input --> ci sono librerie, non fare a mano
