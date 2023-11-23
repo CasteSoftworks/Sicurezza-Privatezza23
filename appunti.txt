@@ -1399,6 +1399,55 @@ Possiamo inserire un keylogger
 
 vedi xss game appspot (tipo pwn/bandit)
 
-							*XSS STORED O SQL INJECTION*
+							*XSS STORED*
 
-Attacco direttamente il server lascianogli il Payload nel database.
+...
+
+								*SQL*
+
+	    http conn             tcp conn                     DB access
+	       +----------------------------------------------------------------------+
+	:-) ---------> WEB SERVER --------> APPLICATION SERVER ---------> DB SERVER   |
+               |       statico              dinamico (di back-end)        (opzionale) |
+	       +----------------------------------------------------------------------+
+
+Useremo PostgresSQL
+Funziona a query
+	tipo: sqlRequest="SELECT * FROM Products WHERE Name CONTAINS '" + USER_INPUT + "' ";
+	cerca tra Products tutti quelli che contengono un certo nome specificato dall'utente
+
+								*INJECTION*
+
+Modifica di una query attraverso input che dovrebbe essere "sano" --> tipo XSS
+
+esempi di injection
+	+ SELECT * FROM Products WHERE id=15; DROP TABLE Suppliers
+	  cerca tra tutti gli id di Products quello che ha 15 E cancella la tabella Suppliers --> dopo E c'è la parte malevola aggiunta da 
+	  											qualcun'altro
+altro esempio su ricerca da nome <-- injection più ez
+	' OR 1=1 -- --> fa chiudere il nome a '', mette una cosa sempre vera (il trick) e poi commenta il ' che ci deve essere nella query
+	         ^
+		 '- commento in SQL
+
+ORDER BY n per capire le colonne
+UNION by _,_,_,... quante colonne
+	per capire i tipi suo NULL in tutti tranne uno e tento (prima numeri e caratteri, poi il resto)
+
+esiste una tabella che contiene i nomi di TUTTE le altre tabelle --> filtrare le cose utili da lì --> in PostgreSQL c'è 
+													select table_name FROM information.schema
+
+si suppone ci sia il caso peggiore (mostra solo 1 riga), quindi si usa string_agg per aggregare OGNI stringa nella tabella in una unica separata da un
+separatore che si specifica nella funzione
+
+E' possibile usare version() con una UNION SELECT a 3 (null, version(), null FROM ps_stat_user_tables) e --
+versione modificata
+	...,pg_ls_dir('/bin'),...
+
+E' possibile legegre file con pg_read_file
+
+Payload SQL Injection
+SQLmap automatizza
+
+Esistono, come per html, dei metdodi di protezione (tipo HTMLSpecial...) e c'è anche il Logging (almeno tengo d'occhio passivamente tipo videocamere)
+
+
