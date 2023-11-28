@@ -1450,4 +1450,17 @@ SQLmap automatizza
 
 Esistono, come per html, dei metdodi di protezione (tipo HTMLSpecial...) e c'è anche il Logging (almeno tengo d'occhio passivamente tipo videocamere)
 
+								*ATTACCHI ONLINE*
+
+Due VM che girano SOLO in locale:
+	* una con Kali (attaccante)
+	* una con Metasploitable 2 (vittima)
+
+Da Kali con wireshark seleziono eth0 per vedere tutti i pacchetti che passano dalla scheda (lanciando ping google.com vediamo i pacchetti di ping)
+Traceroute elenca tutti i punti di passaggio di un pacchetto con ttl (time to live) progressivamente più basso
+	traceroute -n ip_address					'
+									'-> serve ad evitare che un pacchetto rimanga vivo all'infinito se si blocca
+Per vedere TUTTI i servizi aperti uso nmap
+	nmap -sT  ip_address --> SOLO SU LOCALE CHE NON VOGLIO CAZZI
+
 
