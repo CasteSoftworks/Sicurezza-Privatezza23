@@ -1586,4 +1586,39 @@ ATTACCHI HIGH TECH
 
 		con il sale
 					numeri/caratteri casuale + pwd in chiaro --> crittografia --> pwd crittografata SALATA
+							
+							*WHAT YOU ARE - approfondito*
+
+Tratti più usati:
+	* impronte digitali
+	* retina
+	* viso
+	* mano
+	* voce
+	* abitudini di battito
+	* DNA (un po' estremo eh)
+
+							*WHAT YOU ARE - VULNERABILITA'*
+
+* Può essere INTRUSIVA (lettura della retina avviene con un laser diretto nell'occhio)
+* Può essere COSTOSO (analizzatore del DNA)
+* Single Point of Faliure (se ho un taglio sul dito non posso usare il lettore)
+* Può fare errori di lettura (sensore sporco)
+* Lettura lenta (deve legegre e analizzare)
+* Può essere contraffatta (mano mozzata?)
+* Dati critici (sono MOLTO difficili da sostituire)
+
+							*WHAT YOU ARE - AUTENTICAZIONE*
+
+ENROLLMENT:
+	al primo avvio
+	* legge la caratteristica in MODO PRECISO
+	* individua caratteristiche specifiche
+	* salva in bit
+RECOGNITION:
+	* legge la caratteristica
+	* individua caratteristiche specifiche
+	* le confronta con quello salvato
+		+ match
+		+ no match
 
