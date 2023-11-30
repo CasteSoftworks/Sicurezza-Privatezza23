@@ -1605,8 +1605,11 @@ Tratti più usati:
 * Single Point of Faliure (se ho un taglio sul dito non posso usare il lettore)
 * Può fare errori di lettura (sensore sporco)
 * Lettura lenta (deve legegre e analizzare)
-* Può essere contraffatta (mano mozzata?)
+* Può essere contraffatta (mano mozzata, falso dito, maschera)
 * Dati critici (sono MOLTO difficili da sostituire)
+* Può dare falsi positivi o negativi (un errore in lettura può dare l'accesso a un non autorizzato o negare l'accesso ad un autorizzato)
+					|
+					'--> AUC dovrebbe essere 1 ma è 0.7
 
 							*WHAT YOU ARE - AUTENTICAZIONE*
 
@@ -1622,3 +1625,34 @@ RECOGNITION:
 		+ match
 		+ no match
 
+							*WHAT YOU HAVE - approfondito*
+
+Usa un oggetto o attivo o passivo:
+* OTP (attivo) --> prima su dispositivo poi su cellulare 
+* Smart Card tipo la CIE --> chip interno che fa crittografia
+* SIM Card (Subscriber Identity Module)
+	+ contiene diverse informazioni (numero, nome, chiave segreta di autenticazione GSM)
+
+							*WHAT YOU HAVE - VULNERABILITA'*
+
+Bancomat Skimming --> si rubano i dati attraverso un falso bancomat
+Chiamata che punta a registrare e campionare la voce
+
+							*MULTIFACTOR AUTENTICATION*
+
+WHAT YOU KNOW + di solito WHAT YOU HAVE (ma per esempio le banche usano WHAT YOU ARE)
+
+							*SINGLE SIGN ON*
+
+Servizio che eprmette di usre un'unica password per più servizi --> GOOGLE (Gmail, Drive, YouTube...)
+
+							*FEDERATED IDENTITY MANAGEMENT*
+
+Permette di usare lo stesso account su più organizzazioni.
+Una delle organizzazioni fa da "testimone" per la mia identità al mio login
+Ad esempio EDUROAM
+
+									*OPEN ID*
+
+Permette che un ente sfrutti il servizio di autenticazione di qualcun'altro
+Ad esempio Canva con Google
