@@ -1463,4 +1463,19 @@ Traceroute elenca tutti i punti di passaggio di un pacchetto con ttl (time to li
 Per vedere TUTTI i servizi aperti uso nmap
 	nmap -sT  ip_address --> SOLO SU LOCALE CHE NON VOGLIO CAZZI
 
+--------------------------------------------------------------------------------------------------------------------------------------------
+ #     #                        ######                                                              #####                                   
+ #     #  ####   ####  #####    #     # #####   ####  ##### ######  ####  ##### #  ####  #    #    #     # #   #  ####  ##### ###### #    # 
+ #     # #    # #        #      #     # #    # #    #   #   #      #    #   #   # #    # ##   #    #        # #  #        #   #      ##  ## 
+ ####### #    #  ####    #      ######  #    # #    #   #   #####  #        #   # #    # # #  #     #####    #    ####    #   #####  # ## # 
+ #     # #    #      #   #      #       #####  #    #   #   #      #        #   # #    # #  # #          #   #        #   #   #      #    # 
+ #     # #    # #    #   #      #       #   #  #    #   #   #      #    #   #   # #    # #   ##    #     #   #   #    #   #   #      #    # 
+ #     #  ####   ####    #      #       #    #  ####    #   ######  ####    #   #  ####  #    #     #####    #    ####    #   ###### #    # 
+--------------------------------------------------------------------------------------------------------------------------------------------
 
+Come si è evoluta la protezione dagli attacchi? --> spesso più che non rendere possibile l'attacco rende inutile il risultato
+
+3 momenti di OGNI meccanismo di protezione
+--> Autentication --> chiedere chi è
+--> Authorization --> dare l'autorizzazione a passare
+--> Auditing 	  --> decidere se le autorizzazioni sono legittime
