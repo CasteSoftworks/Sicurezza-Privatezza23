@@ -1019,9 +1019,15 @@ su un altro terminale
 
 	FARE RAMSON WARE con libreria crypto? --> TBD
 
-------------------------------------------------------------------------------------------------------------------------------------------------------
-
-								*NETWORK SECURITY*
+-------------------------------------------------------------------------------------------------------
+ #     #                                              #####                                            
+ ##    # ###### ##### #    #  ####  #####  #    #    #     # ######  ####  #    # #####  # ##### #   # 
+ # #   # #        #   #    # #    # #    # #   #     #       #      #    # #    # #    # #   #    # #  
+ #  #  # #####    #   #    # #    # #    # ####       #####  #####  #      #    # #    # #   #     #   
+ #   # # #        #   # ## # #    # #####  #  #            # #      #      #    # #####  #   #     #   
+ #    ## #        #   ##  ## #    # #   #  #   #     #     # #      #    # #    # #   #  #   #     #   
+ #     # ######   #   #    #  ####  #    # #    #     #####  ######  ####   ####  #    # #   #     #   
+-------------------------------------------------------------------------------------------------------
 
 Nuove tecnice diverse da quelle "in locale" viste precedentemente
 	L'ambientazione è la stessa
@@ -1476,6 +1482,88 @@ Per vedere TUTTI i servizi aperti uso nmap
 Come si è evoluta la protezione dagli attacchi? --> spesso più che non rendere possibile l'attacco rende inutile il risultato
 
 3 momenti di OGNI meccanismo di protezione
---> Autentication --> chiedere chi è
---> Authorization --> dare l'autorizzazione a passare
---> Auditing 	  --> decidere se le autorizzazioni sono legittime
+--> Autentication --> chiedere chi è					|
+--> Authorization --> dare l'autorizzazione a passare			|-> Access Control --> <18 via, >= 18 dentro, VIP in area VIP in discoteca
+--> Auditing 	  --> decidere se le autorizzazioni sono legittime      |
+
+Enforcment mechanism
+	mettere in atto le politiche di sicurezza 				           --> muri, porte e infrastruttura della discoteca
+Accountability
+	tenere traccia di tutto ciò che viene fatto e che le regole siano applicate 	   --> videocamere in discoteca
+
+Subjects --> entità attive --> fanno le operazioni --> utenti
+		Principals --> per alcuni uguali ai Subjects, per altri separati e conicidono con i processi
+Objects  --> entità passive --> subisocono le azioni dei Subjects --> memorie
+
+Rights   --> regole di accesso --> chi può fare cosa (si applicano ai Subjects quando si interfacciano con gli Objects)
+
+Reference Monitor --> set di meccanismi che provvedono al controllo degli accessi.
+	* deve essere incorruttibile (Tamper Proof) <-------,
+	* è distribuito nel sistema			    ,
+	* deve essere PICCOLO --> meno cose che possono avere problemi, meno problemi
+
+							*FASE DI IDENTIFICAZIONE*
+
+L'ID tra umani funziona face-to-face, ma per le macchine non è così, necessita di un meccanismo diverso --> trovato negli anni 60-70
+														'
+														'
+														v
+													è in due fasi
+														|
+		1) autocertificazione dell'utente			|<---------------------------------------
+		2) controllo della affermzione da parte dell'utente     |
+
+		1 è diviso in diverse tipologie a seconda delle organizzaioni (Nome e Cognome, stringa alfanumerica, mail, ...) --> USERNAME
+
+		per eseguire la parte 2 sono state studiate negli anni 3 strategie
+
+		* WHAT YOU KNOW? il calcolatore ha condiviso un segreto all'utente e ad ogni autenticazione l'utente DEVE darlo al computer. Se lo sa 
+			       allora può accedere, ad esempio una Password
+		* WHAT YOU HAVE? il calcolatore sa che l'utente ha un oggetto UNIVOCO e lo conosce. Ad ogni autorizzazione l'utente ricondivide 
+			       l'oggetto, ad esempio numero Carta di Credito
+		* WHAT YOU ARE?  il calcolatore conosce una caratteristica FISICA dell'utente, ad esempio una impronta digitale
+
+							*WHAT YOU KNOW - approfondito*
+
+La password viene chiesta la prima volta all'utente e viene, dopo l'immissione, crittografata (in vari modi) e salvata come codice su un file
+		 __
+		|  |  --> dammi la password --> :-)			RICHIESTA
+		 --  
+		computer			utente
+		 __
+                |  |  <--       ciaoCIAO    <-- :-)			RISPOSTA
+                 --         password in chiaro
+		computer			utente
+		 __				 __
+                |..|   <--	lmekCALM    <--	|  |			CRITTOGRAFAZIONE
+                |..|	    criptazione		 --
+		----
+	file criptato				computer
+
+Il file che contiene le PW (in Linux etc/shadow) è accessibile solo da utenti con privilegi d sistema, che comunque, grazie alla crittazione NON possono
+leggere le password --> al massimo può resettarla
+
+							*WHAT YOU KNOW - VULNERABILITA'*
+ATTACCHI LOW TECH
+* Uso di password FACILI:
+	* nome della squadra di calcio
+	* nome della mamma
+	* data di nascita
+	* 1234...
+	* qwertyuiop
+	* ...
+
+			---> FATTORE UMANO rovina la sicurezza --> sistemi di suggerimento ("la password è troppo debole",...) possono arginare
+								   MA NON EVITARE i problemi
+
+* Social Engeneering --> consocere la persona per prevedere la password --> appasionato di cavalli che usa il nome della bestia come password
+
+* Shoulder Surfing --> spiare l'utente per rubare la password
+
+* Phishing --> falsi servizi che rubano le informazioni di accesso
+
+ATTACCHI HIGH TECH
+* Brute Force Attack --> tenta, basandosi su un alfabeto, tutte le possibili combinazioni delle lettere in una data lunghezza
+		     '-> se si ha accesso a etc/shadow si confronta (volta per volta) il risultato del BFA con le password listate
+										'
+										'--> l'algoritmo di criptazione è noto (md5, ...)
