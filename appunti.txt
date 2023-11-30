@@ -1565,5 +1565,25 @@ ATTACCHI LOW TECH
 ATTACCHI HIGH TECH
 * Brute Force Attack --> tenta, basandosi su un alfabeto, tutte le possibili combinazioni delle lettere in una data lunghezza
 		     '-> se si ha accesso a etc/shadow si confronta (volta per volta) il risultato del BFA con le password listate
-										'
-										'--> l'algoritmo di criptazione è noto (md5, ...)
+		     '								'
+		     '								'--> l'algoritmo di criptazione è noto (md5, ...)
+		     '-> la difficoltà è ESPONENZIALE (3h per 6 caratteri, 2 anni per 8 caratteri, ...)
+		     			'
+					'-> di norma si restringe il campo su parle ben definite (le x password più comuni, ...)
+					    che sono contenute in un dizionario reperibile su Internet 
+						  |
+* Dictionary Attack <-----------------------------'--> 20% di probabilità di successo
+		|
+		'--> John the Ripper è un tool che permette di farlo --> nasce per aiutare i System Manager a tenere le password degli utenti dei 
+									 sistemi che gestiscono siano sicure
+
+* Rainbow Attack --> salta la parte di conversione da chiaro a criptato e usa direttamente le parole hashate
+			
+			PER PROTEGGERSI DAL RAINBOW SI USA IL *SALT*
+
+		processo normale
+					pwd in chiaro --> crittografia --> pwd crittografata
+
+		con il sale
+					numeri/caratteri casuale + pwd in chiaro --> crittografia --> pwd crittografata SALATA
+
