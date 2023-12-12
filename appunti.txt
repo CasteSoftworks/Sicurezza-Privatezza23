@@ -1502,48 +1502,56 @@ Reference Monitor --> set di meccanismi che provvedono al controllo degli access
 	* è distribuito nel sistema			    ,
 	* deve essere PICCOLO --> meno cose che possono avere problemi, meno problemi
 
-							*FASE DI IDENTIFICAZIONE*
+			*FASE DI IDENTIFICAZIONE*   //SISTEMA DA SOPRA
 
-L'ID tra umani funziona face-to-face, ma per le macchine non è così, necessita di un meccanismo diverso --> trovato negli anni 60-70
-														'
-														'
-														v
-													è in due fasi
-														|
-		1) autocertificazione dell'utente			|<---------------------------------------
-		2) controllo della affermzione da parte dell'utente     |
+L'ID tra umani funziona face-to-face, ma per le macchine non è così, necessita 
+di un meccanismo diverso --> trovato negli anni 60-70
+		|
+		|
+		v
+	è in due fasi
+	1) autocertificazione dell'utente -------------------,
+	2) controllo della affermzione da parte dell'utente  |
+							     v
+		1 è diviso in diverse tipologie a seconda delle organizzaioni 
+		(Nome e Cognome, stringa alfanumerica, mail, ...) --> USERNAME
 
-		1 è diviso in diverse tipologie a seconda delle organizzaioni (Nome e Cognome, stringa alfanumerica, mail, ...) --> USERNAME
+		per eseguire la parte 2 sono state studiate negli anni 3 
+		strategie
 
-		per eseguire la parte 2 sono state studiate negli anni 3 strategie
+		* WHAT YOU KNOW? il calcolatore ha condiviso un segreto 
+		con l'utente e ad ogni autenticazione l'utente DEVE ripeterlo 
+		al computer. Se lo sa allora può accedere
+		* WHAT YOU HAVE? il calcolatore sa che l'utente ha un oggetto 
+		UNIVOCO e lo conosce. Ad ogni autorizzazione l'utente lo deve 
+		ricondivide
+		* WHAT YOU ARE?  il calcolatore conosce una caratteristica 
+		FISICA dell'utente, ad esempio una impronta digitale
 
-		* WHAT YOU KNOW? il calcolatore ha condiviso un segreto all'utente e ad ogni autenticazione l'utente DEVE darlo al computer. Se lo sa 
-			       allora può accedere, ad esempio una Password
-		* WHAT YOU HAVE? il calcolatore sa che l'utente ha un oggetto UNIVOCO e lo conosce. Ad ogni autorizzazione l'utente ricondivide 
-			       l'oggetto, ad esempio numero Carta di Credito
-		* WHAT YOU ARE?  il calcolatore conosce una caratteristica FISICA dell'utente, ad esempio una impronta digitale
+			*WHAT YOU KNOW - approfondito*
 
-							*WHAT YOU KNOW - approfondito*
-
-La password viene chiesta la prima volta all'utente e viene, dopo l'immissione, crittografata (in vari modi) e salvata come codice su un file
+La password viene chiesta la prima volta all'utente e viene, dopo l'immissione,
+crittografata (in vari modi) e salvata come codice su un file
 		 __
-		|  |  --> dammi la password --> :-)			RICHIESTA
+		|  |  --> dammi la password --> :-)		RICHIESTA
 		 --  
 		computer			utente
 		 __
-                |  |  <--       ciaoCIAO    <-- :-)			RISPOSTA
+                |  |  <--       ciaoCIAO    <-- :-)		RISPOSTA
                  --         password in chiaro
 		computer			utente
 		 __				 __
-                |..|   <--	lmekCALM    <--	|  |			CRITTOGRAFAZIONE
+                |..|   <--	lmekCALM    <--	|  |		CRITTOGRAFAZIONE
                 |..|	    criptazione		 --
 		----
 	file criptato				computer
 
-Il file che contiene le PW (in Linux etc/shadow) è accessibile solo da utenti con privilegi d sistema, che comunque, grazie alla crittazione NON possono
+Il file che contiene le PW (in Linux etc/shadow) è accessibile solo da utenti 
+con privilegi d sistema, che comunque, grazie alla crittazione NON possono
 leggere le password --> al massimo può resettarla
+			
+			*WHAT YOU KNOW - VULNERABILITA'*
 
-							*WHAT YOU KNOW - VULNERABILITA'*
 ATTACCHI LOW TECH
 * Uso di password FACILI:
 	* nome della squadra di calcio
@@ -1553,41 +1561,58 @@ ATTACCHI LOW TECH
 	* qwertyuiop
 	* ...
 
-			---> FATTORE UMANO rovina la sicurezza --> sistemi di suggerimento ("la password è troppo debole",...) possono arginare
-								   MA NON EVITARE i problemi
+			---> FATTORE UMANO rovina la sicurezza --> sistemi di 
+			suggerimento ("la password è troppo debole",...) possono
+			arginare MA NON EVITARE
 
-* Social Engeneering --> consocere la persona per prevedere la password --> appasionato di cavalli che usa il nome della bestia come password
+* Social Engeneering --> consocere la persona per prevedere la password 
+                         '--> appasionato di cavalli che usa il nome della 
+			      bestia come password
 
 * Shoulder Surfing --> spiare l'utente per rubare la password
 
 * Phishing --> falsi servizi che rubano le informazioni di accesso
 
 ATTACCHI HIGH TECH
-* Brute Force Attack --> tenta, basandosi su un alfabeto, tutte le possibili combinazioni delle lettere in una data lunghezza
-		     '-> se si ha accesso a etc/shadow si confronta (volta per volta) il risultato del BFA con le password listate
-		     '								'
-		     '								'--> l'algoritmo di criptazione è noto (md5, ...)
-		     '-> la difficoltà è ESPONENZIALE (3h per 6 caratteri, 2 anni per 8 caratteri, ...)
+* Brute Force Attack --> tenta, basandosi su un alfabeto, tutte le possibili 
+                     ----combinazioni delle lettere in una data lunghezza
+		     '-> se si ha accesso a etc/shadow si confronta (volta per 
+		         volta) il risultato del BFA con le password listate
+			 '
+			 '
+		         '
+			 '--> l'algoritmo di criptazione è noto (md5, ...)
+			 '-> la difficoltà è ESPONENZIALE (3h per 6 caratteri, 2
+		         anni per 8 caratteri, ...)
 		     			'
-					'-> di norma si restringe il campo su parle ben definite (le x password più comuni, ...)
-					    che sono contenute in un dizionario reperibile su Internet 
+					'-> di norma si restringe il campo su 
+					parle ben definite (le x password più 
+					comuni, ...) che sono contenute in un 
+					dizionario reperibile su Internet 
 						  |
-* Dictionary Attack <-----------------------------'--> 20% di probabilità di successo
+* Dictionary Attack <-----------------------------'--> 20% di probabilità di 
+		|				       successo
 		|
-		'--> John the Ripper è un tool che permette di farlo --> nasce per aiutare i System Manager a tenere le password degli utenti dei 
-									 sistemi che gestiscono siano sicure
+		'--> John the Ripper è un tool che permette di farlo 
+		     '--> nasce per aiutare i System Manager a tenere le 
+		          password degli utenti dei sistemi che gestiscono 
+			  siano sicure
 
-* Rainbow Attack --> salta la parte di conversione da chiaro a criptato e usa direttamente le parole hashate
+* Rainbow Attack --> salta la parte di conversione da chiaro a criptato e usa 
+                     direttamente le parole hashate
 			
 			PER PROTEGGERSI DAL RAINBOW SI USA IL *SALT*
 
 		processo normale
-					pwd in chiaro --> crittografia --> pwd crittografata
+					pwd in chiaro --> crittografia 
+					--> pwd crittografata
 
 		con il sale
-					numeri/caratteri casuale + pwd in chiaro --> crittografia --> pwd crittografata SALATA
+					numeri/caratteri casuale + pwd in chiaro
+					--> crittografia --> pwd crittografata 
+					                     SALATA
 							
-							*WHAT YOU ARE - approfondito*
+			*WHAT YOU ARE - approfondito*
 
 Tratti più usati:
 	* impronte digitali
@@ -1598,20 +1623,22 @@ Tratti più usati:
 	* abitudini di battito
 	* DNA (un po' estremo eh)
 
-							*WHAT YOU ARE - VULNERABILITA'*
+			*WHAT YOU ARE - VULNERABILITA'*
 
-* Può essere INTRUSIVA (lettura della retina avviene con un laser diretto nell'occhio)
+* Può essere INTRUSIVA (lettura della retina avviene con un laser diretto 
+  nell'occhio)
 * Può essere COSTOSO (analizzatore del DNA)
 * Single Point of Faliure (se ho un taglio sul dito non posso usare il lettore)
 * Può fare errori di lettura (sensore sporco)
 * Lettura lenta (deve legegre e analizzare)
 * Può essere contraffatta (mano mozzata, falso dito, maschera)
 * Dati critici (sono MOLTO difficili da sostituire)
-* Può dare falsi positivi o negativi (un errore in lettura può dare l'accesso a un non autorizzato o negare l'accesso ad un autorizzato)
+* Può dare falsi positivi o negativi (un errore in lettura può dare l'accesso a
+  un non autorizzato o negare l'accesso ad un autorizzato)
 					|
 					'--> AUC dovrebbe essere 1 ma è 0.7
 
-							*WHAT YOU ARE - AUTENTICAZIONE*
+			*WHAT YOU ARE - AUTENTICAZIONE*
 
 ENROLLMENT:
 	al primo avvio
@@ -1625,34 +1652,341 @@ RECOGNITION:
 		+ match
 		+ no match
 
-							*WHAT YOU HAVE - approfondito*
+			*WHAT YOU HAVE - approfondito*
 
 Usa un oggetto o attivo o passivo:
 * OTP (attivo) --> prima su dispositivo poi su cellulare 
 * Smart Card tipo la CIE --> chip interno che fa crittografia
 * SIM Card (Subscriber Identity Module)
-	+ contiene diverse informazioni (numero, nome, chiave segreta di autenticazione GSM)
+	+ contiene diverse informazioni (numero, nome, chiave segreta di 
+	  autenticazione GSM)
 
-							*WHAT YOU HAVE - VULNERABILITA'*
+			*WHAT YOU HAVE - VULNERABILITA'*
 
 Bancomat Skimming --> si rubano i dati attraverso un falso bancomat
 Chiamata che punta a registrare e campionare la voce
 
-							*MULTIFACTOR AUTENTICATION*
+			*MULTIFACTOR AUTENTICATION*
 
-WHAT YOU KNOW + di solito WHAT YOU HAVE (ma per esempio le banche usano WHAT YOU ARE)
+WHAT YOU KNOW + di solito WHAT YOU HAVE (per esempio le banche usano WHAT 
+YOU ARE)
 
-							*SINGLE SIGN ON*
+			*SINGLE SIGN ON*
 
-Servizio che eprmette di usre un'unica password per più servizi --> GOOGLE (Gmail, Drive, YouTube...)
+Servizio che eprmette di usre un'unica password per più servizi 
+'--> GOOGLE (Gmail, Drive, YouTube...)
 
-							*FEDERATED IDENTITY MANAGEMENT*
+			*FEDERATED IDENTITY MANAGEMENT*
 
 Permette di usare lo stesso account su più organizzazioni.
 Una delle organizzazioni fa da "testimone" per la mia identità al mio login
 Ad esempio EDUROAM
 
-									*OPEN ID*
+			*OPEN ID*
 
 Permette che un ente sfrutti il servizio di autenticazione di qualcun'altro
 Ad esempio Canva con Google
+
+			titolo host protection system
+
+			*ACCES CONTROL*
+
+IN BREVE: * sistemi che prevedono il bloccare l'uso di una risorsa non
+            autorizzata o l'uso non autorizzato di una risorsa
+          * serve una SECURITY POLICY
+	  * è il cuore di un sistema di sicurezza
+	  * implementato in diversi luoghi --> kernel, OS, applicazione
+	  * Acces Control Matrix è lo strumento che garantisce cosa OGNI utente
+	    può fare --> vedi prima parte per la tabella
+
+Diversi tipi:
+	* Discretional Acces Control - DAC
+	* Role Based Acces Control - RBAC
+	* ...
+	* Mandatory Acces Control - MAC
+
+				*MAC ACCESS CONTROL*
+
+L'utente/applicazione NON deve essere in grado, indipendentemente dal suo 
+livello, di modificare l'SO
+
+Bisogna usare l'HW perché l'SO NON è in grado di proteggersi --> dovrebbe ogni 
+			|					 volta che si
+			|					 fa un salto
+			|	oltretutto dovrebbe capire <---- controllare
+			|	quando chiamare |
+			|			'-> dovrebbe interrompere la
+			|			    applicazione --> quindi la
+			|					     CPU
+			|			  !NON fermabile! <--'
+			v
+usa un sistema MOLTO complesso in runtime:
+	PREAMBOLO
+	* si assegnano delle ETICHETTE sia a SOGGETTI sia a OGGETTI
+	* a seconda della etichetta la richiesta è esaudita o no
+		In INTEL ci sono 4 etichette/livelli/anelli concentrici:
+			+ 0 --> il + potente	^
+			+ 1			|
+			+ 2			| privilegio
+			+ 3 --> il - potente 	|
+		Per ora sui sistemi più comuni si usano SOLO 0 e 3
+	* ogni processo è diviso in segmenti che isolano i pezzi in soggetti e 
+	  oggetti --> usata per evitare che due processi si infastidiscano
+	* ogni segmento ha un descrittore che ne elenca le caratteristiche e una          etichetta (o 0 o 3 vedi sopra). I descrittori sono in una tabella che
+	  li elenca tutti
+		+ il Descrittore ha un campo chiamato DPL Descriptor Priviledge
+		  Level --> specifica la etichetta --> dettato da SO
+		+ esiste anche un CPL Current Priviledge Level che indica il
+		  PL del processo in esecuzione --> salvato su un registro 
+		  				    quindi in HW
+		+ quando si cambia un processo il CPL diventa il DPL del nuovo 
+		  processo
+
+	PROTEZIONE DEI DATI
+	Il codice utente NON può modificare i dati del SO
+	Un soggetto di livello X NON può accedere ai dati di livello inferiore,
+	un utente (livello 3) non può accedere ai dati dell'SO che sono livello
+	0, ma solo a quelli uguali o superiori al suo
+
+	Ogni volta che un processo vuole accedere a dei dati si controlla il 
+	CPL con il DPL dei dati. 
+		* CPL<=DPL accesso garantito
+		* CPL>DPL  accesso negato
+	
+	Può accadere che un codice NON privilegiato chieda a del codice 
+	privilegiato di accedere a dei dati privilegiati
+	|    B (lvl 3) --> "dimmi D" --> A(lvl 0) --> "cosa sei?" --> D (lvl 0)
+	v
+	PER EVITARE si usa RPL Request Priviledge Level che si segna il livello
+	della richiesta iniziale
+		Prima di fare la richiesta si confrontano RPL e CPL (nel nostro
+		caso 3 e 0), si prende il maggiore e poi si esegue la richiesta
+	     (MAX(DPL_B,CPL_A))<=DPL_D? NO --> MAX(3,0)=3 e 3>0
+	Esistono anche un campo chiamato Type che serve ad indicare che 
+	operazioni possono essere eseguite
+		* 0000 - Read Only
+		* 0001 - Read Only,  Accessed
+		* 0010 - Read Write, Accessed
+		* 0011 - Read Write, Accessed
+	
+	PROTEZIONE DEL CODICE
+	L'utente può usare SOLO ALCUNE parti di codice del SO
+	
+	La politica di accesso è diverso dai dati:
+		* un codice può essere eseguito solo se il 
+		  CPL_pre_salto==DPL_dopo_salto
+		  	Kernel salta solo su Kernel
+			Utente salta solo su Utente
+			+ si evita di andare in zone non controllate dal 
+			  pre_salto
+			+ il codice a privilegi bassi può essere con errori
+			+ non ha senso togliersi privilegi
+		  
+	Come posso usare delle cose che solo il Kenel può fare?
+	'--> uso le CONTROLLED INVOCATIONS --> le syscall
+	     Permettono di saltare a zone a privilegio diverso attraverso delle
+	     "strade" ben definite --> una specie di visita organizzata
+	Si usano diversi meccanismi:
+	     * Call Gate --> syscall
+	     * Software Interrupt
+	     * SYSENTER/SYSEXIT
+	Il processo viene interroto, si salva il contesto del processo e si 
+	esegue un JUMP ad un indirizzo preventivamente salvato su una tabella
+	che salva le zone "permesse" del Kernel --> che è in esecuzione senza
+	|	'-> Interrupt Descriptor Table	    il rischio di venire
+	|	    IDT				    disturbato dal software
+	|					    utente, che è fermo
+	'-> Un attacco può modicare la tabella IDT per fare ciò che vuole
+	    Per esempio può modificare da lì il comportamento della scheda di 
+	    rete per mandare sia al destinatario originale sia all'hacker il 
+	    traffico
+	
+	TUTTE queste tabelle hanno il loro indirizzo salvato solo su dei 
+	registri che sono modificabili SOLO da livelli 0 --> gli altri generano
+	|			'--> solo ROOT e Kernel	     una eccezione dette
+	|						     General Protection
+	'--> un utente NON potrà mai modificarlo, tranne con notevoli sforzi
+
+			titolo LOG
+	
+				*IT AUDIT*
+
+Esaminzaione e valutazione delle prestazioni di un sistema
+
+				*IT SECURITY AUDIT*
+
+Valuta se la sicurezza della infrastruttura e dell'uso di quest'ultima rispetta
+il livello richiesto
+
+				*COME FANNO?*
+
+Hanno accesso ai LOG di sistema, dove sono segnate TUTTE le operazioni 
+significative eseguite da TUTTI gli utenti e processi in un sistema
+Se una di queste operazioni devia dalla norma suona l'allarme
+
+Non un lavoro facile e veloce
+2 fasi
+	* RACCOLTA DELLE INFORMAZIONI --> raccogliere i LOG
+	* ANALISI DELLE INFORMAZIONI
+		+ POST MORTEM --> dopo un attacco si capisce cosa è successo
+		+ REAL TIME --> prima o durante l'attacco
+
+				*I LOG*
+
+Segnano tutto
+Scritti dalla accensione allo spegnimento
+Su Linux è su var/log/
+	Diverse zone che segnano cose diverse (login, traffico internet, ...)
+	Diversi formati a seconda della versione
+Su un portatile quando il Log è pieno si sovrascrive --> circa ogni due 
+							 settimane
+Ogni log ha un codice di Severity da 0 a 7 che indica il pericolo, più basso è 
+più è grave
+Ogni log ha un codice di Facility che dice chi lo ha generato (su Linux da 0 a 
+8)
+Sono file di testo (leggibili da classici lettori) o di formati proprietari che
+necessitano di programmi appositi
+Per cercare nei log si usa grep --> ora però è difficile data la mole enorme di
+dati
+
+Data la MOLE esistono delle PIATTAFORME DI CENTRALIZZAZIONE che ricevono log da
+svariate macchine in diversi formati e li salvano su database SQL
+	'-> rendono possibile la lettura tramite SQL anzichè svariati metodi
+
+Esiste anche l'analisi automatica dei LOG tramite Machine Learning per 
+analizzare senza l'ausilio di umani i log (ovviamente dopo training) e 
+prevedere attacchi e vulnerablità
+'--> chiamati LMS (Log Management Systems) o più modernamente SIEM (SECURITY, 
+     INFORMATION, EVENT MEANAGERS)
+
+Su Windows c'è un programma di default per esaminare il log e definire una 
+policy diversa
+
+In generale PIU LOG si hanno più informazioni si possiedono MA PIU' SPAZIO è 
+occupato
+
+			titolo CRITTOGRAFIA
+
+			*COSA E'*
+
+La scienza della occultazione revertibile delle informazioni attraverso delle 
+trasformazioni MANTENDENDO l'informazione originale
+
+			*IL SUO CONTRARIO*
+
+CRITTOANALISI --> scienza che verte sulla reversione di un oggetto criptato
+
+			*SI BASA SU*
+
+Confidenzialità
+
+			*MODELLO DI RIFERMENTO*
+				
+				K
+				|
+				v
+	:-) --> bla bla --> Funz Critt --> wsysytqsyt --> :-)
+				^
+				|
+			      >:-(
+			
+			*LA TEORIA DIETRO*
+
+La Criptazione è BIETTIVA (sia iniettiva sia suriettiva)
+	* OGNI elemento del dominio ha UNO e UNO solo corrispettivo nel 
+	  codominio
+	* OGNI elemento del codominio ha UNO e UNO solo corrispettivo nel
+	  dominio
+
+			*LE TECNICHE PRINCIPALI*
+
+Due tipi principali:
+	* quella storica era a CHIAVE PRIVATA e SIMMETRICA (Cesare, Egizi, ...)
+	* quella moderna è a CHIAVE PUBBLICA e ASIMMETRICA
+
+	la chiave è la K del MODELLO DI RIFERIMENTO
+
+	SIMMETRICA vuole dire che la stessa chiave K serve sia per criptare sia
+	per decriptare --> anello debole
+	ASIMMETRICA vule dire che la chiave NON è la stessa per criptare e 
+	decriptare
+
+STREAM CYPHER --> Cesare
+	      '-> considero tutto il testo
+BLOCK CYPHER --> DES (Data Encryption Standard)
+	     '-> considero blocchi di testo
+	     '-> esistono diverse versioni 
+	         SIMMETRICHE
+	     		'-> Electronic Codebook ECB (divido in pezzi, cripto i 
+			    pezzi e riappiccico, per decriptare al contrario)
+			    PARALLELIZZABILE in avanti e indietro
+			'-> Chipher Block Chaining CBC (XOR prima con blocco 
+			    NOTO e poi con gli output delle fasi precedenti alla
+			    attuale, poi riappiccico, per decrptare al 
+			    contrario)
+			    PARALLELIZZABILE solo indietro
+		  ASIMMETRICHE
+		  	'->
+
+	     		*DATA ENCRYPTION STANDARD*
+
+Sviluppato da IBM per il governo Americano --> poi adottato da tutte le 
+					       istituzioni bancarie negli 
+					       anni 70   |
+					       		 v
+						 le cate bancomat fino a 5 anni
+						 fa
+E' un BLOCK CYPHER a blocchi da 64b e chiavi da 54b
+Ha diverse versioni:
+	DES
+	Double DES
+	Two-Key Triple DES
+	Three-Key DES
+
+Nel '77 prima dichiarazione di NON sicurezza
+Nel '97 rotto per la prima volta in 4 mesi da 4500 macchine che lavoravano 
+assieme verso l'obbiettivo --> ora il tempo si misura in ORE
+			   '-> SOLO LA VERSIONE BASE
+Sostituito da AES
+
+			*ADVANCED ENCRYPTION STANDARD*
+
+Usa tre chiavi da 128b, 192b e infine 256b
+In BLOCK CYPHER
+Usato dagli Stati Uniti per i file secretati
+
+			*LA CHIAVE PUBBLICA*
+
+Teorizzata nel '77 da Deefy e Dellman, che presero il premio Turing
+Ognuno ha DUE chiavi: una pubblica e una privata
+	* sono genrate a coppie
+	* le cifrate con la privata possono essere decifrate dalla pubblica
+	* le cifrate con la pubblica possono essere decifrate dalla privata
+	* SONO UNICHE e nessun'altra chiave può fare il loro lavoro
+
+Ogni utente A vuole comunicare con utente B:
+	* A rende pubblica al MONDO una delle sue chiavi
+	* B cripta il messaggio usando la chiave pubblica di A
+	* A decripta usando la sua chiave privata (l'unica che può decriptare
+	  la pubblica)
+	+ B ovviamnete farà la stessa cosa
+	+ NESSUNO tranne A e B potrà leggere la conversazione FINCHE' le chiavi
+          private rimarranno tali e DOVRANNO rimanere tali
+
+Shamir, Rivest e Adleman resero possibile la visione di Deefy e Dellman 
+attraverso la FATTORIZZAZIONE DEI NUMERI PRIMI --> RSA (le iniziali)
+Esistono anche altri come El Gamal e DSS
+
+La chiave privata può cifrare --> tutti quelli con la pubblica possono decifrare
+PROBLEMA DI CONFIDENZIALITA'
+Allo stesso tempo però CONFERMO che sono io perché sono il SOLO possessore della
+chiave privata --> FIRMO DIGITALMENTE
+Garantisco la AUTENTICITA' e mi impedisco la NEGAZIONE in campo giuridico
+						|
+						v
+					la NON REPUDIABILITA'
+
+			*PROBLEMI DELLA CHIAVE PUBBLICA*
+
+* MITM può mettersi in mezzo e dare/ricevere la sua/altrui chiave e intercettare  le comunicazioni facendo sembrare che tutto sia ok
+* 10k volte più lenta di quella a chiave privata (chiavi da 4kb)
