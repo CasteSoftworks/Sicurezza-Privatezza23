@@ -1,6 +1,56 @@
+-------------------------------------------------------------------------------
+===============================================================================
+              _____  _____  _    _ _   _ _______ _____      _____ _____ 
+        /\   |  __ \|  __ \| |  | | \ | |__   __|_   _|    |  __ \_   _|
+       /  \  | |__) | |__) | |  | |  \| |  | |    | |      | |  | || |  
+      / /\ \ |  ___/|  ___/| |  | | . ` |  | |    | |      | |  | || |  
+     / ____ \| |    | |    | |__| | |\  |  | |   _| |_     | |__| || |_ 
+    /_/    \_\_|    |_|     \____/|_| \_|  |_|  |_____|    |_____/_____|
+                                                                     
+     	   _____ _____ _____ _    _ _____  ______ ____________         
+	  / ____|_   _/ ____| |  | |  __ \|  ____|___  /___  /   /\    
+	 | (___   | || |    | |  | | |__) | |__     / /   / /   /  \   
+	  \___ \  | || |    | |  | |  _  /|  __|   / /   / /   / /\ \  
+	  ____) |_| || |____| |__| | | \ \| |____ / /__ / /__ / ____ \ 
+	 |_____/|_____\_____|\____/|_|  \_\______/_____/_____/_/    \_\
+                                                               
+ 				 ______ 
+ 				|  ____|
+ 				| |__   
+ 				|  __|  
+ 				| |____ 
+ 				|______|
+         
+	  _____  _____  _______      __  _______ ______ ____________         
+	 |  __ \|  __ \|_   _\ \    / /\|__   __|  ____|___  /___  /   /\    
+	 | |__) | |__) | | |  \ \  / /  \  | |  | |__     / /   / /   /  \   
+	 |  ___/|  _  /  | |   \ \/ / /\ \ | |  |  __|   / /   / /   / /\ \  
+	 | |    | | \ \ _| |_   \  / ____ \| |  | |____ / /__ / /__ / ____ \ 
+	 |_|    |_|  \_\_____|   \/_/    \_\_|  |______/_____/_____/_/    \_\
+                                                                     
+				CORSO 2023
+			    Giacomo Castellana
+===============================================================================
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+		  ____           _____ _____      _____ _____ 
+		 |  _ \   /\    / ____|_   _|    |  __ \_   _|
+		 | |_) | /  \  | (___   | |      | |  | || |  
+		 |  _ < / /\ \  \___ \  | |      | |  | || |  
+		 | |_) / ____ \ ____) |_| |_     | |__| || |_ 
+		 |____/_/    \_\_____/|_____|    |_____/_____|
+                               	               
+ 	  _____ _____ _____ _    _ _____  ______ ____________         
+ 	 / ____|_   _/ ____| |  | |  __ \|  ____|___  /___  /   /\    
+ 	| (___   | || |    | |  | | |__) | |__     / /   / /   /  \   
+ 	 \___ \  | || |    | |  | |  _  /|  __|   / /   / /   / /\ \  
+ 	 ____) |_| || |____| |__| | | \ \| |____ / /__ / /__ / ____ \ 
+ 	|_____/|_____\_____|\____/|_|  \_\______/_____/_____/_/    \_\
+                                                               
+-------------------------------------------------------------------------------
+
 FONT ASCII TITLES BIG
 da copiare regole auree
-
 
 				*POLITICHE DI ACCESSO*
 Discretionary Acces Control (DAC)
@@ -86,8 +136,19 @@ gesticisce OGNI accesso e il cui funzionamento è ASSICURATO al 100%
 	 |                   | -grant-    '---> log       |
 	 |                 object                         |---> PC
 	 --------------------------------------------------
+
+-------------------------------------------------------------------------------
+			  _    _ _   _ _______   __
+			 | |  | | \ | |_   _\ \ / /
+			 | |  | |  \| | | |  \ V / 
+			 | |  | | . ` | | |   > <  
+			 | |__| | |\  |_| |_ / . \ 
+			  \____/|_| \_|_____/_/ \_\
+                           
+-------------------------------------------------------------------------------
+Uno se non il PRIMO SO
 
-				*UTENTE SU UNIX*
+				*L'UTENTE IN UNIX*
 
 Tutti coloro che sono presenti nel file /etc/passwd
 			username:password:UID:GID:name:homedir:shell
@@ -105,7 +166,8 @@ Tutti coloro che sono presenti nel file /etc/passwd
 
 				*SOGGETTI*
 
-Processi distinti da PID -> generati da exec e fork -> oguno di loro ha un UID/GID reale e un UID/GID effettivo
+Processi distinti da PID -> generati da exec e fork -> oguno di loro ha un 
+UID/GID reale e un UID/GID effettivo
 effective UID è usato per gestire i processi
 
 	          :real UID 1001  p1 <--------,
@@ -175,7 +237,7 @@ Grep usa anche le espressioni regolari per fare le richerche
 				*FORMATI DI UN PROGRAMMA*
 
 Sorgente -> dato in pasto al compilatore ---> UNA VOLTA dava il codice 
-OGGETTO --> poi lo dava al LINKER---|
+OGGETTO --> poi lo dava al LINKER---,
 				    |
 				    |--->ESEGUIBILE
 				    |
@@ -256,7 +318,7 @@ p_flags:
 		OBJECT   --> objdump
 
 
-						*EXEC*
+					*EXEC*
 legge il path e cerca il file
 lo carica in memoria
 verifica se è un elf --> legge l'ELF Header --> legge il MAGIC NUMBER (e altro)
@@ -330,7 +392,7 @@ programma di usufruire dei diritti di accesso del programma quando lo usa
 	-rwSr-xr-x 1 root root 41284 Sep 12 2012 /usr/bin/passwd
 	passwd è di ROOT, ma quando lo eseguo DIVENTO io ROOT (finchè lo uso)
 			
-			*I DUE USER ID*
+				*I DUE USER ID*
 
 Ogni processo ha DUE UID:
 	* Real UID --> UID del vero padrone del processo --> quelli su passwd
@@ -339,11 +401,11 @@ Ogni processo ha DUE UID:
 Di norma sono uguali. Quando Set-UID viene eseguito l'EUID cambia a quello di 
 root (0) --> lo si può capire se nei permessi c'é una S (vedi sopra)
 			
-			*BASH*
+				*BASH*
 
 Scripting IN Console
 Molto potente
-
+
 -------------------------------------------------------------------------------
 	              _____ _____ ______ __  __ ____  _  __     __
 	       /\    / ____/ ____|  ____|  \/  |  _ \| | \ \   / /
@@ -499,7 +561,7 @@ i ritorni sono eax
 	mov rax,0
 	syscall
 
-								*SHELL CODE*
+					*SHELL CODE*
 
 Codice in linguaggio macchina --> utile per sfruttare le vulnerabilità usando 
 				  le INJECTION										     |
@@ -619,7 +681,7 @@ gestione dello STACK
 
 Lo stack contiene i function pointer --> si allocano sia le funzioni sia i 
 parametri passati ad esse <-- l'insieme di queste si dice STACK FRAME
-
+
 	---------
 	|   jj  | | --> bar
 	---------
@@ -704,8 +766,10 @@ GIA' PRONTO:
 	|			--> +4 al primo e +16 al secondo fa saltare da 
 	|			    c=function() a printf(...) senza passare 
 	|			    per x=10
-	|										|
-	|										v
+	|
+	|
+	|
+	v
 uso gdb con vari breakpoint per studiare l'evoluzione dello stack nei vari 
 stadi e capire quanto devo spostare considerando che la printf in assembly 
 occupa diverse linee di mov e una lea, mentre x=10 occupa una sola movl 
@@ -730,7 +794,8 @@ NUOVO PROGRAMMA cookie ma con prima buf e poi cookie (come originale)
 			                precedente (retHijack) con studio di 
 					stack
 			       buffer			^
-			       cookie			|										|
+			       cookie			|
+							|
 devo saltare l'if sbufferando fino a ra	<------	sbufferare non va 
 (con a ra l'indirizzo della print 
 nell'if IN LITTLE ENDIAN) vedi script 
@@ -786,7 +851,7 @@ LATO HARDWARE:		Non permettere l'esecuzione dallo Stack
 	'
 	'--> -z execstack rimuove l'implementazione SW
 	'--> su Windows implementato con DEP (Data Execution Prevention) su XP e server 2003 --> evita che il codice venga eseguito dallo stack e heap					'----> sia SW che HW
-
+
 -------------------------------------------------------------------------------
  		 __  __          _ __          __     _____  ______ 
  		|  \/  |   /\   | |\ \        / /\   |  __ \|  ____|
@@ -953,7 +1018,7 @@ CLASSIFICAZIONE
 		BOOT SECTOR --> zona dove c'è il kernel e che lo carica 
 			    '-> infetta OGNI volta che viene acceso/riavviato
 		ESEGUIBILI  --> si appiccica all'eseguibile 
-			'-> infetta al lancio
+			    '-> infetta al lancio
 		DOCUMENTI   --> "    "       a un file --> infetta all'apertura
 		SPARSO      --> mix di quelli sopra
 	DIPENDENTE DALLA MIMESI
@@ -971,11 +1036,13 @@ Sfrutto problemi esterni (exploit) per farlo eseguire/proliferare
 		|
 		v
 		può farlo attraverso svariati modi
-				'---> email									'---> login
+				|---> email
+				|---> login
 				'---> app di messaggistica
 
 In generale un Worm attacca una macchina (che ha un certo IP) e da qui si 
-propaga in diversi modi										'---> cerca sistemi collegati
+propaga in diversi modi	
+		|---> cerca sistemi collegati
 		'---> genera un IP a caso (o semi caso)
 
 La crescita è inizialmente lenta, poi veloce e di nuovo lento a ciclo
@@ -1001,7 +1068,7 @@ criptate fino al pagamento (o anche oltre)
 			      automatiche
 
 Ad esempio WANNACRY, che chiedeva 300$ in BTC per dare la chiave di cifratura
-			'
+			|
 			'----> fermato perché pingava un sito web e se questo 
 			       non rispondeva si attivava <-- KILL SWITCH
 
@@ -1122,7 +1189,8 @@ Antivirus
 | |		       "infezione nota"  (vedi sopra per dettagli)
 | |		2a --> congelava il SW sulla macchina e creare una signature 
 | |		       per CIASCUN programma --> INTEGRITY CHECKING
-| |					'					| |					'-> se il software cambiava essa 
+| |					'
+| |					'-> se il software cambiava essa 
 | |					    cambiava --> allarme di potenziale 
 | |					                 minaccia
 | |		3a --> esecuzione controllata del malware per analisi (vedi 
@@ -1131,12 +1199,12 @@ Antivirus
 | |		   '-> non sono SOLO passivi, ma anche ATTIVI <-- Detection in 
 | |		   						  semi real time
 | |
-| |								'
+| |								
 | |
 | |---> possono creare FALSI POSITIVI
 | | 
 | |--->Funzionano o a SIGNATURE BASED o a BEHAVIOUR BASED 
-| |	'--> in realtà in entrambi ormai perché gira tutt'ora il malware vecchio
+| |	|--> in realtà in entrambi ormai perché gira tutt'ora il malware vecchio
 | |	'-> stringa univoca   '-> a seconda delle syscall (tra le altre cose)
 | |
 | |				*LE SIGNATURE*
@@ -1146,7 +1214,7 @@ Antivirus
 | |     	   utenti
 | |      		'--> raccolti e analizzati in automatico
 | |---> Per ridurre la concorrenza esiste il CME -> Common Signature Enumeration
-| |			'---> di MITRE e finanziato dagli USA
+| |			|---> di MITRE e finanziato dagli USA
 | |			'---> mira a dare un identificatore unico e comune a 
 | |			      ogni malware
 | |
@@ -1176,7 +1244,7 @@ In particolare cerca di rubare dei file
 Prova ad usare ssh per connettersi con una bruteforce tra le password nel suo 
 dizionario
 Deve rubare dei file
-	'-->TUTTI quelli che contengono la parola "abracadara"
+	|-->TUTTI quelli che contengono la parola "abracadara"
 	'-->fa ls e grep per trovare i file
 Esfiltra il codice (sia sul PC per debug, sia sul server) usando SCP (copia 
 tramite ssh)
@@ -1198,7 +1266,7 @@ su un altro terminale
 	python3 AbraWorm.py
 
 	FARE RAMSON WARE con libreria crypto? --> TBD
-
+
 -------------------------------------------------------------------------------
 	  _   _ ______ _________          ______  _____  _  __
 	 | \ | |  ____|__   __\ \        / / __ \|  __ \| |/ /
@@ -1277,7 +1345,7 @@ SWITCHING
 	|	     '-> circuito mantenuto fino alla fine della trasmissione 
 	|			'--> percorso unico
 	|
-	'--> Packet --> dati divisi in pacchetti --> 1500B ciascuno in media
+	'--> Packet ,-> dati divisi in pacchetti --> 1500B ciascuno in media
 		    |-> pacchetti inviati sulla rete in maniera indipendente 
 		    |	'--> anche in maniera disordinata, vengono riordinati 
 		    |	     dal ricevente
@@ -1288,7 +1356,7 @@ SWITCHING
 PROTOCOLLI
 	|--> Connectionless --> mandano i dati appena ne ha abbastanza da 
 	|		        mandare --> UDP
-	|--> Connection-Oriented --> si occupa prima di mandare di creare una 
+	|--> Connection-Oriented ,-> si occupa prima di mandare di creare una 
 	|			 |   connessione stabile e affidabile 
 	|			 |    '--> simula una commutazione a circuito
 	|			 |-> dopo avere creato la connessione invia
@@ -1405,7 +1473,7 @@ controlla se il destinatario è sulla LAN 	|
 	|    MAC dst) e lo manda sulla LAN a tutti
 	|    |	|MACsrc|MACdst|IPsrc|IPdst| IP | data |	
 	|    '--> il destinatario lo riceve e lo legge
-	|--> se NON lo trova, prima di mandare al router, fa una ARP request a 
+	'--> se NON lo trova, prima di mandare al router, fa una ARP request a 
 	     TUTTI sulla rete --> "chi ha questo IP?"		|
 	     |MACsrc|BROADCAST|IPdest?|				|
 		|						|
@@ -1670,10 +1738,6 @@ Possiamo inserire un keylogger
 
 Vedi xss game appspot (tipo pwn/bandit)
 
-				*XSS STORED*
-
-...
-
 				*SQL*
 
     	http conn          tcp conn                   DB access
@@ -1747,6 +1811,7 @@ live) progressivamente più basso	|
 					    blocca
 Per vedere TUTTI i servizi aperti uso nmap
 	nmap -sT  ip_address --> SOLO SU LOCALE (è pericoloso)
+
 -------------------------------------------------------------------------------
  			 _    _  ____   _____ _______ 
  			| |  | |/ __ \ / ____|__   __|
@@ -1770,7 +1835,8 @@ Per vedere TUTTI i servizi aperti uso nmap
  		  |_____/   |_| |_____/   |_|  |______|_|  |_|
                                              
 -------------------------------------------------------------------------------
-Come si è evoluta la protezione dagli attacchi? --> spesso più che non rendere possibile l'attacco rende inutile il risultato
+Come si è evoluta la protezione dagli attacchi? --> spesso più che non rendere 
+possibile l'attacco rende inutile il risultato
 
 3 momenti di OGNI meccanismo di protezione
 --> Autentication --> chiedere chi è				  |
@@ -1781,9 +1847,11 @@ Come si è evoluta la protezione dagli attacchi? --> spesso più che non rendere
 				 '-> <18 via, >= 18 dentro, VIP in area VIP 
 				     in discoteca
 Enforcment mechanism
-	mettere in atto le politiche di sicurezza 				           --> muri, porte e infrastruttura della discoteca
+	mettere in atto le politiche di sicurezza--> muri, porte e 
+						     infrastruttura della 
+						     discoteca
 Accountability
-	tenere traccia di tutto ciò che viene fatto e che le regole siano 
+	tenere traccia di tutto ciò che viene fatto e che le regole siano
 	applicate --> videocamere in discoteca
 
 Subjects --> entità attive --> fanno le operazioni --> utenti
@@ -2031,7 +2099,8 @@ usa un sistema MOLTO complesso in runtime:
 		Per ora sui sistemi più comuni si usano SOLO 0 e 3
 	* ogni processo è diviso in segmenti che isolano i pezzi in soggetti e 
 	  oggetti --> usata per evitare che due processi si infastidiscano
-	* ogni segmento ha un descrittore che ne elenca le caratteristiche e una          etichetta (o 0 o 3 vedi sopra). I descrittori sono in una tabella che
+	* ogni segmento ha un descrittore che ne elenca le caratteristiche e una
+	  etichetta (o 0 o 3 vedi sopra). I descrittori sono in una tabella che
 	  li elenca tutti
 		+ il Descrittore ha un campo chiamato DPL Descriptor Priviledge
 		  Level --> specifica la etichetta --> dettato da SO
@@ -2105,6 +2174,7 @@ usa un sistema MOLTO complesso in runtime:
 	|			'--> solo ROOT e Kernel	     una eccezione dette
 	|						     General Protection
 	'--> un utente NON potrà mai modificarlo, tranne con notevoli sforzi
+
 -------------------------------------------------------------------------------
 			    _      ____   _____ 
 			   | |    / __ \ / ____|
@@ -2169,6 +2239,7 @@ policy diversa
 
 In generale PIU LOG si hanno più informazioni si possiedono MA PIU' SPAZIO è 
 occupato
+
 -------------------------------------------------------------------------------
 		   _____ _____  _____ _______ _______ ____  
 		  / ____|  __ \|_   _|__   __|__   __/ __ \ 
@@ -2232,12 +2303,12 @@ Due tipi principali:
 STREAM CYPHER --> Cesare
 	      '-> considero tutto il testo
 BLOCK CYPHER --> DES (Data Encryption Standard)
-	     '-> considero blocchi di testo
+	     |-> considero blocchi di testo
 	     '-> esistono diverse versioni 
 	         SIMMETRICHE
-	     		'-> Electronic Codebook ECB (divido in pezzi, cripto i 
-			    pezzi e riappiccico, per decriptare al contrario)
-			    PARALLELIZZABILE in avanti e indietro
+	     		|-> Electronic Codebook ECB (divido in pezzi, cripto i 
+			|   pezzi e riappiccico, per decriptare al contrario)
+			|   PARALLELIZZABILE in avanti e indietro
 			'-> Chipher Block Chaining CBC (XOR prima con blocco 
 			    NOTO e poi con gli output delle fasi precedenti alla
 			    attuale, poi riappiccico, per decrptare al 
