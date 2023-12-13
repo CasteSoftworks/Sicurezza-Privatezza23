@@ -2134,7 +2134,7 @@ Non un lavoro facile e veloce
 		+ POST MORTEM --> dopo un attacco si capisce cosa è successo
 		+ REAL TIME --> prima o durante l'attacco
 
-				*I LOG*
+				*COME SONO FATTI*
 
 Segnano tutto
 Scritti dalla accensione allo spegnimento
