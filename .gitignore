@@ -1,5 +1,8 @@
 #Ignore all files without extension
 *
+#Ignore PostScript files and PDFs
+*.ps
+*.pdf
 #Unignore all files with extensions and directories
 !*.*
 !*/
