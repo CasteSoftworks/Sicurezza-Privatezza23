@@ -320,7 +320,8 @@ loro PID a 1. Il processo padre con PID 1 fa periodicamente la wait();
 
 COMPLETE MEDIATION
 Ogni tanto un processo necessita di più diritti di accesso di quelli che 
-possiede --> Fa una scalata di privilegio, ma deve essere fatta in modo tale		     che non si creino problemi
+possiede --> Fa una scalata di privilegio, ma deve essere fatta in modo tale
+	     che non si creino problemi
 In UNIX si chiama Set-UID --> permette a utenti SENZA root che esegue un 
 programma di usufruire dei diritti di accesso del programma quando lo usa
 	ESEMPIO passwd
@@ -340,7 +341,8 @@ root (0) --> lo si può capire se nei permessi c'é una S (vedi sopra)
 			
 			*BASH*
 
-.....
+Scripting IN Console
+Molto potente
 
 -------------------------------------------------------------------------------
 	              _____ _____ ______ __  __ ____  _  __     __
