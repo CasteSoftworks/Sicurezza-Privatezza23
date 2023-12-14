@@ -162,11 +162,11 @@ Tutti coloro che sono presenti nel file /etc/passwd
 			  RISCRIVERLE
 			* la RISCRITTURA dei file Read Only
 
-		/etc/group conteiene groupname:password:GID:list_of_users
+		/etc/group contiene groupname:password:GID:list_of_users
 
 				*SOGGETTI*
 
-Processi distinti da PID -> generati da exec e fork -> oguno di loro ha un 
+Processi distinti da PID -> generati da exec e fork -> ognuno di loro ha un 
 UID/GID reale e un UID/GID effettivo
 effective UID è usato per gestire i processi
 
@@ -227,8 +227,8 @@ Ha opzioni principali
 	- i fa cercare la stringa indipendentemente dal case (hello, HELLO, 
 	  HellO, heLLo,heLlo,...)
 	- v stampa le linee
-	- n stampa il numro di riga
-Grep usa anche le espressioni regolari per fare le richerche
+	- n stampa il numero di riga
+Grep usa anche le espressioni regolari per fare le ricerche
 	[:::] dove ::: sono caratteri -> grep cercherà tutte li stringhe che 
 					 contengono quei caratteri
 					 '-> indica tutte tranne ciò che c'è 
@@ -324,7 +324,7 @@ lo carica in memoria
 verifica se è un elf --> legge l'ELF Header --> legge il MAGIC NUMBER (e altro)
 						e se è 7f 45 4c 46
 se non lo è
-	* se inizia con #! allor chiama l'interprete corretto
+	* se inizia con #! allora chiama l'interprete corretto
 	* se è simile a /proc/sys/fs/binfmt_misc allora il kernel chiama il 
 	  comando di interprete specifico
 se lo è:
@@ -354,7 +354,7 @@ IN C
 
 					*SYSTEM CALL*
 
-Durante l'esecuzione il programma esegue delle Syscall per fare entrare l'os in
+Durante l'esecuzione il programma esegue delle Syscall per fare entrare l'SO in
 modalità KERNEL e fargli eseguire ciò che è necessario.
 Per vedere quali system call sono usate in un comando basta usare 
 			strace comando -l
@@ -372,13 +372,13 @@ Un processo muore in due modi:
 			
 			*ALL PROCESSES MUST BE    R E A P E D*
 						
-Un processo dienta Zombie quando termina e deve essere rimosso dal padre con 
+Un processo diventa Zombie quando termina e deve essere rimosso dal padre con 
 wait();
 Quando viene rimosso si libera spazio per un altro processo
 Se il padre muore prima i processi vengono rimossi da un DAEMON che cambia il 
 loro PID a 1. Il processo padre con PID 1 fa periodicamente la wait();
 			
-			*PRIVILEDGE ESCALATION*
+			*PRIVILEGE ESCALATION*
 
 COMPLETE MEDIATION
 Ogni tanto un processo necessita di più diritti di accesso di quelli che 
@@ -390,7 +390,7 @@ programma di usufruire dei diritti di accesso del programma quando lo usa
 		
 	$ ls -l /usr/bin/passwd
 	-rwSr-xr-x 1 root root 41284 Sep 12 2012 /usr/bin/passwd
-	passwd è di ROOT, ma quando lo eseguo DIVENTO io ROOT (finchè lo uso)
+	passwd è di ROOT, ma quando lo eseguo DIVENTO io ROOT (finché lo uso)
 			
 				*I DUE USER ID*
 
@@ -399,7 +399,7 @@ Ogni processo ha DUE UID:
 	* Effective UID --> identifica i privilegi di un processo --> l'accesso
 	  si basa su di esso
 Di norma sono uguali. Quando Set-UID viene eseguito l'EUID cambia a quello di 
-root (0) --> lo si può capire se nei permessi c'é una S (vedi sopra)
+root (0) --> lo si può capire se nei permessi c'è una S (vedi sopra)
 			
 				*BASH*
 
@@ -420,20 +420,20 @@ Molto potente
 	commento ; o # --> noi #	
 	usiamo MASM
 	
-	dati salvabili in registri o variabili <---- in memoria
+	Dati salvabili in registri o variabili <---- in memoria
 			  ^
 			  |
 			speciali in chip
 			UNICI MANIPOLABILI
 					
 
-	byte B 			=      ~1/2B~   =	4b
+	Byte B 			=      ~1/2B~   =	4b
 	word			=	1B	=	8b
 	double word		=	2B	=	16b
 	quadruple word		=	4B	=	32b
 	double quadruple word	=	8B	=	64b
 
-	registri sia a 64b, che 32b, che 16b che 8b a seconda di quali bit
+	Registri sia a 64b, che 32b, che 16b che 8b a seconda di quali bit
 	voglio
 		ESEMPIO
 			rax = 64b
@@ -450,7 +450,7 @@ Molto potente
 			+ 100 -> 00110001 00110000 00110000
 				    1        0         0
 
-	I DATI HANNO BISONO DI RISERVAMENTO DI SPAZIO IN MEMOORIA
+	I DATI HANNO BISOGNO DI RISERVAMENTO DI SPAZIO IN MEMORIA
 		ESEMPIO
 			buffer:		resb	64 #byte
 			wordvar:	resw	1  #word
@@ -465,7 +465,7 @@ Molto potente
 		3 "        "   "   da memoria
 			a Modalità Diretta
 			b "        Indiretta
-				* Registrer addressing -> muove i dati da e in 
+				* Register addressing -> muove i dati da e in 
 				  i registri --> mov rdx,rcx
 					+ a registro
 						mov rdx,rcx
@@ -504,16 +504,16 @@ ESEMPIO:
 	LOOP	add	rax,3
 		jmp	LOOP
 
-somma di 20 elementi di array
+Somma di 20 elementi di array
 		xor	rax   #contatore
 		xor	rbx   #somma
-		lea	rcx,a #inzirizzo array
+		lea	rcx,a #indirizzo array
 	sumloop:
 		mov
 		add
 		....
 	
-LEA Load Effective Address -> carica in 1 l'ndirizzo della variabile 
+LEA Load Effective Address -> carica in 1 l'indirizzo della variabile 
 	lea	rcx,buffer |	   carico in rax il contenuto di buffer 
 			   |------>INDIRETTAMENTE
 	mov	rax,[rcx]  |
@@ -547,14 +547,14 @@ SYSCALL
 usabili salvando sul registro rax il numero della syscall, negli altri registri
 inserisco gli argomenti e poi chiamo syscall
 i ritorni sono eax
-	* sys_read 	0	rdi=file_descriptor(0 stIn)	
+	* sys_read 	0	rdi=file_descriptor(0 stdIn)	
 				rsi=caratteri letti	
 				rdx=numero caratteri da leggere
 	* sys_write	1	rdi=file_descriptor(1 schermo)	
 				rsi=caratteri stampare	
 				rdx=numero caratteri da stampare
 
-	leggere 100B da stdin a SP
+	Leggere 100B da stdIn a SP
 	mov rdi,0
 	mov rsi,rsp #in rsi valore dello SP --> se ho buffer uso lea rsi,buffer
 	mov rdx,100
@@ -574,9 +574,9 @@ Funziona perché nelle architetture di V.N. la memoria contiene SIA istruzioni
 SIA dati --> si possono aggiungere cose in mezzo
 
 	PROGRAMMA DA COPIARE myFirstInjection.c
-			--> può fare segmentation fault (causa sezione dell'IF)
+			--> può fare segmentation fault (causa sezione del IF)
 			    uso gdb -q nome
-			    la runno finchè non segmenta
+			    la runno finché non segmenta
 			    faccio la info proc map
 			    x/s $rip --> 0x7fffffffdb20:	"ciao"  		CONTENUTO della stringa COLPEVOLE
 			    x/i $rip --> 0x7fffffffdb20:     movsxd 0x61(%rcx),
@@ -608,7 +608,7 @@ SIA dati --> si possono aggiungere cose in mezzo
 
 	cat RawFile - | ./carrier
 
-	ESERCIZIOOOOOOO
+	ESERCIZIO
 		fare una iniezione per aprire il file Flag in root usando 
 		myFirstInjection --> done and dusted
 
@@ -642,7 +642,7 @@ ad una routine casuale
 
 LIFO -> Last In First Out
 Usato O dal programmatore O dal compilatore
-rispetta naturamente le chiamate di un programma
+rispetta naturalmente le chiamate di un programma
 		|esempio: arrivo, in ordine, da main a callC
 		'----->	main -> callA -> callB -> callC
 			main -> callA -> callB          - callC eseguita
@@ -707,9 +707,9 @@ ala funzione attuale)
 	RET 		      --> pop rip
 
 
-				*PASSARE I PRAMETRI*
+				*PASSARE I PARAMETRI*
 
-Fino a 6 argometi sui registri
+Fino a 6 argomenti sui registri
 Gli altri sullo stack  --> di norma lo fa il compilatore
 
 
@@ -723,17 +723,17 @@ dette PROLOGO
 							    spazio per var
 							    locali)
 
-Prima del return il compilatore aggiunge tre istruzino dette EPILOGO
+Prima del return il compilatore aggiunge tre istruzioni dette EPILOGO
 				movl	rsp,rbp
 				pop	rbp
 				ret
 
 	A COSA SERVE IL PROLOGO?
 		serve a fare in modo che RSP possa cambiare senza modificare RBP
-		inizale prima che questo venga modificato dalla sotto-routine
+		iniziale prima che questo venga modificato dalla sotto-routine
 	A COSA SERVE L'EPILOGO?
-		serve a annullare il prologo riportando lo stack alla situzaione
-		precedente alla chiamata
+		serve a annullare il prologo riportando lo stack alla 
+		situazione precedente alla chiamata
 	
 	USARE COOKIE.C per vincere --> 
 			scambiare cookie e buf[80] (cookie in alto)
@@ -779,7 +779,7 @@ occupa diverse linee di mov e una lea, mentre x=10 occupa una sola movl
 COMANDI UTILI
 	COMPILAZIONE
 		gcc -fno-stack-protection -z execstack fileSorg -o eseguibile
-	DIABILITARE ASLR
+	DISABILITARE ASLR
 		echo 0 > /proc/sys/kernel/randomize_va_space
 		sudo sysctl -k kernel.randomize_va_space=0
 	ENABLE CORE DUMP
@@ -833,7 +833,7 @@ LATO COMPILATORE:	Implementare una Stack Guard --> disabilitata da
 			|				 -fno-stack-protector 
 			|	inventato da Chris Eagle <--'
 			'------> è un blocco nello stack di dimensione variabile
-			         e segreta --> --> serve a obbilgare alla 
+			         e segreta --> --> serve a obbligare alla 
 				 |		   modifica quel pezzo
 	 canary in inglese <-----'		    |		|
 	 |	'-> il canarino delle miniere  	    |		|
@@ -847,10 +847,15 @@ LATO COMPILATORE:	Implementare una Stack Guard --> disabilitata da
 
 LATO HARDWARE:		Non permettere l'esecuzione dallo Stack
 (ma anche SW)			|	'
-	'			'--> si contavviene legermente il principio di Von Neumann e si decide che lo stack NON può contenre codice
-	'
-	'--> -z execstack rimuove l'implementazione SW
-	'--> su Windows implementato con DEP (Data Execution Prevention) su XP e server 2003 --> evita che il codice venga eseguito dallo stack e heap					'----> sia SW che HW
+	|			'--> si contravviene leggermente il principio 
+	|			     di Von Neumann e si decide che lo stack 
+	|			     NON può contenere codice
+	|
+	|--> -z execstack rimuove l'implementazione SW
+	|--> su Windows implementato con DEP (Data Execution Prevention) su XP 
+	|    e server 2003 --> evita che il codice venga eseguito dallo stack 
+	|    e heap
+	'----> sia SW che HW
 
 -------------------------------------------------------------------------------
  		 __  __          _ __          __     _____  ______ 
@@ -868,7 +873,7 @@ NIST 800-83 --> un programma diffuso su un sistema, di norma di nascosto, con
 
 Diversi tipi --> Worm, Trojan, Backdoor, Keylogger, Logic Bomb, ...
 
-				*COMPOSIZIONDE DI UN MALWARE*
+				*COMPOSIZIONE DI UN MALWARE*
 
 		--------------------------
 		| Propagazione | Payload | --> COSA FA
@@ -897,7 +902,7 @@ Possono essere divisi in diversi modi
 
 Infezione di altro software
 Sfruttamento di un exploit
-Social Engeneering per rimuovere feature di sicurezza
+Social Engineering per rimuovere feature di sicurezza
 
 					*AZIONI DEL PAYLOAD*
 
@@ -909,8 +914,8 @@ Distruggere la macchina
 					*KIT DI ATTACCO*
 
 All'inizio dovevano essere precisissimi e specifici
-Poi sono nati dei META-MALWARE --> enerano il codice malevolo a partire da poche
-		|		   informazioni 
+Poi sono nati dei META-MALWARE --> generano il codice malevolo a partire da 
+		|		   poche informazioni 
 		|
 		|----> Zeus e Angler
 		'----> Comprabili da soggetti poco raccomandabili
@@ -927,7 +932,7 @@ Poi sono nati dei META-MALWARE --> enerano il codice malevolo a partire da poche
 
 Grossi movimenti di soldi, molto difficile ormai
 
-					*ADVANCED PERSISTEN THREAT*
+					*ADVANCED PERSISTENT THREAT*
 
 Avanzato e persistente, come da nome
 |--------------> usato dall'intelligence     |
@@ -941,12 +946,13 @@ Tecniche specifiche di attacco e di mimesi
 					
 					*VIRUS*
 
-Programmi che INFETTANO un altro programma --> appiccicandosi al programma ospite (intero alla fine/inizio o a pezzi in giro)
+Programmi che INFETTANO un altro programma --> appiccicandosi al programma 
+ospite (intero alla fine/inizio o a pezzi in giro)
 		|
 		'-----> sposta l'entry point al pezzo di virus e poi all'inizio dell'ospite --> file ELF
 		'-----> può fare tutto ciò che può fare l'ospite --> se root 
 					|			     sono guai
-					'---> può provare a fare Priviledge 
+					'---> può provare a fare Privilege 
 					      Escalation
 
 				--------
@@ -960,7 +966,7 @@ QUANDO SI ATTIVANO		--> trigger
 COSA FANNO			--> payload
 
 FASI
-		IDLE/DORMIENTE --> non fa nulla finchè non c'è un trigger 
+		IDLE/DORMIENTE --> non fa nulla finché non c'è un trigger 
 			       --> non sempre presente
 		ATTIVAZIONE    --> il trigger avviene
 			PROPAGAZIONE --> si riproduce
@@ -979,16 +985,16 @@ MACRO VIRUS
 	  '---> si attivava se il minuto era = all'ora
 
 Una volta venivano identificati dalla SIGNATURE --> stringa UNIVOCA nel codice, quando trovata veniva aggiunta alla lista
-					'-->ORA NON PIU' --> sono stati sviluppa
+					'-->ORA NON PIÙ --> sono stati sviluppa
 							     ti VIRUS CIFRATI
 									|
 									|
 									v
 					prima c'è il virus criptato POI la 
-					routine di decriptazione e encriptazione
+					routine di decriptazione e criptazione
 									|
 									v
-					sgamabile attarverso la routine che
+					sgamabile attraverso la routine che
 					diventa la signature
 							|
 							v
@@ -1014,7 +1020,7 @@ Una volta venivano identificati dalla SIGNATURE --> stringa UNIVOCA nel codice, 
 					                '-> ANALISI DINAMICA
 
 CLASSIFICAZIONE
-	DIPENDENTE DAL BERASGLIO
+	DIPENDENTE DAL BERSAGLIO
 		BOOT SECTOR --> zona dove c'è il kernel e che lo carica 
 			    '-> infetta OGNI volta che viene acceso/riavviato
 		ESEGUIBILI  --> si appiccica all'eseguibile 
@@ -1060,7 +1066,7 @@ La crescita è inizialmente lenta, poi veloce e di nuovo lento a ciclo
 
 Il primo Worm è INTERNET WORM, altri sono MELISSA, CODE RED, STUXNET
 
-				*RAMSONWARE*
+				*RANSONWARE*
 
 Criminalità organizzata, chiede un ricatto per riavere i dati, che vengono 
 criptate fino al pagamento (o anche oltre)
@@ -1082,7 +1088,8 @@ Usavano Bluetooth e MMS, ORA usano i Marketplace (specialmente su Android)
 
 				*DRIVE-BY-DOWNLOADS*
 
-Viene inividuata una vulnerabilità su un Browser, si fa scaricare (al momento della connessione ad un server) un documento che si autoesegue e sfrutta
+Viene individuata una vulnerabilità su un Browser, si fa scaricare (al momento 
+della connessione ad un server) un documento che si auto-esegue e sfrutta
 la vulnerabilità del browser per replicarsi 
 
 				*CLICK-JACKING*
@@ -1090,12 +1097,12 @@ la vulnerabilità del browser per replicarsi
 Banner che spingono al click per infettare ("HAI VINTO UN IPHONE", "ALLARGA IL 
 PENE", ...) e fare cose (dall'innocuo cancellarti le mail a cose più serie)
 
-				*SOCIAL ENGENEERING*
+				*SOCIAL ENGINEERING*
 
-Fregare l'untente convincendolo ad aiutare inconsapevolmente la sua infezione 
+Fregare l'utente convincendolo ad aiutare inconsapevolmente la sua infezione 
 	'--> tipo gli scammer
 								
-				*COSA PUO' FARE IL PAYLOAD*
+				*COSA PUÒ FARE IL PAYLOAD*
 
 DISTRUZIONE DEL SISTEMA
 	Stuxnet --> rompeva le centrifughe
@@ -1157,7 +1164,7 @@ ROOTKIT
 		AD ATTIVAZIONE --> si attivano al lancio del programma ospite 
 				   e allo spegnimento si annulla
 		USER MODE --> meno pericoloso
-		KERNEL MODEc --> più pericoloso
+		KERNEL MODE --> più pericoloso
 		VM BASED --> sostituiscono il sistema con una esatta copia in 
 		             VM --> "letale"
 	Ad esempio cambiano le syscall
@@ -1170,7 +1177,7 @@ Idealmente la difesa da una QUALUNQUE minaccia è divisa in tre fasi
 	IDENTIFICAZIONE
 	RIMOZIONE
 
-In IT Security la difesa si dvide in
+In IT Security la difesa si divide in
 	POLICY --> linee guida per l'uso (solo gli amministratori possono 
 		   fare X, ...)
 	AWARENESS --> rendere consapevoli gli utenti (attenzione a leggere 
@@ -1222,11 +1229,11 @@ Antivirus
 |	forniscono usando diversi antivirus ONLINE e pseudo-gratuitamente
 v
 ORA SONO CHIAMATI EDR --> Endpoint Detection & Recovery			|
-	'-> Analizzzando in automatico con Machine Learning, AI e 	|
+	'-> Analizzando in automatico con Machine Learning, AI e 	|
 	    Threat Intelligence						|-,
 			'-> analisi 					| |
 									  |
-		detti Next Generation Antiviruses <-----------------------'
+		detti Next Generation Antivirus <-------------------------'
 
 					*ABRA WORM*
 
@@ -1244,7 +1251,7 @@ In particolare cerca di rubare dei file
 Prova ad usare ssh per connettersi con una bruteforce tra le password nel suo 
 dizionario
 Deve rubare dei file
-	|-->TUTTI quelli che contengono la parola "abracadara"
+	|-->TUTTI quelli che contengono la parola "abracadabra"
 	'-->fa ls e grep per trovare i file
 Esfiltra il codice (sia sul PC per debug, sia sul server) usando SCP (copia 
 tramite ssh)
@@ -1265,7 +1272,7 @@ su un altro terminale
 	cd worm
 	python3 AbraWorm.py
 
-	FARE RAMSON WARE con libreria crypto? --> TBD
+	FARE RANSONWARE con libreria crypto? --> TBD
 
 -------------------------------------------------------------------------------
 	  _   _ ______ _________          ______  _____  _  __
@@ -1283,7 +1290,7 @@ su un altro terminale
 	 |_____/|______\_____|\____/|_|  \_\_____|  |_|     |_|   
                                                           
 -------------------------------------------------------------------------------
-Nuove tecnice diverse da quelle "in locale" viste precedentemente
+Nuove tecniche diverse da quelle "in locale" viste precedentemente
 	L'ambientazione è la stessa
 		|
 		v
@@ -1295,7 +1302,7 @@ Nuove tecnice diverse da quelle "in locale" viste precedentemente
 ENDPOINT --> oggetto che riceve/host	
 PLUMBING --> link
 Router/Switch --> fanno passare le info reindirizzandole tra link
-Una rete è in insieme di calcolatri interconnessi per facilitare lo scambio di 
+Una rete è in insieme di calcolatori interconnessi per facilitare lo scambio di 
 informazioni	
 Gli host comunicano attraverso messaggi, codificati come segnali elettrici 
 attraverso passaggi fisici (cavi, onde)
@@ -1326,7 +1333,7 @@ Ogni computer sulla rete è identificato da DUE componenti
 		|---> MAC --> univoco AL MONDO e legato alla scheda di rete
 		|      |--> 48b (6 ottetti) --> i primi 3 sono forniti da un 
 		|      |                        ente di certificazione 
-		|      |			(dipendenti dal	manufactorer)
+		|      |			(dipendenti dal	manufacturer)
 		|      |--> modificabile ma non fatto di norma
 		|      '--> visibile con ifconfig
 		|
@@ -1340,7 +1347,7 @@ Ogni computer sulla rete è identificato da DUE componenti
 			      statico
 
 SWITCHING
-	|--> Circuit --> come il vecchio sistema telefononico
+	|--> Circuit --> come il vecchio sistema telefonico
 	|	     '-> unico circuito con scambi fisici su dispositivi
 	|	     '-> circuito mantenuto fino alla fine della trasmissione 
 	|			'--> percorso unico
@@ -1398,7 +1405,7 @@ Modifica/falsificazione di dati passati e Denial Of Service (DOS)
 				*SPOOFING*
 
 Interpretazione 
-Modifica dell'indirizo sorgente di un pacchetto per assumere l'identità di 
+Modifica dell'indirizzo sorgente di un pacchetto per assumere l'identità di 
 diverse cose come:
 	* un server
 	* un router
@@ -1407,7 +1414,7 @@ diverse cose come:
 	* un servizio web
 		+ un sito
 		+ un servizio mail
-	* un servizo gps
+	* un servizio gps
 
 I sistemi ORIGINARIAMENTE non fornivano un servizio di autenticazione (anche ora
 è raro)
@@ -1417,11 +1424,11 @@ IPv4 lo permette
 				*PACKET SNIFFING*
 
 Intercettare il traffico di rete 
-	facile su doppino, ethernet e onda radio
+	facile su doppino, Ethernet e onda radio
 	più complesso su fibra
 
 Su LAN su hub è semplice --> si può rendere la nostra scheda di rete PROMISCUA 
-	intercetta TUTTI i pacchetti, anzichè solo quelli per lei <--'
+	intercetta TUTTI i pacchetti, anziché solo quelli per lei <--'
 Su LAN con switch è più complesso
 Su LAN a onde radio (WiFi) basta una antenna di ricezione e una scheda PROMISCUA
 Ancora più facile con satelliti
@@ -1487,7 +1494,7 @@ controlla se il destinatario è sulla LAN 	|
 					*MITM: MAN IN THE MIDDLE*
 
 L'attaccante si mette in mezzo tra due host e intercetta le informazioni 
-scambiate da essi, arrivando anche a modificre le stesse
+scambiate da essi, arrivando anche a modificare le stesse
 Sfrutta varie cose --> ARP CACHE poisoning <-- vediamo questo
 		   '-> DNS spoofing
 		   '-> SSL hijacking
@@ -1521,7 +1528,7 @@ E' HALF perchè intercettiamo solo ciò che esce da A verso B, non anche da B ad
 							
 				*FULL MITM*
 
-Intecetta sia da A a B sia da B a A
+Intercetta sia da A a B sia da B a A
 Manda il doppio dei pacchetti ARP
 Ettercap ad esempio è un tool che lo fa
 
@@ -1557,8 +1564,8 @@ una Caserma
 
 Vedi sotto come funziona il TCP (SYN e ACK)
 Facciamo in modo che l'utente chieda A NOI il SYN, che lo chiediamo al server, 
-che riponde a noi, che rispondiamo all'utente che risponde a noi che rispondiamo
-al server --> ci mettiamo in mezzo come tramite
+che risponde a noi, che rispondiamo all'utente che risponde a noi che 
+rispondiamo al server --> ci mettiamo in mezzo come tramite
 	Devo sapere il valore di X e di Y
 				'-> complesso perché è generato dal server e 
 				    client
@@ -1581,7 +1588,8 @@ Comando rsh (Remote Shell)
 			'   controllava che fosse segnato qui l'hostname
 			'-> se non c'era in /etc/hosts.equiv si cercava su 
 			    .rhosts
-Shimomura (da ora in poi S) aveva creato una connessione accreditata (su hosts.equiv) tra il suo computer e quello della NSA (d'ora in poi A)
+Shimomura (da ora in poi S) aveva creato una connessione accreditata (su 
+hosts.equiv) tra il suo computer e quello della NSA (d'ora in poi A)
 		  accreditata
 	       S ------------> A
 
@@ -1617,7 +1625,7 @@ ORA molto difficile fare il punto 3 perché hanno migliorato gli algoritmi
 					*DOS E DDOS*
 
 Denial Of Service e Distributed Denial Of Service --> vanno a minare la 
-DISPONIBILITA' di un servizio --> non si riesce a difendere
+DISPONIBILITÀ di un servizio --> non si riesce a difendere
 	|			  |
 	|		  	  |
 	|			  '---> stessa cosa ma più macchine fanno 
@@ -1625,8 +1633,8 @@ DISPONIBILITA' di un servizio --> non si riesce a difendere
 	|				di traffico 2.3 Tb/s (2020)
 	|					^
 	|					'
-	|--> blocca un utente legittimato a farlo dall'usare un servizio/sistem
-	|    a sulla rete
+	|--> blocca un utente legittimato a farlo dall'usare un servizio/sistema
+	|    sulla rete
 	'--> mira a far esaurire una risorsa su un sistema --> tempo di CPU, 
 	     memoria, BANDA, la macchina in se (Brain distruggeva la GPU)
 
@@ -1637,7 +1645,7 @@ DISPONIBILITA' di un servizio --> non si riesce a difendere
 
 	In locale si può riempire il FS, creare processi (su), uccidere 
 	processi, ...
-	Sulla rete si possoo mandare pacchetti malformati, una marea di 
+	Sulla rete si possono mandare pacchetti malformati, una marea di 
 	pacchetti, smurf
 
 	Usato per sabotaggio
@@ -1652,7 +1660,7 @@ Comodo fare così:
 	lo manda
 	Tutti gli host della rete ricevono un PING dalla vittima e le rispondono
 
-	la VITTIMA riceve un numero altissimo di ping bloccandola
+	La VITTIMA riceve un numero altissimo di ping bloccandola
 	
 	SOLVED --> i router bloccano i pacchetti in broadcast
 
@@ -1691,7 +1699,7 @@ Permette di vedere la sorgente e di ispezionare la pagina nella sua completezza
 
 				*LA CONSOLE DEL BROWSER*
 
-Ci si interagisce con javascript
+Ci si interagisce con Javascript
 	Si possono lanciare funzioni interne al documento o usare comandi 
 	generici
 
@@ -1723,10 +1731,10 @@ pagina web
 		tipo il login "buongiorno GIACOMO"
 Serve un linguaggio di BackEnd --> PHP
 
-				*VULNERABILITA'*
+				*VULNERABILITÀ*
 
 Possono esistere metodi di input NON controllati, vulnerabili alla Injection 
- '--> javascript ad esempio --> xss payload
+ '--> Javascript ad esempio --> xss payload
 Ci si può difendere facendo filtraggio dell'input --> ci sono librerie, non 
 fare a mano
 
@@ -1761,7 +1769,7 @@ Esempi di injection
 	+ SELECT * FROM Products WHERE id=15; DROP TABLE Suppliers
 	  cerca tra tutti gli id di Products quello che ha 15 E cancella la 
 	  tabella Suppliers --> dopo E c'è la parte malevola aggiunta da 
-	  qualcun'altro
+	  qualcun altro
 
 Un altro esempio su ricerca da nome <-- injection più ez
 	' OR 1=1 -- --> fa chiudere il nome a '', mette una cosa sempre vera (il
@@ -1787,12 +1795,12 @@ FROM ps_stat_user_tables) e --
 versione modificata
 	...,pg_ls_dir('/bin'),...
 
-E' possibile legegre file con pg_read_file
+E' possibile leggere file con pg_read_file
 
 Payload SQL Injection
 SQLmap automatizza
 
-Esistono, come per html, dei metdodi di protezione (tipo HTMLSpecial...) e c'è 
+Esistono, come per html, dei metodi di protezione (tipo HTMLSpecial...) e c'è 
 anche il Logging (almeno tengo d'occhio passivamente tipo videocamere)
 
 				*ATTACCHI ONLINE*
@@ -1839,14 +1847,14 @@ Come si è evoluta la protezione dagli attacchi? --> spesso più che non rendere
 possibile l'attacco rende inutile il risultato
 
 3 momenti di OGNI meccanismo di protezione
---> Autentication --> chiedere chi è				  |
+--> Authentication --> chiedere chi è				  |
 --> Authorization --> dare l'autorizzazione a passare		  |--, 
 --> Auditing 	  --> decidere se le autorizzazioni sono legittime|  |
 								     |
 				 Access Control ---------------------'
 				 '-> <18 via, >= 18 dentro, VIP in area VIP 
 				     in discoteca
-Enforcment mechanism
+Enforcement mechanism
 	mettere in atto le politiche di sicurezza--> muri, porte e 
 						     infrastruttura della 
 						     discoteca
@@ -1856,8 +1864,8 @@ Accountability
 
 Subjects --> entità attive --> fanno le operazioni --> utenti
 		Principals --> per alcuni uguali ai Subjects, per altri 
-		               separati e conicidono con i processi
-Objects  --> entità passive --> subisocono le azioni dei Subjects --> memorie
+		               separati e coincidono con i processi
+Objects  --> entità passive --> subiscono le azioni dei Subjects --> memorie
 
 Rights   --> regole di accesso --> chi può fare cosa (si applicano ai Subjects 
 				   quando si interfacciano con gli Objects)
@@ -1878,12 +1886,12 @@ di un meccanismo diverso --> trovato negli anni 60-70
 		v
 	è in due fasi
 	1) autocertificazione dell'utente -------------------,
-	2) controllo della affermzione da parte dell'utente  |
+	2) controllo della affermazione da parte dell'utente  |
 							     v
-		1 è diviso in diverse tipologie a seconda delle organizzaioni 
+		1 è diviso in diverse tipologie a seconda delle organizzazioni 
 		(Nome e Cognome, stringa alfanumerica, mail, ...) --> USERNAME
 
-		per eseguire la parte 2 sono state studiate negli anni 3 
+		Per eseguire la parte 2 sono state studiate negli anni 3 
 		strategie
 
 		* WHAT YOU KNOW? il calcolatore ha condiviso un segreto 
@@ -1891,7 +1899,7 @@ di un meccanismo diverso --> trovato negli anni 60-70
 		al computer. Se lo sa allora può accedere
 		* WHAT YOU HAVE? il calcolatore sa che l'utente ha un oggetto 
 		UNIVOCO e lo conosce. Ad ogni autorizzazione l'utente lo deve 
-		ricondivide
+		ricondividere
 		* WHAT YOU ARE?  il calcolatore conosce una caratteristica 
 		FISICA dell'utente, ad esempio una impronta digitale
 
@@ -1914,10 +1922,10 @@ crittografata (in vari modi) e salvata come codice su un file
 	file criptato				computer
 
 Il file che contiene le PW (in Linux etc/shadow) è accessibile solo da utenti 
-con privilegi d sistema, che comunque, grazie alla crittazione NON possono
+con privilegi d sistema, che comunque, grazie alla criptazione NON possono
 leggere le password --> al massimo può resettarla
 			
-			*WHAT YOU KNOW - VULNERABILITA'*
+			*WHAT YOU KNOW - VULNERABILITÀ*
 
 ATTACCHI LOW TECH
 * Uso di password FACILI:
@@ -1932,8 +1940,8 @@ ATTACCHI LOW TECH
 			suggerimento ("la password è troppo debole",...) possono
 			arginare MA NON EVITARE
 
-* Social Engeneering --> consocere la persona per prevedere la password 
-                         '--> appasionato di cavalli che usa il nome della 
+* Social Engineering --> conoscere la persona per prevedere la password 
+                         '--> appassionato di cavalli che usa il nome della 
 			      bestia come password
 
 * Shoulder Surfing --> spiare l'utente per rubare la password
@@ -1953,7 +1961,7 @@ ATTACCHI HIGH TECH
 		         anni per 8 caratteri, ...)
 		     			'
 					'-> di norma si restringe il campo su 
-					parle ben definite (le x password più 
+					parole ben definite (le x password più 
 					comuni, ...) che sono contenute in un 
 					dizionario reperibile su Internet 
 						  |
@@ -1966,7 +1974,7 @@ ATTACCHI HIGH TECH
 			  siano sicure
 
 * Rainbow Attack --> salta la parte di conversione da chiaro a criptato e usa 
-                     direttamente le parole hashate
+                     direttamente le parole hash-ate
 			
 			PER PROTEGGERSI DAL RAINBOW SI USA IL *SALT*
 
@@ -1995,9 +2003,9 @@ Tratti più usati:
 * Può essere INTRUSIVA (lettura della retina avviene con un laser diretto 
   nell'occhio)
 * Può essere COSTOSO (analizzatore del DNA)
-* Single Point of Faliure (se ho un taglio sul dito non posso usare il lettore)
+* Single Point of Failure (se ho un taglio sul dito non posso usare il lettore)
 * Può fare errori di lettura (sensore sporco)
-* Lettura lenta (deve legegre e analizzare)
+* Lettura lenta (deve leggere e analizzare)
 * Può essere contraffatta (mano mozzata, falso dito, maschera)
 * Dati critici (sono MOLTO difficili da sostituire)
 * Può dare falsi positivi o negativi (un errore in lettura può dare l'accesso a
@@ -2033,14 +2041,14 @@ Usa un oggetto o attivo o passivo:
 Bancomat Skimming --> si rubano i dati attraverso un falso bancomat
 Chiamata che punta a registrare e campionare la voce
 
-			*MULTIFACTOR AUTENTICATION*
+			*MULTI-FACTOR AUTHENTICATION*
 
 WHAT YOU KNOW + di solito WHAT YOU HAVE (per esempio le banche usano WHAT 
 YOU ARE)
 
 			*SINGLE SIGN ON*
 
-Servizio che eprmette di usre un'unica password per più servizi 
+Servizio che permette di usare un'unica password per più servizi 
 '--> GOOGLE (Gmail, Drive, YouTube...)
 
 			*FEDERATED IDENTITY MANAGEMENT*
@@ -2051,26 +2059,23 @@ Ad esempio EDUROAM
 
 			*OPEN ID*
 
-Permette che un ente sfrutti il servizio di autenticazione di qualcun'altro
+Permette che un ente sfrutti il servizio di autenticazione di qualcun altro
 Ad esempio Canva con Google
 
-			titolo host protection system
-
-			*ACCES CONTROL*
+			*ACCESS CONTROL*
 
 IN BREVE: * sistemi che prevedono il bloccare l'uso di una risorsa non
             autorizzata o l'uso non autorizzato di una risorsa
           * serve una SECURITY POLICY
 	  * è il cuore di un sistema di sicurezza
 	  * implementato in diversi luoghi --> kernel, OS, applicazione
-	  * Acces Control Matrix è lo strumento che garantisce cosa OGNI utente
+	  * Access Control Matrix è lo strumento che garantisce cosa OGNI utente
 	    può fare --> vedi prima parte per la tabella
 
 Diversi tipi:
-	* Discretional Acces Control - DAC
-	* Role Based Acces Control - RBAC
-	* ...
-	* Mandatory Acces Control - MAC
+	* Discretional Access Control - DAC
+	* Role Based Access Control - RBAC
+	* Mandatory Access Control - MAC
 
 				*MAC ACCESS CONTROL*
 
@@ -2102,9 +2107,9 @@ usa un sistema MOLTO complesso in runtime:
 	* ogni segmento ha un descrittore che ne elenca le caratteristiche e una
 	  etichetta (o 0 o 3 vedi sopra). I descrittori sono in una tabella che
 	  li elenca tutti
-		+ il Descrittore ha un campo chiamato DPL Descriptor Priviledge
+		+ il Descrittore ha un campo chiamato DPL Descriptor Privilege
 		  Level --> specifica la etichetta --> dettato da SO
-		+ esiste anche un CPL Current Priviledge Level che indica il
+		+ esiste anche un CPL Current Privilege Level che indica il
 		  PL del processo in esecuzione --> salvato su un registro 
 		  				    quindi in HW
 		+ quando si cambia un processo il CPL diventa il DPL del nuovo 
@@ -2125,7 +2130,7 @@ usa un sistema MOLTO complesso in runtime:
 	privilegiato di accedere a dei dati privilegiati
 	|    B (lvl 3) --> "dimmi D" --> A(lvl 0) --> "cosa sei?" --> D (lvl 0)
 	v
-	PER EVITARE si usa RPL Request Priviledge Level che si segna il livello
+	PER EVITARE si usa RPL Request Privilege Level che si segna il livello
 	della richiesta iniziale
 		Prima di fare la richiesta si confrontano RPL e CPL (nel nostro
 		caso 3 e 0), si prende il maggiore e poi si esegue la richiesta
@@ -2150,7 +2155,7 @@ usa un sistema MOLTO complesso in runtime:
 			+ il codice a privilegi bassi può essere con errori
 			+ non ha senso togliersi privilegi
 		  
-	Come posso usare delle cose che solo il Kenel può fare?
+	Come posso usare delle cose che solo il Kernel può fare?
 	'--> uso le CONTROLLED INVOCATIONS --> le syscall
 	     Permettono di saltare a zone a privilegio diverso attraverso delle
 	     "strade" ben definite --> una specie di visita organizzata
@@ -2158,13 +2163,13 @@ usa un sistema MOLTO complesso in runtime:
 	     * Call Gate --> syscall
 	     * Software Interrupt
 	     * SYSENTER/SYSEXIT
-	Il processo viene interroto, si salva il contesto del processo e si 
+	Il processo viene interrotto, si salva il contesto del processo e si 
 	esegue un JUMP ad un indirizzo preventivamente salvato su una tabella
 	che salva le zone "permesse" del Kernel --> che è in esecuzione senza
 	|	'-> Interrupt Descriptor Table	    il rischio di venire
 	|	    IDT				    disturbato dal software
 	|					    utente, che è fermo
-	'-> Un attacco può modicare la tabella IDT per fare ciò che vuole
+	'-> Un attacco può modificare la tabella IDT per fare ciò che vuole
 	    Per esempio può modificare da lì il comportamento della scheda di 
 	    rete per mandare sia al destinatario originale sia all'hacker il 
 	    traffico
@@ -2186,7 +2191,7 @@ usa un sistema MOLTO complesso in runtime:
 -------------------------------------------------------------------------------
 				*IT AUDIT*
 
-Esaminzaione e valutazione delle prestazioni di un sistema
+Esaminazione e valutazione delle prestazioni di un sistema
 
 				*IT SECURITY AUDIT*
 
@@ -2226,18 +2231,18 @@ dati
 
 Data la MOLE esistono delle PIATTAFORME DI CENTRALIZZAZIONE che ricevono log da
 svariate macchine in diversi formati e li salvano su database SQL
-	'-> rendono possibile la lettura tramite SQL anzichè svariati metodi
+	'-> rendono possibile la lettura tramite SQL anziché svariati metodi
 
 Esiste anche l'analisi automatica dei LOG tramite Machine Learning per 
 analizzare senza l'ausilio di umani i log (ovviamente dopo training) e 
-prevedere attacchi e vulnerablità
+prevedere attacchi e vulnerabilità
 '--> chiamati LMS (Log Management Systems) o più modernamente SIEM (SECURITY, 
-     INFORMATION, EVENT MEANAGERS)
+     INFORMATION, EVENT MANAGERS)
 
 Su Windows c'è un programma di default per esaminare il log e definire una 
 policy diversa
 
-In generale PIU LOG si hanno più informazioni si possiedono MA PIU' SPAZIO è 
+In generale PIÙ LOG si hanno più informazioni si possiedono MA PIÙ SPAZIO è 
 occupato
 
 -------------------------------------------------------------------------------
@@ -2258,17 +2263,18 @@ occupato
 
 				*COSA E'*
 
-La scienza della occultazione revertibile delle informazioni attraverso delle 
-trasformazioni MANTENDENDO l'informazione originale
+La scienza della occultazione reversibile delle informazioni attraverso delle 
+trasformazioni MANTENENDO l'informazione originale
 
 				*IL SUO CONTRARIO*
 
-CRITTOANALISI --> scienza che verte sulla reversione di un oggetto criptato
+CRIPTO ANALISI --> scienza che verte sulla reversione di un oggetto criptato
 
 				*SI BASA SU*
 
 Confidenzialità
-
+Irrepudiabilità
+	
 				*MODELLO DI RIFERMENTO*
 				
 				K
@@ -2297,7 +2303,7 @@ Due tipi principali:
 
 	SIMMETRICA vuole dire che la stessa chiave K serve sia per criptare sia
 	per decriptare --> anello debole
-	ASIMMETRICA vule dire che la chiave NON è la stessa per criptare e 
+	ASIMMETRICA vuole dire che la chiave NON è la stessa per criptare e 
 	decriptare
 
 STREAM CYPHER --> Cesare
@@ -2311,7 +2317,7 @@ BLOCK CYPHER --> DES (Data Encryption Standard)
 			|   PARALLELIZZABILE in avanti e indietro
 			'-> Chipher Block Chaining CBC (XOR prima con blocco 
 			    NOTO e poi con gli output delle fasi precedenti alla
-			    attuale, poi riappiccico, per decrptare al 
+			    attuale, poi riappiccico, per decriptare al 
 			    contrario)
 			    PARALLELIZZABILE solo indietro
 		  ASIMMETRICHE
@@ -2323,7 +2329,7 @@ Sviluppato da IBM per il governo Americano --> poi adottato da tutte le
 					       istituzioni bancarie negli 
 					       anni 70   |
 					       		 v
-						 le cate bancomat fino a 5 anni
+						 le carte bancomat fino a 5 anni
 						 fa
 E' un BLOCK CYPHER a blocchi da 64b e chiavi da 54b
 Ha diverse versioni:
@@ -2342,13 +2348,13 @@ Sostituito da AES
 
 Usa tre chiavi da 128b, 192b e infine 256b
 In BLOCK CYPHER
-Usato dagli Stati Uniti per i file secretati
+Usato dagli Stati Uniti per i file segretati
 
 				*LA CHIAVE PUBBLICA*
 
 Teorizzata nel '77 da Deefy e Dellman, che presero il premio Turing
 Ognuno ha DUE chiavi: una pubblica e una privata
-	* sono genrate a coppie
+	* sono generate a coppie
 	* le cifrate con la privata possono essere decifrate dalla pubblica
 	* le cifrate con la pubblica possono essere decifrate dalla privata
 	* SONO UNICHE e nessun'altra chiave può fare il loro lavoro
@@ -2358,8 +2364,8 @@ Ogni utente A vuole comunicare con utente B:
 	* B cripta il messaggio usando la chiave pubblica di A
 	* A decripta usando la sua chiave privata (l'unica che può decriptare
 	  la pubblica)
-	+ B ovviamnete farà la stessa cosa
-	+ NESSUNO tranne A e B potrà leggere la conversazione FINCHE' le chiavi
+	+ B ovviamente farà la stessa cosa
+	+ NESSUNO tranne A e B potrà leggere la conversazione FINCHÉ le chiavi
           private rimarranno tali e DOVRANNO rimanere tali
 
 Shamir, Rivest e Adleman resero possibile la visione di Deefy e Dellman 
@@ -2367,13 +2373,13 @@ attraverso la FATTORIZZAZIONE DEI NUMERI PRIMI --> RSA (le iniziali)
 Esistono anche altri come El Gamal e DSS
 
 La chiave privata può cifrare --> tutti quelli con la pubblica possono decifrare
-PROBLEMA DI CONFIDENZIALITA'
+PROBLEMA DI CONFIDENZIALITÀ
 Allo stesso tempo però CONFERMO che sono io perché sono il SOLO possessore della
 chiave privata --> FIRMO DIGITALMENTE
-Garantisco la AUTENTICITA' e mi impedisco la NEGAZIONE in campo giuridico
+Garantisco la AUTENTICITÀ e mi impedisco la NEGAZIONE in campo giuridico
 						|
 						v
-					la NON REPUDIABILITA'
+					la NON RIPUDIABILITÀ
 
 				*PROBLEMI DELLA CHIAVE PUBBLICA*
 
