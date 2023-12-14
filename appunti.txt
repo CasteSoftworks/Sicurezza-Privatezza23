@@ -2039,6 +2039,7 @@ Usa un oggetto o attivo o passivo:
 			*WHAT YOU HAVE - VULNERABILITA'*
 
 Bancomat Skimming --> si rubano i dati attraverso un falso bancomat
+'--> solo per carte a BANCA MAGNETICA
 Chiamata che punta a registrare e campionare la voce
 
 			*MULTI-FACTOR AUTHENTICATION*
@@ -2274,7 +2275,8 @@ CRIPTO ANALISI --> scienza che verte sulla reversione di un oggetto criptato
 
 Confidenzialità
 Irrepudiabilità
-	
+Integrità
+
 				*MODELLO DI RIFERMENTO*
 				
 				K
@@ -2368,7 +2370,7 @@ Ogni utente A vuole comunicare con utente B:
 	+ NESSUNO tranne A e B potrà leggere la conversazione FINCHÉ le chiavi
           private rimarranno tali e DOVRANNO rimanere tali
 
-Shamir, Rivest e Adleman resero possibile la visione di Deefy e Dellman 
+Shamir, Rivest e Adleman resero possibile la visione di Diffle e Hellman 
 attraverso la FATTORIZZAZIONE DEI NUMERI PRIMI --> RSA (le iniziali)
 Esistono anche altri come El Gamal e DSS
 
@@ -2385,3 +2387,261 @@ Garantisco la AUTENTICITÀ e mi impedisco la NEGAZIONE in campo giuridico
 
 * MITM può mettersi in mezzo e dare/ricevere la sua/altrui chiave e intercettare  le comunicazioni facendo sembrare che tutto sia ok
 * 10k volte più lenta di quella a chiave privata (chiavi da 4kb)
+				
+				*PROBLEMI GENERALI DELLA CRIPTAZIONE*
+
+Il messaggio può essere modificato da vari fattori volontari o meno durante la
+trasmissione che corrompe i dati e rende diverso il messaggio decriptato
+
+				*ONE-WAY HASH FUNCTIONS*
+
+Un Hash è una funzione che mappa dati ARBITRARI (stringa,file,..) ad un valore 
+di dimensione fissata (128b-512b) chiamata FINGERPRINT (indipendentemente dalla
+lunghezza originale dell'oggetto)
+Le funzioni di Hash perfette sono a UNA VIA --> cioè che sono MOLTO difficili da
+invertire							|
+								v
+							praticamente impossibile
+PROPRIETÀ
+	* ONE WAY (vedi su)
+	* COLLISION RESISTANT --> difficile che esistano due hash uguali da due
+			      |   file m1 e m2 diversi
+			      |   hash(m1) = hash(m2) MOLTO DIFFICILE
+			      |   	quasi un secolo <-'
+			      |-> questo le rende suriettive
+			      |-> utile a capire se un file è corrotto durante
+			      |   il download
+			      '-> le password su etc/shadow sono salvate in 
+			          questa maniera
+				  	|
+				  	|
+				  	v
+				  * utente inserisce la password
+				  * computer la hasha
+				  	§ confronta con la hash originale
+				  		+ se sono uguali entra
+				  		+ se sono diverse non entra
+			
+			*APPLICAZIONI DELL'HASH ALLA CHIAVE PUBBLICA*
+
+Può velocizzare il processo di autenticazione della firma digitale tramite
+chiave privata attraverso l'hashing della cosa da firmare prima di firmare
+
+	oggetto O --> hash(O) --> Kpriv(hash(o))
+
+Per validare si riceve la firma e l'oggetto O. Si usa la chiave pubblica per 
+decriptare la firma e ottenere la hash dell'oggetto, dopo di che si hasha O e si
+confrontano l'hash(O) NOSTRO con l'hash(O) FIRMA --> se combaciano si conferma
+l'identità
+
+				*HASH PIÙ COMUNI*
+
+MD5  --> la sua collision resistance rotta nel 2005
+SHA1 --> la collision resistance è considerata compromessa (è possibile in 2^80
+         tentativi)
+SHA2 --> ora come ora la collision resistance è considerata sicura
+
+			*AGGIUNGERE PIÙ INTEGRITÀ*
+
+KEYED-HASH MESSAGE AUTHENTICATION CODE
+Si usa la funzione di hash e una chiave K
+
+				1:	hash(| K xor ipad | messaggio |)
+					|
+					v
+	2:	hash(|k xor opad |	   |) -> HMAC(K,M)
+
+		Si riceve M e HMAC(K,M), si estrae da 2 1 e si rieffettua 1 
+		se 1_rifatto e 1_originale sono uguali tutto ok
+
+			*COME SI PUÒ CONFERMARE LA CHIAVE PUBBLICA*
+
+Due metodi
+* Quando si presenta la propria chiave pubblica si presenta anche un documento 
+  che attesta la paternità della stessa AD UN ENTITÀ NOTA e AUTOREVOLE
+  '--> come la CdI
+* Stessa cosa di prima ma ci si fida del giudizio degli altri utenti della rete
+
+Questi due metodi hanno generato tre certificati
+	'-> PKI  - Autorità
+	'-> X509 - Autorità
+	'-> PGP  - Libero
+
+				*PKI e X509*
+
+Si basano entrambi ad una Certification Authority che, alla presentazione di una
+chiave pubblica esegue dei controlli e certifica o meno la paternità della
+chiave attraverso un CERTIFICATO DIGITALE
+			'-> firmati con la chiave privata DELLA Cert. Auth.
+				'-> si valida con la chiave pubblica DELLA
+				    Cert. Auth. --> CIRCOLO VIZIOSO
+						    '-> come mi fido?
+						   	   |
+							   v
+					la Cert. Auth. rilascia in formato
+					cartaceo le hash 
+					'-> quelli dello SPID sono su Gazzetta
+					    Ufficiale
+Al rilascio di una chiave essa viene infilata in una banca dati chiamata 
+PUBLIC KEY INFRASTRUCTURE
+
+--> HTTPS e le connessioni protette
+	* chiede alla prima connessione AL SERVER il certificato
+	* il server lo manda AL BROWSER
+	* controlla a CHIAVE PUBBLICA delle CA installate sul browser
+								|
+								v
+							ogni browser ne ha
+							diverse
+							'-> alcuni permettono di
+							    aggiungere altri
+							    certificati
+
+--> usato sulle Carte di Credito a CHIP
+	* esse possiedono un chip con una coppia di chiavi, una privata l'altra
+	  privata
+	ALLA AUTENTICAZIONE
+		+ la CARTA invia il certificato a chiave PUBBLICA
+		+ il TERMINALE contiene il certificato con la firma e lo usa per
+		  verificare la bontà di quello inviato dalla carta
+		  Ora deve controllare la PRIVATA della carta attraverso l'invio
+		  di un numero casuale R che la carta deve firmare
+		+ la CARTA firma il numero R con la PRIVATA e lo invia
+		+ il TERMINALE verifica R_firmato con la chiave PUBBLICA della
+		  carta
+		  	# se è vero TUTTO OK
+			# altrimenti NULLA
+	ALLA TRANSAZIONE
+		+ il TERMINALE manda alla CARTA i dati della transazione
+		+ la CARTA firma con la PRIVATA e manda al TERMINALE
+		+ il TERMINALE conferma attraverso la PUBBLICA e manda alla 
+		  banca
+
+Testi di approfondimento: - Applied Cryptography
+
+		*APPLICAZIONI DELLA CRITTOGRAFIA ALLA NETWORK SECURITY*
+
+RFC --> Request For Comments
+    |-> descrizione di un protocollo da implementare
+    '-> scritti da gruppi di grandi guru della sicurezza (gente di Cisco,...)
+
+			*PROTOCOLLI*
+
+DIFFLE-HELLMAN KEY EXCHANGE (quelli di chiave pubblica-privata)
+	Algoritmo elaborato per lo scambio di un segreto su canale IN CHIARO
+	Basato su un problema matematico --> logaritmo discreto su campi finiti
+						|			|
+						|			|
+						v			|
+			un logaritmo dato b^Y=c permette di ottenere Y	|
+									v
+			poniamo che ci siano n,x,b tali che b^Y=x(mod n)
+			quella Y è il Problema del Logaritmo Discreto
+			|-> NON CI SONO ANCORA ALGORITMI EFFICIENTI
+			|-> possibile solo con primi e molto lunga
+			'-> praticamente One Way
+
+	STEP:
+	* A e B devono condividere un segreto e decidono un primo p e un alfa
+	  tra 1 e p
+	* entrambi generano due numeri casuali rA e rB che mantengono segreti
+	* A calcola nA=(alfa^rA)(mod p)
+	* B calcola nB=(alfa^rB)(mod p)
+	* si scambiano i loro risultati
+	* A calcola nB^rA = ((alfa^rB)^rA)(mod p) = alfa^(rB*rA)(mod p) 
+	* B calcola nA^rB = ((alfa^rA)^rB)(mod p) = alfa^(rA*rB)(mod p)
+	--> A e B possono quindi calcolare uno stesso numero
+
+	ESEMPIO
+		A e B scelgono p=23 e alfa=11
+		A sceglie rA=6
+		B sceglie rB=5
+		A calcola 11^6 mod 23 = 9
+		B calcola 11^5 mod 23 = 5
+		A riceve da B 5
+		B riceve da A 9
+		A calcola 5^6 mod 23 = 8
+		B calcola 9^5 mod 23 = 8
+
+-------------------------------------------------------------------------------
+titolo CRYPTO E CYBERSECURITY
+-------------------------------------------------------------------------------
+
+				*CONFIDENTIALITY*
+
+Crittografia
+
+				*INTEGRITY*
+
+Attacco un HMAC all'oggetto
+
+				*AUTHENTICITY*
+
+Firma digitale
+
+				*PROBLEMI*
+
+Politici:
+	Trattato di Wassenaar --> i paesi si sono impegnati post WW2 a diverse
+			,--------- cose tra cui GLI ALGORITMI DI CRITTOGRAFIA
+			|	  	|
+			|		v
+			|	  Ha causato un problema alla RSA perché NON si
+			|	  poteva esportare fuori dagli USA normalmente
+			|	  Solo "depotenziata" (in Europa a 128b in USA a
+			|	  1028b)
+			|	  Quello di PGP è stato arrestato perché ha
+			|	  infranto il trattato
+			|	  '-> ha poi raggirato perché solo il BINARIO è
+			|	      reato, non il sorgente SU LIBRO
+			v
+	Sono stati liberalizzati per le banche
+
+Tecnici:
+	Performance: se lo voglio rapido non è sicuro
+	Sicurezza: se lo voglio sicuro non è rapido
+	Implementazione: quando lo faccio?
+
+				*IMPLEMENTAZIONE*
+
+Posso farlo nel programma prima di mandare avanti i dati ai layer sotto
+Posso farlo sul sistema nei livelli inferiori a quello applicazione
+
+A seconda di dove lo faccio ha anche diversi gradi di granularità e di
+performance --> quanto la voglio SICURA?
+
+				*AL LIVELLO NETWORK*
+
+In blocco, cifro tutto ciò che passa dal livello IP, indipendentemente da cosa
+stia arrivando
+Non proteggo da IP in su
+Costa in termini di tempo di CPU, la crittografia è pesante
+E' leggero per il programmatore perché non ci deve pensare --> utile se non si è
+bravi nel programmare
+Le VPN sono l'esempio
+
+			| IP hea!asd|AdgswugekqhxixmDEQIUIEIDHKNwaiudh |
+			maschero un pezzo di IP Header
+
+				*AL LIVELLO TCP*
+
+Meno leggero rispetto al Network per il programmatore
+Garantisco che il dato è protetto fino al livello di trasporto
+Gmail è l'esempio
+
+			| IP header | TCP hea!afd|ahjdahdkjJahdHShdkjw |
+			maschero un pezzo di TCP Header
+
+				*AL LIVELLO APPLICAZIONE*
+
+Pesante per il programmatore ma possibilmente più leggero per la CPU, che cripta
+solo ciò che necessita crittografia
+Garantisco che il dato sia protetto FINO all'utente
+Whatsapp è l'esempio dei questa cifratura detta End2End
+
+			| IP header | TCP header | EAUDWUDiuwqhsjHJWA |
+			maschero solo il Payload
+
+				*IPSEC*
+
+
