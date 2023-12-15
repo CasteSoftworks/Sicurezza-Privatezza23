@@ -4,6 +4,8 @@
 *.ps
 *.pdf
 *.norg
+#Ignore directories
+Neorg/
 #Unignore all files with extensions
 !*.*
 !*/
