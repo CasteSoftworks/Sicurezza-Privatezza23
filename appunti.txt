@@ -53,6 +53,7 @@ FONT ASCII TITLES BIG
 da copiare regole auree
 
 				*POLITICHE DI ACCESSO*
+
 Discretionary Acces Control (DAC)
 - policy dettata dal proprietario della risorsa che decide come gestire gli  
   accessi (uso classico del pc)
@@ -64,6 +65,7 @@ Mandatory acces control (MAC)
 
 							
 				*DEFINIRE UNA POLITICA DI SICUREZZA*
+
 Matrice che associa un utente ai permessi per ogni risorsa
 
 	------------------------
@@ -1382,8 +1384,8 @@ PROTOCOLLI
 		FISICO
 
 ARP e ARC
-	ARP request vuole mandare una cosa --> chiede indirizzo, chi lo a 
-	risponde e poi si invia					   					'-> se nessuno risponde NON manda su LAN ma su Internet
+	ARP request vuole mandare una cosa --> chiede indirizzo, chi lo ha risponde e poi si invia
+					   '-> se nessuno risponde NON manda su LAN ma su Internet
 
 				*OBIETTIVO PRIMARIO*
 
@@ -1535,7 +1537,8 @@ Ettercap ad esempio è un tool che lo fa
 	PARTE 1:	        <               <
 	      		----------- SWITCH ------------  MSG:
                     v   |       MSG   |        MSG    |  |ipsrc 11.12.13.14
-                MSG     |             |               |  |mac   cc:dd:ee:ff        			v             v               v  |ipdst 10.11.12.13
+                MSG     |             |               |  |mac   cc:dd:ee:ff
+			v             v               v  |ipdst 10.11.12.13
                         A             B               C
                      10.11.12.13     11.12.13.14           12.13.14.15
 		     aa:bb:cc:dd     bb:cc:dd:ee           cc:dd:ee:ff
