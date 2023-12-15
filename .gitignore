@@ -1,11 +1,20 @@
 #Ignore all files without extension
 *
-#Ignore PostScript files and PDFs
+# #Ignore PostScript files and PDFs
+# *.ps
+# *.pdf
+# *.norg
+# #Ignore directories
+# Neorg/
+# #Unignore all files with extensions
+# !*.*
+# !*/
+
+!*/
+!*.*
+
 *.ps
 *.pdf
 *.norg
-#Ignore directories
+
 Neorg/
-#Unignore all files with extensions
-!*.*
-!*/
