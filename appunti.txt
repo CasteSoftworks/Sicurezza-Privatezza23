@@ -580,7 +580,10 @@ SIA dati --> si possono aggiungere cose in mezzo
 			    uso gdb -q nome
 			    la runno finché non segmenta
 			    faccio la info proc map
-			    x/s $rip --> 0x7fffffffdb20:	"ciao"  		CONTENUTO della stringa COLPEVOLE
+			    x/s $rip --> 0x7fffffffdb20:    "ciao" -> CONTENUTO 
+			    					      della 
+								      stringa
+			    					      COLPEVOLE
 			    x/i $rip --> 0x7fffffffdb20:     movsxd 0x61(%rcx),
 			    				     %ebp
 							     ISTRUZIONE 
