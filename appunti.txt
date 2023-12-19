@@ -2932,4 +2932,11 @@ comunicazioni sul fidarsi del prossimo
 
 Rende possibile decidere un livello di fiducia tra gli utenti --> Web of Trust
 
+-------------------------------------------------------------------------------
+titolo John The Ripper
+-------------------------------------------------------------------------------
 
+Password cracker 
+Prende una lista di hash/uno solo e attraverso vari metodi tenta di tornare al
+plaintext		|
+			'--> sia hash normali sia con salt sia file etc/shadow
