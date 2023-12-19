@@ -32,6 +32,7 @@
 			    Giacomo Castellana
 ===============================================================================
 -------------------------------------------------------------------------------
+
 -------------------------------------------------------------------------------
 		  ____           _____ _____      _____ _____ 
 		 |  _ \   /\    / ____|_   _|    |  __ \_   _|
@@ -139,7 +140,7 @@ gesticisce OGNI accesso e il cui funzionamento è ASSICURATO al 100%
 	 |                 object                         |---> PC
 	 --------------------------------------------------
 
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 			  _    _ _   _ _______   __
 			 | |  | | \ | |_   _\ \ / /
 			 | |  | |  \| | | |  \ V / 
@@ -1387,8 +1388,10 @@ PROTOCOLLI
 		FISICO
 
 ARP e ARC
-	ARP request vuole mandare una cosa --> chiede indirizzo, chi lo ha risponde e poi si invia
-					   '-> se nessuno risponde NON manda su LAN ma su Internet
+	ARP request vuole mandare una cosa --> chiede indirizzo, chi lo ha risponde
+	                                   |   e poi si invia
+					   '-> se nessuno risponde NON manda su
+					       LAN ma su Internet
 
 				*OBIETTIVO PRIMARIO*
 
@@ -2671,7 +2674,262 @@ Whatsapp è l'esempio dei questa cifratura detta End2End
 
 			| IP header | TCP header | EAUDWUDiuwqhsjHJWA |
 			maschero solo il Payload
+
+-------------------------------------------------------------------------------
+titolo IPSEC
+-------------------------------------------------------------------------------
 
-				*IPSEC*
+Inizialmente era un sottomodulo di IPv6 (vedi nella sezione della rete)
+Poi è stato estratto e aggiunto a IPv4 per necessità di aggiungere sicurezza
+
+Fa le determinate cose (solo una, solo l'altra o entrambe):
+	* cripta il traffico al livello IP
+	* decripta il traffico al livello IP
+	--> mira a proteggere dal packet sniffing
+
+Nella versione a blocchi cifrati usa o AES-CBC o Triple DES-CBC
+Nella versione a hash usa ....
+
+Offre i seguenti servizi:
+	* Data Origin Authentication
+	* Confidentiality
+	* Connectionless and partial sequence integrity
+		+ Connectionless: sicurezza per il singolo pacchetto
+		+ Partial sequence integrity per evitare i reply attack
+	* Limited Traffic Flow Confidentiality
+		+ non permette di sapere da fuori chi parla
+	--> tutti TRASPARENTI ai livelli successivi --> non bisogna
+							preoccuparsene
+
+I protocolli sono:
+	* Authentication Header --> autenticazione di tutto il pacchetto
+	* Encapsulated Security Payload --> autenticazione del solo payload
+	--> più usato è ESP, AH è opzionale, prima invece era obbligatorio e la
+	    soluzione "default" --> from MUST to MAY
+
+Ha due metodi di incapsulamento: trasporto e tunnel
+	
+	pacchetto base | IP header | TCP header | dati |
+	
+	pacchetto in 
+	modalità       | IP header | IPsec header | TCP header | dati |
+	trasporto
+
+	pacchetto in 
+	modalità       | IP header | IPsec header | pacchetto IP |
+	tunnel
+
+	La modalità tunnel serve come scalino di metà tra IPv4 e IPv6
+	|-> reincapsula un pacchetto IPv6 in un pacchetto IPv4 così che
+	|   eventuali strutture di rete che non supportano IPv6 possano 
+	|   comunque inviare i pacchetti
+	'-> usato dalle VPN
+				
+				*AH*
+
+	SPI e Integrity Check
+		|-> si fa un doppio SHA1 del pacchetto e lo si infila nel campo
+		|   (il capo IC è di conseguenza vuoto prima del calcolo)
+		'-> parente del HMAC
+	
+	FOTO!!!
+				*ESP*
+
+Aggiunge anche lui un SPI e una specie di HMAC
+
+FOTO!!!
+
+		   *SECURITY POLICY e SECURITY ASSOCIATION*
+
+Parametri che fanno decidere cosa fare su:
+	* pacchetti (buttarlo, non fare nulla, a che livello criptare, da che
+	  porta farli partire,...NOME DELLA ASSOCIAZIONE DI SICUREZZA)------,
+	* che modalità di IPsec usare (tunnel o trasporto)		    |
+									    |
+Deve essere specificata PER OGNI traffico di dati --> tenuti in un DATABASE |
+									    v
+Esiste poi un ulteriore database chiamato SECURITY ASSOCIATION DATABASE, che
+specifica a basso livello COME implementare OGNI policy (come criptare, che
+algoritmo, che chiave usare, ...)
+
+Inizialmente erano da riempire a mano, poi nel 2005 è arrivato il protocollo
+IKE che funziona senza intervento umano per riempire i campi
+automaticamente facendo comunicare le macchine
+		
+				*IN GENERALE*
+CHI MANDA
+		livello IP --> consulta SPD --> se non trovo --> butto
+				|
+				v
+			       trovo
+			       /   \
+			       |   | applico
+			       |   v
+	FOTO!!!
+
+CHI RICEVE
+	
+	FOTO!!!
+
+				*I BENEFICI DI IPSEC*
+
+Fornisce un buon livello di sicurezza per tutte le applicazioni restando però
+trasparente ai livelli superiori e agli utenti.
+Può essere fornito ad utenti specifici ed è pronto a modifiche di criptazione
+con algoritmi migluori in futuro
+
+				*LE CONTROINDICAZIONI DI IPSEC*
+
+Aggiunge un peso di calcolo per ogni pacchetto rendendo complesso l'invio
+contemporaneo di un alto numero di pacchetti
+Non permette l'uso da chi non l'ha
+FOTO!!!
+Intrusivo
+
+-------------------------------------------------------------------------------
+titolo TRANSPORT LEVEL SECURITY
+-------------------------------------------------------------------------------
+
+Inventato da NETSCAPE nel 1994 come SSL (...), venne poi reso standard con il 
+nome TLS nel 1999. La sua ultima versione è del 2018
+Mira a creare una connessione protetta tra due parti PORTA A PORTA --> TCP
+Predefinito nella maggior parte dei browser e servizi web
+HTTPS usa TLS anziché solo il TCP come HTTP
+
+				*I PROTOCOLLI*
+
+FOTO!!!
+Client Auth è opzionale
+
+				*GLI ALGORITMI*
+
+X509 per l'autenticazione server/client
+	* RSA
+	* DH
+	* DSS
+	* Fortezza
+Criptazione:
+	* RC4 (40-128)
+	* DES (40-128)
+	* TripleDES
+	* AES
+Hashing:
+	* MD5 
+	* SHA1
+
+				*DOVE SI PONE NEL PACCHETTO?*
+
+Nel pacchetto di pone appena dopo TCP
+				
+				*COME SI DIVIDE?*
+
+Handshake 	--> i peer si accordano su cosa cifrare e come
+Record 		--> "macina" i dati nel trasferimento
+
+				*HANDSHAKE*
+
+		C -->    time, n* casuale, cipher suite     --> S
+		C <-- n° random 2, session id, cipher suite <-- S
+		C <--          chiave pubblica              <-- S
+		C <--              server hello             <-- S
+		C --> ... --> S ???
+
+	Chipher Suite C chiede cosa usare nella connessione (criptazione,chiave)
+	"       "     S accetto o meno (nel caso propone di nuovo)
+	Calcolano il Master Secret assieme e poi ci fanno calcoli con SHA, i
+	numeri casuali e altri dati per calcolare la chiave segreta
+	Dalla chiave segreta se ne tirano fuori 6
+			|-> Client write MAC
+			|-> Server write MAC
+			|-> Client write
+			|-> Server write
+			|-> Client write Initialization Vector
+			'-> Server write Initialization Vector
+
+	Può esserci un MITM --> per evitare oltre alla chiave pubblica si manda
+	anche il certificato X509 --> anche il server può chiederlo all'utente
+
+				*RECORD*
+
+Prende un messaggio d'applicazione e ci lavora:
+* lo spacca in blocchi
+FOTO!!!
+
+				*BUG TLS*
+
+BEAST permetteva nel 2011 di leggere i pacchetti non criptati tramite un bug 
+del Cipher Blocking Chain
+HEARTBLEED permetteva nel 2014 di rubare le chiavi private tramite un bug di
+OpenSSL
+
+				*DEBOLEZZA TLS*
+
+Non è più trasparente per le applicazioni 
+Permette a chi gestisce i servizi finali di leggere i dati
+
+-------------------------------------------------------------------------------
+titolo END TO END
+-------------------------------------------------------------------------------
+
+Criptazione dal livello applicazione (eventualmente rafforzata da passaggi
+extra) per rendere perfettamente "sicuro" il passaggio dei dati attraverso i
+sistemi di mezzo senza interferenze o spionaggio
+
+Whatsapp, Signal, Telegram lo usano (i primi due usano Signal, l'altro MTProto)
+
+				*MTProto*
+
+Creato apposta per Telegram 
+Suppone a priori la INSICUREZZA di tutti i livelli sottostanti
+
+Prevede due protocolli di criptazione
+	* Cloud Chats --> memorizzati in chiaro
+	* Secret Chats --> memorizzati cifrati
+
+TELEGRAM CLOUD FUNZIONA COSI':
+	* S e A/B determinano con DH una chiave
+				A --> KdhA --> S <-- KdhB <-- B
+	* quando A deve parlare con B, A manda cifrato a S, S lo decripta, S lo
+	  cripta di nuovo, S lo manda a B --> S li vede IN CHIARO
+	
+	--> permette di recuperare istantaneamente i messaggi siccome sono sui
+	    server
+
+TELEGRAM SECRET funziona così:
+	* A e B, attraverso S e con DH, decidono le chiavi --> S può fare MITM
+	  _i proprietari_ dicono che è evitabile facendo il <--'
+	  controllo manuale OUT OF BAND tra i due
+
+Più di 100 messaggi recuperabili con una chiave
+
+	  			*SIGNAL*
+
+Usa algoritmi complessi (sempre DH) come
+	* ECDH - Curve25519 --> basato sulla curva ellittica di Edwards 25519
+
+Signal funziona con server in 4 passaggi:
+	* Registrazione --> si salva un plico di roba dell'utente in un database
+	* Set-Up di sessione --> quando A deve comunicare con B, A accede alle
+	                         info di B su S e fa dei conti con esse (3 ECDH
+				 e 1 KDF) --> ad ogni ..
+	* Comunicazione simmetrica --> A mette il messaggio cifrato su S e B lo
+                                       prende e fa gli stessi calcoli dl Set Up ??
+	* Comunicazione asimmetrica
+
+Meno di 100 messaggi ripristinabili con una chiave
+
+S NON ha nessun mio messaggio, solo il mio dispositivo
+
+-------------------------------------------------------------------------------
+titolo WEB OF TRUST
+-------------------------------------------------------------------------------
+
+				*PGP*
+
+Pretty Good Privacy
+Inventato da Zimmerman, mira a sorpassare le Cert. Auth. basando le
+comunicazioni sul fidarsi del prossimo
+
+Rende possibile decidere un livello di fiducia tra gli utenti --> Web of Trust
 
 
