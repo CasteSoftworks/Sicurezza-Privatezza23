@@ -50,7 +50,6 @@
                                                                
 --------------------------------------------------------------------------------
 
-FONT ASCII TITLES BIG
 da copiare regole auree
 
 				*POLITICHE DI ACCESSO*
@@ -2784,7 +2783,9 @@ IKE che funziona senza intervento umano per riempire i campi
 automaticamente facendo comunicare le macchine
 		
 				*IN GENERALE*
-CHI MANDA
+	
+	Chi manda:
+
 		livello IP --> consulta SPD --> se non trovo --> butto
 				|
 				v
@@ -2800,7 +2801,7 @@ CHI MANDA
 			       v   v pacchetto
 				rete
 
-CHI RICEVE
+	Chi riceve:
 	
 				rete
 				 | pacchetto IPsec
@@ -2924,7 +2925,7 @@ Record 		--> "macina" i dati nel trasferimento
 	Può esserci un MITM --> per evitare oltre alla chiave pubblica si manda
 	anche il certificato X509 --> anche il server può chiederlo all'utente
 
-				*RECORD*
+				     *RECORD*
 
 Prende un messaggio d'applicazione e ci lavora:
 * lo spacca in blocchi
@@ -2962,7 +2963,7 @@ sistemi di mezzo senza interferenze o spionaggio
 
 Whatsapp, Signal, Telegram lo usano (i primi due usano Signal, l'altro MTProto)
 
-				*MTProto*
+				   *MTProto*
 
 Creato apposta per Telegram 
 Suppone a priori la INSICUREZZA di tutti i livelli sottostanti
@@ -2987,7 +2988,7 @@ TELEGRAM SECRET funziona così:
 
 Più di 100 messaggi recuperabili con una chiave
 
-	  			*SIGNAL*
+	  			     *SIGNAL*
 
 Usa algoritmi complessi (sempre DH) come
 	* ECDH - Curve25519 --> basato sulla curva ellittica di Edwards 25519
@@ -3022,7 +3023,7 @@ S NON ha nessun mio messaggio, solo il mio dispositivo
                                        
 --------------------------------------------------------------------------------
 
-				*PGP*
+				    *PGP*
 
 Pretty Good Privacy
 Inventato da Zimmerman, mira a sorpassare le Cert. Auth. basando le
@@ -3030,7 +3031,7 @@ comunicazioni sul fidarsi del prossimo
 
 Rende possibile decidere un livello di fiducia tra gli utenti --> Web of Trust
 
-			*JOHN THE RIPPER*
+				*JOHN THE RIPPER*
 
 Password cracker 
 Prende una lista di hash/uno solo e attraverso vari metodi tenta di tornare al
@@ -3038,7 +3039,20 @@ plaintext		|
 			'--> sia hash normali sia con salt sia file etc/shadow
 
 -------------------------------------------------------------------------------
-titolo Defensive Cybersecurity
+      _____  ______ ______ ______ _   _  _____ _______      ________ 
+     |  __ \|  ____|  ____|  ____| \ | |/ ____|_   _\ \    / /  ____|
+     | |  | | |__  | |__  | |__  |  \| | (___   | |  \ \  / /| |__   
+     | |  | |  __| |  __| |  __| | . ` |\___ \  | |   \ \/ / |  __|  
+     | |__| | |____| |    | |____| |\  |____) |_| |_   \  /  | |____ 
+     |_____/|______|_|    |______|_| \_|_____/|_____|   \/   |______|
+                                                                 
+	   _______     ______  ______ _____   _____ ______ _____ 
+	  / ____\ \   / /  _ \|  ____|  __ \ / ____|  ____/ ____|
+	 | |     \ \_/ /| |_) | |__  | |__) | (___ | |__ | |     
+	 | |      \   / |  _ <|  __| |  _  / \___ \|  __|| |     
+	 | |____   | |  | |_) | |____| | \ \ ____) | |___| |____ 
+	  \_____|  |_|  |____/|______|_|  \_\_____/|______\_____|
+                                                         
 -------------------------------------------------------------------------------
 
 				*STRATEGIA DI DIFESA*
@@ -3052,8 +3066,8 @@ Dividsa in 5 fasi:
 	5 Recover - Se tutto va male, recuperare il sistema al momento 
 	            precedente all'attacco - DCO
 	
-	Cyber Resilience Programme --> 1 e 2
-	Defensive Cyber Operations --> 3, 4 e 5
+	Cyber Resilience Programme --> 1 e 2 --> prevenzione
+	Defensive Cyber Operations --> 3, 4 e 5 --> difesa attiva
 
 			*STRUMENTI BASE DI CYBERSICUREZZA*
 
@@ -3062,11 +3076,11 @@ Ne esistono di diversi:
 	* Protocolli di criptazione
 	* Antivirus
 	* EDR (Endpoint Data Recovery)
-	* ASLR, Stackguard
+	* ASLR, Stackguard, ...
 
 Possono non bastare in alcuni casi
 				
-				*FIREWALL*
+			    	   *FIREWALL*
 
 Oggetti sia SW sia HW che analizzano il traffico di rete e decidono caso per
 caso cosa fare con il traffico che gli passa attraverso
@@ -3077,7 +3091,7 @@ Sono programmati con regole specifiche che determinano il suo comportamento
 	* se il pacchetto è sospetto avvisami tramite LOG
 		
 		--> |	       | --> 
-  internet      --> | FIREWALL |	rete interna
+  internet      xx> | FIREWALL |	rete interna
 		--> |	       | -->
 
 Spesso usati in aziende e organizzazioni
@@ -3088,7 +3102,7 @@ Possono avvisare di eventuale traffico malevolo o supposto tale
 
 Usato anche come frontiera per dividere sottoreti di una stessa organizzazione
 
-			*TIPI DI FIREWALL*
+				*TIPI DI FIREWALL*
 
 Ne esistono di diversi tipi:
 	* Packet Filter --> guarda solo l'header IP, non il payload IP
@@ -3099,7 +3113,7 @@ Ne esistono di diversi tipi:
 	* Application Gateway --> applica meccanismi di sicurezza a specifiche
 				 applicazioni come TCP, Telnet
 
-			*PACKET FILTER*
+				*PACKET FILTER*
 
 Fa passare o no un pacchetto da una rete ad un altra, non sulla stessa
 
@@ -3117,12 +3131,12 @@ Fa le seguenti cose:
 
 E' pesante controllare ogni pacchetto, sopratutto se la connessione è già sicura
 
-			*STATEFUL FILTERING*
+				*STATEFUL FILTERING*
 
 Evoluzione del packet filter che evita il controllo di ogni pacchetto ma solo
 quelli delle nuove connessioni
-
-			*ESEMPIO DI FIREWALL*
+	
+				*ESEMPIO DI FIREWALL*
 
 ABILITARE LE CONNESSIONI SSH DA ESTERNI A INTERNI
 	Due regole
@@ -3143,13 +3157,13 @@ SSH-1  |  In |  Ext     |  >1023   | In       |  22      |  TCP | any  | Allow
 SSH-2  | Out | In	|  22	   | Ext      | >1023	 |  TCP | yes  | Allow
 -------------------------------------------------------------------------------
 
-			*REGOLE DI DEFAULT*
+				*REGOLE DI DEFAULT*
 	
 	* Egress filtering
 	* Ingress filtering
 	* Deny default
 
-			*CONFIGURAZIONE DI BASE*
+				*CONFIGURAZIONE DI BASE*
 
 			Internet
 			   |
@@ -3163,7 +3177,7 @@ Internet può accedere a DMZ --> accede solo alle cose pubbliche (sito web)
 Intranet può accedere a DMZ e Internet --> accede a tutto perché autorizzato
 DMZ può accedere a Internet  --> così non fa da ponte tra internet e intranet
 
-				*DMZ*
+					*DMZ*
 
 La più vulnerabile agli attacchi --> difese da dei Bastion Host
 							|
@@ -3175,7 +3189,7 @@ La più vulnerabile agli attacchi --> difese da dei Bastion Host
 					modificato tramite la rimozione di ogni
 					cosa superflua per il suo funzionamento
 
-				*PROXY FIREWALL*
+				   *PROXY FIREWALL*
 
 Dividono in due la connessione e vi si mettono in mezzo
 Di due tipi:
@@ -3195,7 +3209,7 @@ Di due tipi:
 		     '-> necessità di un firewall PER OGNI applicazione (HTTP,
 		         FTP, ...)
 
-			 *AIR GAP*
+			 		*AIR GAP*
 
 Un server riceve tutto il traffico e un demone analizza il traffico e decide il
 da farsi e manda VERSO, non A, la rete locale ciò che va bene
@@ -3207,7 +3221,7 @@ Il server è IN MEZZO dividendo la connessione
 
 Usato probabilmente da NSA e servizi segreti
 
-			*NEXT GENERATION FIREWALL*
+				*NEXT GENERATION FIREWALL*
 
 Un firewall che non solo controlla la porta e i pacchetto ma analizza, indaga e
 previene le intrusioni in modo autonomo usando conoscenze esterne al firewall
@@ -3215,7 +3229,7 @@ previene le intrusioni in modo autonomo usando conoscenze esterne al firewall
 Sono anche capaci di riconoscere e bloccare il malware (feature di antivirus)
 direttamente dal payload
 
-				*IDS*
+					*IDS*
 
 Intrusion Detection Systems --> sistemi che rilevano le intrusioni IN TEMPO
 			    |	REALE e in maniera autonoma tramite sistemi HW e
