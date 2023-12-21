@@ -2676,7 +2676,13 @@ Whatsapp è l'esempio dei questa cifratura detta End2End
 			maschero solo il Payload
 
 -------------------------------------------------------------------------------
-titolo IPSEC
+			  _____ _____               
+			 |_   _|  __ \              
+			   | | | |__) |__  ___  ___ 
+			   | | |  ___/ __|/ _ \/ __|
+			  _| |_| |   \__ \  __/ (__ 
+			 |_____|_|   |___/\___|\___|
+                            
 -------------------------------------------------------------------------------
 
 Inizialmente era un sottomodulo di IPv6 (vedi nella sezione della rete)
@@ -2724,6 +2730,7 @@ Ha due metodi di incapsulamento: trasporto e tunnel
 	|   eventuali strutture di rete che non supportano IPv6 possano 
 	|   comunque inviare i pacchetti
 	'-> usato dalle VPN
+
 				
 				*AH*
 
@@ -2732,12 +2739,32 @@ Ha due metodi di incapsulamento: trasporto e tunnel
 		|   (il capo IC è di conseguenza vuoto prima del calcolo)
 		'-> parente del HMAC
 	
-	FOTO!!!
+	AH IN TRANSPORT MODE:
+		Autentica l'IP payload e alcune parti del IP header e alcune
+		parti della estensione IPv6
+	AH IN TUNNEL MODE:
+		Autentica l'intero pacchetto IP più alcune porzioni dell'header
+		IP
+		
 				*ESP*
 
 Aggiunge anche lui un SPI e una specie di HMAC
 
-FOTO!!!
+	ESP IN TRANSPORT MODE:
+		Cripta il payload IP e ogni estensione di header IPv6
+	ESP IN TUNNEL MODE:
+		Cripta il pacchetto IP interno
+
+				*ESP CON AH*
+
+Fa sia la parte dell'AH sia quella dell'ESP
+
+	ESP CON AH IN TRANSPORT MODE:
+		Cripta il payload IP e estensione di haeder IPv6 mentre
+		autentica solo l'IP payload ma non l'IP header
+	ESP CON AH IN TUNNEL MODE:
+		Cripta il pacchetto IP interno e lo autentica ma non autentica
+		il pacchetto IP esterno
 
 		   *SECURITY POLICY e SECURITY ASSOCIATION*
 
@@ -2763,13 +2790,31 @@ CHI MANDA
 				v
 			       trovo
 			       /   \
-			       |   | applico
-			       |   v
-	FOTO!!!
+			       |   | applico IPsec
+			       |   v		non esiste SA
+		  Non applica  |   consulta SAD -----> IK
+		  IPsec	       |   | esiste	<-----
+			       |   v SA  	crea SA
+			       |   applica IPsec al pacchetto
+			       |   | inoltra il 
+			       v   v pacchetto
+				rete
 
 CHI RICEVE
 	
-	FOTO!!!
+				rete
+				 | pacchetto IPsec
+				 v
+				Controlla SAD ----, non è in SA
+				 |		  -------> scarta il 
+				 v		  -------> pacchetto
+				Applica SA -------' non soddisfa SPD
+				 | soddisfa SPD
+				 v
+				Livello IP
+				 |
+				 v
+				Livelli superiori
 
 				*I BENEFICI DI IPSEC*
 
@@ -2783,23 +2828,53 @@ con algoritmi migluori in futuro
 Aggiunge un peso di calcolo per ogni pacchetto rendendo complesso l'invio
 contemporaneo di un alto numero di pacchetti
 Non permette l'uso da chi non l'ha
-FOTO!!!
-Intrusivo
+L'host deve avere una SA, che non è ottimale per connessioni di breve durata
 
 -------------------------------------------------------------------------------
-titolo TRANSPORT LEVEL SECURITY
+    _______ _____            _   _  _____ _____   ____  _____ _______ 
+   |__   __|  __ \     /\   | \ | |/ ____|  __ \ / __ \|  __ \__   __|
+      | |  | |__) |   /  \  |  \| | (___ | |__) | |  | | |__) | | |   
+      | |  |  _  /   / /\ \ | . ` |\___ \|  ___/| |  | |  _  /  | |   
+      | |  | | \ \  / ____ \| |\  |____) | |    | |__| | | \ \  | |   
+      |_|  |_|  \_\/_/    \_\_| \_|_____/|_|     \____/|_|  \_\ |_|   
+
+		  _      ________      ________ _      
+		 | |    |  ____\ \    / /  ____| |     
+		 | |    | |__   \ \  / /| |__  | |     
+		 | |    |  __|   \ \/ / |  __| | |     
+		 | |____| |____   \  /  | |____| |____ 
+		 |______|______|   \/   |______|______|
+                                       
+	   _____ ______ _____ _    _ _____  _____ _________     __
+	  / ____|  ____/ ____| |  | |  __ \|_   _|__   __\ \   / /
+	 | (___ | |__ | |    | |  | | |__) | | |    | |   \ \_/ / 
+	  \___ \|  __|| |    | |  | |  _  /  | |    | |    \   /  
+	  ____) | |___| |____| |__| | | \ \ _| |_   | |     | |   
+	 |_____/|______\_____|\____/|_|  \_\_____|  |_|     |_|   
+                                                          
 -------------------------------------------------------------------------------
 
-Inventato da NETSCAPE nel 1994 come SSL (...), venne poi reso standard con il 
-nome TLS nel 1999. La sua ultima versione è del 2018
+Inventato da NETSCAPE nel 1994 come SSL (Secure Socket Layer), venne poi reso 
+standard con il nome TLS nel 1999. La sua ultima versione è del 2018
 Mira a creare una connessione protetta tra due parti PORTA A PORTA --> TCP
 Predefinito nella maggior parte dei browser e servizi web
 HTTPS usa TLS anziché solo il TCP come HTTP
 
 				*I PROTOCOLLI*
 
-FOTO!!!
-Client Auth è opzionale
+* Autenticazione Server
+* Autenticazione Client
+	+ opzionale
+* Confidenzialità dei dati (connessioni criptate)
+	+ utili a evitare intercettazioni
+* Integrità dei dati
+	+ protegge da modifiche
+* Generazione e distribuzione di chiavi di sessione
+	+ all'interno del protocollo
+* Negoziazione dei parametri di sicurezza
+* Compressione e decompressione
+
+NON fornisce la non-repudiabilità
 
 				*GLI ALGORITMI*
 
@@ -2832,7 +2907,7 @@ Record 		--> "macina" i dati nel trasferimento
 		C <-- n° random 2, session id, cipher suite <-- S
 		C <--          chiave pubblica              <-- S
 		C <--              server hello             <-- S
-		C --> ... --> S ???
+		C -->          connesione competata         --> S 
 
 	Chipher Suite C chiede cosa usare nella connessione (criptazione,chiave)
 	"       "     S accetto o meno (nel caso propone di nuovo)
@@ -2853,7 +2928,11 @@ Record 		--> "macina" i dati nel trasferimento
 
 Prende un messaggio d'applicazione e ci lavora:
 * lo spacca in blocchi
-FOTO!!!
+* OPZIONALMENTE comprime i blocchi
+* calcola un MAC per i blocchi
+* Cripta i blocchi
+* aggiunge un header
+* trasmette
 
 				*BUG TLS*
 
@@ -2868,7 +2947,13 @@ Non è più trasparente per le applicazioni
 Permette a chi gestisce i servizi finali di leggere i dati
 
 -------------------------------------------------------------------------------
-titolo END TO END
+	  ______ _   _ _____    _______ ____    ______ _   _ _____  
+	 |  ____| \ | |  __ \  |__   __/ __ \  |  ____| \ | |  __ \ 
+	 | |__  |  \| | |  | |    | | | |  | | | |__  |  \| | |  | |
+	 |  __| | . ` | |  | |    | | | |  | | |  __| | . ` | |  | |
+	 | |____| |\  | |__| |    | | | |__| | | |____| |\  | |__| |
+	 |______|_| \_|_____/     |_|  \____/  |______|_| \_|_____/ 
+                                                            
 -------------------------------------------------------------------------------
 
 Criptazione dal livello applicazione (eventualmente rafforzata da passaggi
@@ -2913,7 +2998,7 @@ Signal funziona con server in 4 passaggi:
 	                         info di B su S e fa dei conti con esse (3 ECDH
 				 e 1 KDF) --> ad ogni ..
 	* Comunicazione simmetrica --> A mette il messaggio cifrato su S e B lo
-                                       prende e fa gli stessi calcoli dl Set Up ??
+                                       prende e fa gli stessi calcoli dl Set Up
 	* Comunicazione asimmetrica
 
 Meno di 100 messaggi ripristinabili con una chiave
@@ -2921,8 +3006,21 @@ Meno di 100 messaggi ripristinabili con una chiave
 S NON ha nessun mio messaggio, solo il mio dispositivo
 
 -------------------------------------------------------------------------------
-titolo WEB OF TRUST
--------------------------------------------------------------------------------
+		 __          ________ ____     ____  ______ 
+		 \ \        / /  ____|  _ \   / __ \|  ____|
+		  \ \  /\  / /| |__  | |_) | | |  | | |__   
+		   \ \/  \/ / |  __| |  _ <  | |  | |  __|  
+		    \  /\  /  | |____| |_) | | |__| | |     
+		     \/  \/   |______|____/   \____/|_|     
+
+		  _______ _____  _    _  _____ _______ 
+		 |__   __|  __ \| |  | |/ ____|__   __|
+		    | |  | |__) | |  | | (___    | |   
+		    | |  |  _  /| |  | |\___ \   | |   
+		    | |  | | \ \| |__| |____) |  | |   
+		    |_|  |_|  \_\\____/|_____/   |_|   
+                                       
+--------------------------------------------------------------------------------
 
 				*PGP*
 
@@ -2932,9 +3030,7 @@ comunicazioni sul fidarsi del prossimo
 
 Rende possibile decidere un livello di fiducia tra gli utenti --> Web of Trust
 
--------------------------------------------------------------------------------
-titolo John The Ripper
--------------------------------------------------------------------------------
+			*JOHN THE RIPPER*
 
 Password cracker 
 Prende una lista di hash/uno solo e attraverso vari metodi tenta di tornare al
