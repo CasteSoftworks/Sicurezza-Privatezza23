@@ -3036,3 +3036,235 @@ Password cracker
 Prende una lista di hash/uno solo e attraverso vari metodi tenta di tornare al
 plaintext		|
 			'--> sia hash normali sia con salt sia file etc/shadow
+
+-------------------------------------------------------------------------------
+titolo Defensive Cybersecurity
+-------------------------------------------------------------------------------
+
+				*STRATEGIA DI DIFESA*
+
+Da adottare per prevenire e ridurre l'impatto di un attacco
+Dividsa in 5 fasi:
+	1 Identify - Identificazione delle falle - CRP
+	2 Protect - Protezione dalle falle - CRP
+	3 Detect - Riconoscimento dell'attacco - DCO
+	4 Respond - Risposta all'attacco - DCO
+	5 Recover - Se tutto va male, recuperare il sistema al momento 
+	            precedente all'attacco - DCO
+	
+	Cyber Resilience Programme --> 1 e 2
+	Defensive Cyber Operations --> 3, 4 e 5
+
+			*STRUMENTI BASE DI CYBERSICUREZZA*
+
+Ne esistono di diversi:
+	* Crittografia
+	* Protocolli di criptazione
+	* Antivirus
+	* EDR (Endpoint Data Recovery)
+	* ASLR, Stackguard
+
+Possono non bastare in alcuni casi
+				
+				*FIREWALL*
+
+Oggetti sia SW sia HW che analizzano il traffico di rete e decidono caso per
+caso cosa fare con il traffico che gli passa attraverso
+
+Sono programmati con regole specifiche che determinano il suo comportamento
+	* controlla tutto
+	* controlla solo i pacchetti che vengono da X
+	* se il pacchetto è sospetto avvisami tramite LOG
+		
+		--> |	       | --> 
+  internet      --> | FIREWALL |	rete interna
+		--> |	       | -->
+
+Spesso usati in aziende e organizzazioni
+
+Una volta erano scavalcabili tramite la rete GSM
+
+Possono avvisare di eventuale traffico malevolo o supposto tale
+
+Usato anche come frontiera per dividere sottoreti di una stessa organizzazione
+
+			*TIPI DI FIREWALL*
+
+Ne esistono di diversi tipi:
+	* Packet Filter --> guarda solo l'header IP, non il payload IP
+			'-> "scarta tutti i pacchetti di X.Y.Z.K"
+			    "fidati di tutti i pacchetti U.O.P.T"
+	* Stateful Inspection --> guarda anche l'header TCP
+	* proxy Firewall --> si mettono in mezzo alla connessione
+	* Application Gateway --> applica meccanismi di sicurezza a specifiche
+				 applicazioni come TCP, Telnet
+
+			*PACKET FILTER*
+
+Fa passare o no un pacchetto da una rete ad un altra, non sulla stessa
+
+Analizza i seguenti campi:
+	* IPsrc/dest
+	* Protocollo di trasporto
+	* TCP/UDP src/dest
+	* tipo di messaggio ICMP
+	* opzioni di pacchetto
+Fa le seguenti cose:
+	* fa passare il pacchetto
+	* ferma il pacchetto (comunicandolo al mittente o no)
+	* modifica il pacchetto
+	* logga le informazioni sul pacchetto
+
+E' pesante controllare ogni pacchetto, sopratutto se la connessione è già sicura
+
+			*STATEFUL FILTERING*
+
+Evoluzione del packet filter che evita il controllo di ogni pacchetto ma solo
+quelli delle nuove connessioni
+
+			*ESEMPIO DI FIREWALL*
+
+ABILITARE LE CONNESSIONI SSH DA ESTERNI A INTERNI
+	Due regole
+		* Inbound
+		* Outbound
+
+	Se Inbound arriva da 1023 e vuole arrivare a 22
+	Se Outbound va da 22 a 1023
+	Se è TCP
+	--> è SSH
+
+	FOTO!!!
+
+			*REGOLE DI DEFAULT*
+	
+	* Egress filtering
+	* Ingress filtering
+	* Deny default
+
+			*CONFIGURAZIONE DI BASE*
+
+			Internet
+			   |
+			   |
+			FIREWALL ----- DMZ (cose pubbliche tipo il WebServer)
+			   |
+			   |
+			Intranet
+
+Internet può accedere a DMZ --> accede solo alle cose pubbliche (sito web)
+Intranet può accedere a DMZ e Internet --> accede a tutto perché autorizzato
+DMZ può accedere a Internet  --> così non fa da ponte tra internet e intranet
+
+				*DMZ*
+
+La più vulnerabile agli attacchi --> difese da dei Bastion Host
+							|
+							v
+						detti hardenized
+							|
+							v
+					rinforzati grazie ad un kernel
+					modificato tramite la rimozione di ogni
+					cosa superflua per il suo funzionamento
+
+				*PROXY FIREWALL*
+
+Dividono in due la connessione e vi si mettono in mezzo
+Di due tipi:
+	* livello applicazione --> Web Application Firewall o WAF per HTTP
+	* livello trasporto
+	
+	Trasporto --> utile per le trasmissioni cifrate
+		   ______
+	fuori --->|-,	|
+		  | |	|
+		  | '---|--> dentro
+		  |_____|
+
+	Applicazione --> utile per analizzare il payload per trovare eventuali
+		     |	 minacce come buffer overflow (troppi x90 di fila)
+		     |-> pesante dal punto di vista computazionale
+		     '-> necessità di un firewall PER OGNI applicazione (HTTP,
+		         FTP, ...)
+
+			 *AIR GAP*
+
+Un server riceve tutto il traffico e un demone analizza il traffico e decide il
+da farsi e manda VERSO, non A, la rete locale ciò che va bene
+		   ______
+		   |	 |
+	fuori <--> |  S	 | <--> dentro 
+		   |_____|
+Il server è IN MEZZO dividendo la connessione
+
+Usato probabilmente da NSA e servizi segreti
+
+			*NEXT GENERATION FIREWALL*
+
+Un firewall che non solo controlla la porta e i pacchetto ma analizza, indaga e
+previene le intrusioni in modo autonomo usando conoscenze esterne al firewall
+
+Sono anche capaci di riconoscere e bloccare il malware (feature di antivirus)
+direttamente dal payload
+
+				*IDS*
+
+Intrusion Detection Systems --> sistemi che rilevano le intrusioni IN TEMPO
+			    |	REALE e in maniera autonoma tramite sistemi HW e
+			    |   SW
+			    |-> sono PASSIVI --> avvisano e basta
+			    '-> stanno iniziando ad essere ATTIVI --> difendono
+			        e magari attaccano a loro volta
+
+Divisi in due tipi
+	* Host Based --> su macchine individuali (computer, server, ..) tramite
+	  		 programmi-sensori (SW) su ognuna chiamati Agenti
+	* Network based --> controllano punti strategici di una rete tramite dei
+	  		    sensori (HW) sparsi per la rete e analizzati da un 
+			    server chiamato Management System
+E in due ulteriori sottotipi:
+	* Misuse Based --> come per gli antivirus con le Signature ma non per 
+			   il malware ma per "cose strane" nel sistema basandosi
+			   su eventi già noti e studiati --> NON vanno bene per
+			   gli Zero Day
+	* Anomaly Based --> si basano sul sapere il comportamento "normale" di 
+			    un sistema e controllano per deviazioni dalla norma
+
+In ogni caso l'IDS AVVISA SOLO senza prendere decisioni sul da farsi
+
+Gli Host Anomaly Based usano i file di LOG per analizzare il funzionamento 
+normale del sistema (training). Al termine della profilazione il sistema sa
+moderare l'uso della macchina
+I Network Anomaly Based controllano e si addestrano sull'uso normale della rete
+
+Gli Anomaly Based generano molti FALSI POSITIVI 
+	Allarmi totali in organizzazioni grosse --> decine di k 
+	Veri Positivi --> meno dell'1%
+	Tempo di lavorazione per allarme --> fino a 40 minuti
+
+					*SIEM*
+
+Tutti questi sistemi generano moli titaniche di dati, impossibili da gestire per
+un umano, ma non per una macchina --> le SIEM Security Information and Event
+Manager
+
+Analizzano i dati e estraggono gli allarmi più probabili attraverso complicati
+sistemi di elaborazione di d'allarme, LOG, errori, ...
+
+Sono i cuori dei Cybersecurity Security Operation Centers CSOC --> centri di
+calcolo giganteschi che lavorano 24/7 per analizzare il traffico
+			|-> ogni ISP ne ha uno
+			|-> tentano di prevenire attacchi
+			'-> analizzano le vulnerabilità
+
+Scartano i falsi positivi
+
+Inoltrano i positivi agli analisti (junior e senior)
+			* se i junior non sanno analizzarlo vanno ai senior
+			* i senior confermano o meno l'allarme e nel caso danno
+			  l'ordine ai CSIRT (Computer Security Incident response
+			  Team, prima CERT) di agire
+			* gli CSIRT si mettono al lavoro
+
+Un esempio di SOC è WAZUH
