@@ -3129,12 +3129,19 @@ ABILITARE LE CONNESSIONI SSH DA ESTERNI A INTERNI
 		* Inbound
 		* Outbound
 
-	Se Inbound arriva da 1023 e vuole arrivare a 22
-	Se Outbound va da 22 a 1023
+	Se Inbound arriva da >1023 e vuole arrivare a 22
+	Se Outbound va da 22 a >1023
 	Se è TCP
 	--> è SSH
 
-	FOTO!!!
+Genera la tabella di regole seguente:
+-------------------------------------------------------------------------------
+Regole | Dir | Src Addr | Src Prot | Dst Addr | Dst Prot | Prot | Ack? | Action
+-------------------------------------------------------------------------------
+SSH-1  |  In |  Ext     |  >1023   | In       |  22      |  TCP | any  | Allow
+-------------------------------------------------------------------------------
+SSH-2  | Out | In	|  22	   | Ext      | >1023	 |  TCP | yes  | Allow
+-------------------------------------------------------------------------------
 
 			*REGOLE DI DEFAULT*
 	
