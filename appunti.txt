@@ -33,12 +33,14 @@
 ===============================================================================
 -------------------------------------------------------------------------------
 	
-	"Measures and controls that ensure confidentiality, 
-	 integrity and availability of information system
-	 assets including hardware, software, firmware and
-	 information being processed, stored and comminucated"
+	   
+
+	   "Measures and controls that ensure confidentiality, 
+	    integrity and availability of information system
+	    assets including hardware, software, firmware and
+	    information being processed, stored and communicated"
 	 
-	 - National Institute of Standards and Technology
+	    - National Institute of Standards and Technology
 
 -------------------------------------------------------------------------------
 		  ____           _____ _____      _____ _____ 
@@ -57,9 +59,9 @@
                                                                
 --------------------------------------------------------------------------------
 
-		   *TIMELINE DEGLI ATTACCHI PIU' IMPORTANTI*
+		   *TIMELINE DEGLI ATTACCHI PIÙ IMPORTANTI*
 		
- X 1986 - Hacker Tedeschi al soldo del KGB rubano dati all'NSA *
+ X 1986 - Hacker tedeschi al soldo del KGB rubano dati all NSA *
  |
  X 1988 - Internet Worm di Morris - Buffer Overflow
  |
@@ -69,14 +71,14 @@
  |
  X 2010 - Stuxnet manda KO e ritarda di anni il programma nucleare iraniano *
  |
- X 2017 - WannCry sfrutta Ethernal Blue (software NSA) per fare un attacco
+ X 2017 - WannaCry sfrutta Eternal Blue (software NSA) per fare un attacco
  |	  Ransmoware *
  |
  X 2020 - SolarWinds intercetta per mesi le informazioni di svariate
  |	  organizzazioni e le manda a sconosciuti - Spyware
  V
 
-Da notare come quelli segnati con * sono legatio direttamente o per sospetto
+Da notare come quelli segnati con * sono legati direttamente o per sospetto
 fondato o per collegamento ai servizi segreti
 
 	*TERMINI PER INDICARE CHI LAVORA CON LA SICUREZZA INFORMATICA*
@@ -99,13 +101,13 @@ Sono tre concetti fondamentali per la sicurezza in un sistema informatico
 Altre tre regole fondamentali e legate alle auree sono:
 	* Availability o Confidenzialità --> la capacità del sistema di gestire
 	  				     l'accesso alla informazione
-	* Condfidentiality o Confidenzialità --> la capacità di garantire
+	* Confidentiality o Confidenzialità --> la capacità di garantire
 	  					 l'accesso solo agli utenti 
 						 abilitati 
 	* Integrity o Integrità --> la capacità di proteggere da modifiche e
 	  			    distruzioni di informazione da parte di 
 				    utenti non autorizzati
-Queste tre regole possono essere meglio specificate a seconda di dove sono
+Queste tre regole possono essere meglio specificate a seconda di dove sono
 applicate:___________________________________________________
  	 | Availability | Confidentiality |    Integrity     |
 ,--------+--------------+-----------------+------------------|
@@ -134,7 +136,7 @@ applicate:___________________________________________________
 vogliono |    | 	|danno     |vogliono	 | creano
 ridurre  |    |scelgono |valore    |sfruttare	 |
          | COUNTER=     '->ASSETS<-'		 |
-	 | MEASURS	   ^    ^		 |
+	 | MEASURES	   ^    ^		 |
 	 |    |per	   |	|		 |
 	 |    |ridurre	   |a	|a		 |
 	 |    v            |	|		 v
@@ -149,7 +151,7 @@ ridurre  |    |scelgono |valore    |sfruttare	 |
 * Controllo	--> metodi di difesa da Threat
 * Attacco	--> sfruttamento delle Vulnerabilità da parte di una Threat
 * Exploit	--> Attacco che usa Vulnerabilità
-* Contromisure 	--> parte del Controllo, mira ridurre il richio causato dalle
+* Contromisure 	--> parte del Controllo, mira ridurre il rischio causato dalle
   		    Vulnerabilità, ma può causarne di nuove
 
 			   *TIPI DI ATTACCO*
@@ -167,19 +169,19 @@ ATTIVI --> intaccano il funzionamento del sistema, più facili da scoprire
 * valutazione della Policy e della implementazione da ente esterno
 * test della Policy e della implementazione
 
-			*POLITICHE DI ACCESSO*
+				*POLITICHE DI ACCESSO*
 
-Discretionary Acces Control (DAC)
+Discretionary Access Control (DAC)
 - policy dettata dal proprietario della risorsa che decide come gestire gli  
   accessi (uso classico del pc)
-Mandatory acces control (MAC)
+Mandatory access control (MAC)
 - policy dettata dal sistema e decisa per tutti a priori (ambiente militare)
-  Role Based Acces Control (RBAC)
+  Role Based Access Control (RBAC)
 - a seconda della posizione e del ruolo la policy cambia (studenti, prof, 
   sysadmin)
 
 							
-				*DEFINIRE UNA POLITICA DI SICUREZZA*
+			*DEFINIRE UNA POLITICA DI SICUREZZA*
 
 Matrice che associa un utente ai permessi per ogni risorsa
 
@@ -199,7 +201,7 @@ Per tanti utenti non è gestibile --> COME POSSIAMO SFRUTTARE LE NOSTRE
 CONOSCENZE PER COMPRIMERE LA STRUTTURA DATI SENZA PERDERE PEZZI?
 
 * divido le persone/utenti secondo il loro ruolo e posizione (se ho 50k utenti 
-ma essi fanno parte di 5 gruppi da 10k -> anzichè avere 50k linee ne avrò 5) 
+ma essi fanno parte di 5 gruppi da 10k -> anziché avere 50k linee ne avrò 5) 
 ACCES CONTROL LIST ACL
 	------------------------
 	| g\o | car | tas | ... 
@@ -213,21 +215,21 @@ ACCES CONTROL LIST ACL
 	DA TENERE IN UN LUOGO SICURO PER TENERE SANA E SALVA LA POLICY - 
 	in Linux/Unix è contenuta nella I-NODE
 		I-NODE -> struttura dati su HD in struttura chiamata I-NODE 
-		TABLE e contienete i metadati dei file 
+		TABLE e contenete i metadati dei file 
 
 					*CAPABILITY*
 
-garantisce l'accesso attraverso dei TOKEN
-tenuta nel KERNEL dell'OS per mantenere la protezione alta -> se qualcuno ne 
-entra in possesso E' quella persona per il computer -> IMPORANTE
+Garantisce l'accesso attraverso dei TOKEN
+tenuta nel KERNEL dell'SO per mantenere la protezione alta -> se qualcuno ne 
+entra in possesso E' quella persona per il computer -> IMPORTANTE
 usato in Windows
 
 Una banca tiene traccia di chi ha l'accesso alla cassetta di sicurezza, deve 
-tenere al sicuro l'elenco -> ACCES CONTROL LIST
+tenere al sicuro l'elenco -> ACCESS CONTROL LIST
 		AUTENTICAZIONE - la banca controlla chi entra
 		PARTECIPAZIONE - la banca partecipa
 		FALSIFICAZIONE - l'elenco è al sicuro
-		DELEGAZIONE    - bisogna aggiunger euna entry ma è complesso                                                    
+		DELEGAZIONE    - bisogna aggiunger una entry ma è complesso                                                    
                 ELIMINAZIONE   - è facile da rimuovere una entry
 
 Io ho le chiavi della cassetta e posso decidere a chi darle, se voglio darle -> 
@@ -239,10 +241,10 @@ CAPABILITY
 		ELIMINAZIONE   - è difficile farsi dare la chiave indietro
 
 ACL E CAPABILITY HANNO PRO E CONTRO INVERSI
-	--> ACL USATA DI PIU'
+	--> ACL USATA DI PIÙ
 
 Il controllo di accesso è gestito dal Reference Monitor, un software che 
-gesticisce OGNI accesso e il cui funzionamento è ASSICURATO al 100%
+gestisce OGNI accesso e il cui funzionamento è ASSICURATO al 100%
 					--> passaggio a livello
 	 -------------------------------------------------
 :-) ---->|----> soggetto --> richiesta di accesso -,      |
@@ -265,14 +267,14 @@ gesticisce OGNI accesso e il cui funzionamento è ASSICURATO al 100%
 --------------------------------------------------------------------------------
 
 Evoluzione di MULTICS (Multiple Information and Computing System), che a seguito
-del fallimento della azienda produttrice è stato rinominato, dopo una risrittura
-in C, in UNICS (UNIplexed Information and Computing System) nel '74
+del fallimento della azienda produttrice è stato rinominato, dopo una 
+riscrittura in C, in UNICS (UNIplexed Information and Computing System) nel '74
 Per comodità venne chiamato poi UNIX data l'assonanza tra CS e X
 UNIX era Open Source e grazie a questo vennero aggiunte svariate modifiche tra
 cui il MULTITASKING
 Nel '78 AT&T comprò la versione 7 del Kernel e la rinominò SYS V rendendolo
 PROPRIETARIO
-L'università di Berkley creò dal Kernel 6 BSD che rimase Open Source
+L'università di Berkeley creò dal Kernel 6 BSD che rimase Open Source
 Dalla fusione di SYS V e BSD nacque LINUX nel '91
 
 			*L'INTERPRETE DEI COMANDI o SHELL*
@@ -291,11 +293,11 @@ Può essere creato da diverse cose:
 	* da un altro processo
 	* dal sistema stesso
 
-Quando un precesso viene aggiunto esso vene caricato in memoria, gli viene
-risevato spazio nello stack per le variabili dinamiche e nella memoria statica
+Quando un processo viene aggiunto esso vene caricato in memoria, gli viene
+riservato spazio nello stack per le variabili dinamiche e nella memoria statica
 per le costanti, viene creato un Process Control Block (PCB) e infine viene
 messo in coda.
-Quando termina vengono dellocati tutti gli spazi di memoria, chiusi i file
+Quando termina vengono deallocati tutti gli spazi di memoria, chiusi i file
 usati e restituito spazio al processo che lo ha chiamato
 
 Vengono gestiti dagli SO in Round Robin --> gestiti a turno ripetuto
@@ -319,7 +321,7 @@ restituisce 0 al FIGLIO e il PID del FIGLIO al PADRE
 				*PROCESSO ZOMBIE*
 
 Si dice ZOMBIE un processo dimenticato dal padre che si chiude senza prima
-chidere il figlio.
+chiudere il figlio.
 Vengono eliminati periodicamente dal SO
 
 				*PROCESSI IN UNIX*
@@ -359,7 +361,7 @@ al Path desiderato esistono anche questi comandi speciali:
 	* /  per tornare a Root
 	* .  usabile per indicare il Path RELATIVO
 	* .. per tornare indietro di una cartella
-	* ~  per idicare la cartella HOME dell'utente
+	* ~  per indicare la cartella HOME dell'utente
 
 Esistono altri comandi per il FS come FIND, WHICH, LOCATE, CAT, MORE, HEAD e
 TAIL
@@ -476,25 +478,25 @@ Composto da:
 	* Segmenti
 
 
-					-------------------------
-					|	ELF Header      |
-					-------------------------
-					| program header table  |
-					-------------------------
-					| .text			|
-					-------------------------
-					| .rodata               |
-					-------------------------
-					| .bss                  |
-					-------------------------
-					| .plt		        |
-					-------------------------
-					| .got		        |
-					-------------------------
-					| .got.plt              |
-					|------------------------
-					|.symtab		|
-					-------------------------
+			-------------------------
+			|	ELF Header      |
+			-------------------------
+			| program header table  |
+			-------------------------
+			| .text			|
+			-------------------------
+			| .rodata               |
+			-------------------------
+			| .bss                  |
+			-------------------------
+			| .plt		        |
+			-------------------------
+			| .got		        |
+			-------------------------
+			| .got.plt              |
+			|------------------------
+			|.symtab		|
+			-------------------------
 
 HEADER
 
@@ -780,7 +782,8 @@ i ritorni sono eax
 					*SHELL CODE*
 
 Codice in linguaggio macchina --> utile per sfruttare le vulnerabilità usando 
-				  le INJECTION										     |
+				  le INJECTION
+				  	     |
 					     v
 				non sulla Harvard
 durante l'esecuzione di un processo si inserisce del codice in più
