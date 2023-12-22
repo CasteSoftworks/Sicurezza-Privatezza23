@@ -32,6 +32,13 @@
 			    Giacomo Castellana
 ===============================================================================
 -------------------------------------------------------------------------------
+	
+	"Measures and controls that ensure confidentiality, 
+	 integrity and availability of information system
+	 assets including hardware, software, firmware and
+	 information being processed, stored and comminucated"
+	 
+	 - National Institute of Standards and Technology
 
 -------------------------------------------------------------------------------
 		  ____           _____ _____      _____ _____ 
@@ -50,9 +57,117 @@
                                                                
 --------------------------------------------------------------------------------
 
-da copiare regole auree
+		   *TIMELINE DEGLI ATTACCHI PIU' IMPORTANTI*
+		
+ X 1986 - Hacker Tedeschi al soldo del KGB rubano dati all'NSA *
+ |
+ X 1988 - Internet Worm di Morris - Buffer Overflow
+ |
+ X 1994 - Attacco di Mitnick - TCP Hijacking
+ |
+ X 1995 - Attacco bancario alla Citibank di Londra da parte di hacker russi
+ |
+ X 2010 - Stuxnet manda KO e ritarda di anni il programma nucleare iraniano *
+ |
+ X 2017 - WannCry sfrutta Ethernal Blue (software NSA) per fare un attacco
+ |	  Ransmoware *
+ |
+ X 2020 - SolarWinds intercetta per mesi le informazioni di svariate
+ |	  organizzazioni e le manda a sconosciuti - Spyware
+ V
 
-				*POLITICHE DI ACCESSO*
+Da notare come quelli segnati con * sono legatio direttamente o per sospetto
+fondato o per collegamento ai servizi segreti
+
+	*TERMINI PER INDICARE CHI LAVORA CON LA SICUREZZA INFORMATICA*
+
+CRACKER o BLACK HAT --> Hacker malevolo
+GRAY HAT	    --> Hacker indeciso 
+WHITE HAT	    --> Hacker benevolo
+SCRIPT KIDDIE       --> Principianti che usano codice altri senza conoscerne il
+		        funzionamento
+
+		   *I PILASTRI DELLA SICUREZZA INFORMATICA*
+
+Le fondamentali sono dette le TRE REGOLE AUREE o AAA dalle loro iniziali
+inglesi o dal simbolo chimico dell'oro Au:
+	* Authentication
+	* Authorization
+	* Audit
+Sono tre concetti fondamentali per la sicurezza in un sistema informatico
+
+Altre tre regole fondamentali e legate alle auree sono:
+	* Availability o Confidenzialità --> la capacità del sistema di gestire
+	  				     l'accesso alla informazione
+	* Condfidentiality o Confidenzialità --> la capacità di garantire
+	  					 l'accesso solo agli utenti 
+						 abilitati 
+	* Integrity o Integrità --> la capacità di proteggere da modifiche e
+	  			    distruzioni di informazione da parte di 
+				    utenti non autorizzati
+Queste tre regole possono essere meglio specificate a seconda di dove sono
+applicate:___________________________________________________
+ 	 | Availability | Confidentiality |    Integrity     |
+,--------+--------------+-----------------+------------------|
+|   HW   | Sabotato     | Rubato          |        /         |
+|--------+--------------+-----------------+------------------|
+|   SW   | Cancellato   | Copiato         | Modificato       |
+|--------+--------------+-----------------+------------------|
+| Dati   | Cancellati   | Letti/Analizzati| Modificati       |
+|--------+--------------+-----------------+------------------|
+| Linee  | Interrotte   | Traffico letto  | Traffico alterato|
+| di     | 	        |                 |                  |
+| Comuni=|	        |                 |                  |
+| cazione|	        |                 |                  |
+'--------+--------------+-----------------+------------------+
+
+				*ASSET DI UN SISTEMA*
+
+* HW
+* SW
+* Dati
+* Linee di comunicazione
+
+			*SCHEMA DELLA LOGICA DI SICUREZZA*
+
+	 ---- OWNERS ---- 	   ------ THREAT AGENTS
+vogliono |    | 	|danno     |vogliono	 | creano
+ridurre  |    |scelgono |valore    |sfruttare	 |
+         | COUNTER=     '->ASSETS<-'		 |
+	 | MEASURS	   ^    ^		 |
+	 |    |per	   |	|		 |
+	 |    |ridurre	   |a	|a		 |
+	 |    v            |	|		 v
+	 '-> RISK ---------'	'------------ THREATS
+	      ^		che aumentano		 |
+	      '----------------------------------'
+
+				*TERMINI*
+
+* Vulnerabilità --> debolezza di un sistema, sia HW che SW
+* Threat	--> minaccia ad un sistema
+* Controllo	--> metodi di difesa da Threat
+* Attacco	--> sfruttamento delle Vulnerabilità da parte di una Threat
+* Exploit	--> Attacco che usa Vulnerabilità
+* Contromisure 	--> parte del Controllo, mira ridurre il richio causato dalle
+  		    Vulnerabilità, ma può causarne di nuove
+
+			   *TIPI DI ATTACCO*
+
+PASSIVI --> non intaccano il funzionamento, per questo MOLTO difficili da
+	|   scoprire
+	'-> usati per la raccolta di informazioni
+
+ATTIVI --> intaccano il funzionamento del sistema, più facili da scoprire
+
+			  *STEP NEL CONTROLLO*
+
+* delineamento di una Security Policy
+* implementazione della Policy
+* valutazione della Policy e della implementazione da ente esterno
+* test della Policy e della implementazione
+
+			*POLITICHE DI ACCESSO*
 
 Discretionary Acces Control (DAC)
 - policy dettata dal proprietario della risorsa che decide come gestire gli  
@@ -148,7 +263,106 @@ gesticisce OGNI accesso e il cui funzionamento è ASSICURATO al 100%
 			  \____/|_| \_|_____/_/ \_\
                            
 --------------------------------------------------------------------------------
-Uno se non il PRIMO SO
+
+Evoluzione di MULTICS (Multiple Information and Computing System), che a seguito
+del fallimento della azienda produttrice è stato rinominato, dopo una risrittura
+in C, in UNICS (UNIplexed Information and Computing System) nel '74
+Per comodità venne chiamato poi UNIX data l'assonanza tra CS e X
+UNIX era Open Source e grazie a questo vennero aggiunte svariate modifiche tra
+cui il MULTITASKING
+Nel '78 AT&T comprò la versione 7 del Kernel e la rinominò SYS V rendendolo
+PROPRIETARIO
+L'università di Berkley creò dal Kernel 6 BSD che rimase Open Source
+Dalla fusione di SYS V e BSD nacque LINUX nel '91
+
+			*L'INTERPRETE DEI COMANDI o SHELL*
+
+Detto anche terminale, parla direttamente con il Kernel dell'SO per interpretare
+ed eseguire i comandi inseriti al suo interno creando durante l'esecuzione
+processi.
+
+				*PROCESSO*
+
+Detta così l'esecuzione di un programma
+Ad ogni processo sono allocate risorse (CPU, memoria, I/O)
+
+Può essere creato da diverse cose:
+	* richiesta dell'utente
+	* da un altro processo
+	* dal sistema stesso
+
+Quando un precesso viene aggiunto esso vene caricato in memoria, gli viene
+risevato spazio nello stack per le variabili dinamiche e nella memoria statica
+per le costanti, viene creato un Process Control Block (PCB) e infine viene
+messo in coda.
+Quando termina vengono dellocati tutti gli spazi di memoria, chiusi i file
+usati e restituito spazio al processo che lo ha chiamato
+
+Vengono gestiti dagli SO in Round Robin --> gestiti a turno ripetuto
+					'-> in caso di processi lunghi essi
+					    vengono interrotti e ripresi
+	      queue	  execute	   exit/end/return
+	NUOVO ----> READY -------> RUNNING ---------------> TERMINATED
+		    ^	^ time out |     |
+		    |	'----------'	 | long running
+		    | finished operation v
+		    '-----------------BLOCKED
+
+				*FORK()*
+
+Syscall per generare un processo
+
+Crea un nuovo processo detto FIGLIO identico al creatore detto PADRE in tutto
+tranne per un valore detto PID. Restituisce -1 se trova un errore, altrimenti
+restituisce 0 al FIGLIO e il PID del FIGLIO al PADRE
+				
+				*PROCESSO ZOMBIE*
+
+Si dice ZOMBIE un processo dimenticato dal padre che si chiude senza prima
+chidere il figlio.
+Vengono eliminati periodicamente dal SO
+
+				*PROCESSI IN UNIX*
+
+Hanno tutti un PID univoco e possono essere in:
+	* Foreground --> interagibili
+	* Background --> non interagibili senza un eventuale passaggio in
+	  	         Foreground
+
+				*FILESYSTEM UNIX*
+
+Diviso in:
+	* Drive 	--> dischi
+	* Directory 	--> cartelle
+	* File 		--> documenti
+
+Il Drive base si chiama Root ed è indicato con /
+/ è anche usato per dividere nel Path (il percorso) Directory superiori da 
+elementi (sia Directory sia File) inferiori
+	/source/dev/..../ciao.txt
+	^  ^     ^        ^
+	|  |     |	  |
+      root |     |        |
+      First Level|	  |
+      Directory  |	  |
+          Second Level  File
+	  Directory
+
+Il path può essere ASSOLUTO, parte da Root, o RELATIVO, parte dalla Directory
+Corrente
+
+L'FS di Unix possiede delle cartelle speciali che contengono programmi e
+informazioni importanti per il sistema
+
+Si usa il comando cd per cambiare livello di directory e in particolare, oltre
+al Path desiderato esistono anche questi comandi speciali:
+	* /  per tornare a Root
+	* .  usabile per indicare il Path RELATIVO
+	* .. per tornare indietro di una cartella
+	* ~  per idicare la cartella HOME dell'utente
+
+Esistono altri comandi per il FS come FIND, WHICH, LOCATE, CAT, MORE, HEAD e
+TAIL
 
 				*L'UTENTE IN UNIX*
 
