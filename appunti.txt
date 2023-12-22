@@ -242,7 +242,7 @@ CAPABILITY
 
 ACL E CAPABILITY HANNO PRO E CONTRO INVERSI
 	--> ACL USATA DI PIÙ
-
+
 Il controllo di accesso è gestito dal Reference Monitor, un software che 
 gestisce OGNI accesso e il cui funzionamento è ASSICURATO al 100%
 					--> passaggio a livello
@@ -618,7 +618,7 @@ Ogni processo ha DUE UID:
 	  si basa su di esso
 Di norma sono uguali. Quando Set-UID viene eseguito l'EUID cambia a quello di 
 root (0) --> lo si può capire se nei permessi c'è una S (vedi sopra)
-			
+			
 				*BASH*
 
 Scripting IN Console
