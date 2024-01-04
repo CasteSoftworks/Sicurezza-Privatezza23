@@ -1,0 +1,6 @@
+mov r9, 0xdeadbeef00001337
+mov [rdi], r9
+mov r9, 0xc0ffee0000
+mov [rsi], r9
+
+#49B937130000EFBEADDE4C890F49B90000EEFFC00000004C890E
