@@ -29,7 +29,7 @@
 	 |_|    |_|  \_\_____|   \/_/    \_\_|  |______/_____/_____/_/    \_\
                                                                      
 				CORSO 2023
-			    Giacomo Castellana
+		     appunti di Giacomo Castellana
 ===============================================================================
 -------------------------------------------------------------------------------
 	
@@ -41,6 +41,12 @@
 	    information being processed, stored and communicated"
 	 
 	    - National Institute of Standards and Technology
+
+
+
+
+		   Distrbuiti sotto licenza CC-BY-NC-SA 4.0
+
 
 -------------------------------------------------------------------------------
 		  ____           _____ _____      _____ _____ 
@@ -86,7 +92,7 @@ fondato o per collegamento ai servizi segreti
 CRACKER o BLACK HAT --> Hacker malevolo
 GRAY HAT	    --> Hacker indeciso 
 WHITE HAT	    --> Hacker benevolo
-SCRIPT KIDDIE       --> Principianti che usano codice altri senza conoscerne il
+SCRIPT KIDDIE       --> Principianti che usano codice altrui senza conoscerne il
 		        funzionamento
 
 		   *I PILASTRI DELLA SICUREZZA INFORMATICA*
@@ -3506,3 +3512,253 @@ Inoltrano i positivi agli analisti (junior e senior)
 			* gli CSIRT si mettono al lavoro
 
 Un esempio di SOC è WAZUH
+
+-------------------------------------------------------------------------------
+		   ____  ____  _____     ___    ______   __
+		  |  _ \|  _ \|_ _\ \   / / \  / ___\ \ / /
+		  | |_) | |_) || | \ \ / / _ \| |    \ V / 
+		  |  __/|  _ < | |  \ V / ___ \ |___  | |  
+		  |_|   |_| \_\___|  \_/_/   \_\____| |_|
+-------------------------------------------------------------------------------
+
+		             *COSA E' LA PRIVACY*
+
+* Il diritto a essere lasciati in pace
+* Il diritto alla armonia personale
+* Il diritto ad una vita privata
+* Il diritto al controllo delle informazioni personali
+* Il diritto alla segretezza
+* Il diritto alla anonimità
+
+Un DIRITTO a ..... (vari)
+
+Il concetto nasce nel 1890 da due avvocati (Warren & Brandeis) che stavano
+difendendo un attore che voleva difendersi da un giornale che ha pubblicato una
+sua foto paparazzata.
+I due avvocati scrissero un libretto di 70 pagine sul concetto della necessità
+di difesa dalle nuove tecnologie (le macchine fotografiche ai tempi) nella vita
+privata o come dissero loro: THE RIGHT TO BE LEFT ALONE
+
+Si è evoluto nel corso della storia. Nel 2004 Rodotà (primo Garante della
+Privacy italiano) che disse che la privacy non è solo il diritto ad essere
+lasciato in pace ma anche il diritto alla dignità e alla libertà delle persone.
+Disse inoltre che la privacy è analoga alla libertà di parola e associazione
+garantita dalla Costituzione in quanto attraverso una violazione di essa una
+persona può essere discriminata. 
+Bisogna difendere il "corpo digitale" come quello fisico
+
+PRIVACY != CONFIDENTIALITY
+
+La privacy diventa per Westin diventa un diritto sociale ed è necessario che
+venga tutelata perché una riduzione può limitare o ledere le libertà personali.
+Ad esempio tramite ricatto diretto ("se non fai X allora ...") o indiretto
+(pressione della opinione pubblica su un giurato).
+
+La privacy sis contra con alcune cose come:
+	* la prevenzione e punizione del crimine
+	* il combattimento al terrorismo
+	* il combattere la disinformazione
+
+La privacy è minacciata anche dal valore intrinseco delle informazioni per il
+marketing e per la pubblicità. 
+Nel 2026 si stima un valore TOTALE del mercato delle informazioni (Business 
+Intelligence Market) di 55 miliardi di dollari.
+Quest'anno si stimano 6 triliardi di dollari di guadagni per l'E-Commerce.
+
+				*DIGITAL PRIVACY*
+
+Il diritto di chiunque di determinare come e quanto le loro informazioni possono
+essere comunicate a terzi
+								-Alan Westin
+
+4 tipi:
+	* PII Personal Identifiable Information (nome, cognome, codice fiscale,
+	  numero di telefono, ...)
+	* Non-PII tendenze e inclinazioni di una persona (libri che vengono
+	  letti, musica ascoltata, opinioni politiche, ...)
+	* Location Data i luoghi fisici
+	* Device/Network Data informazioni sulla tecnologia usata (IP, MAC, ..)
+
+			*PROFILING INFORMATIONS*
+
+File caricati e scaricati, queries di ricerca, comunicazioni, media consumati,
+siti visitati, interazioni social, commercio elettronico, ...
+				^
+				|
+sono già conosciute dai provider dei servizi usati (Google, Vodafone, Spotify,
+Facebook, Amazon, ...)
+
+				*PRIVACY THREAT*
+
+Una qualunque circostanza che minaccia il controllo di un individuo sulle
+informazioni che lo riguardano.
+
+Possono essere subliminali (cercare su Google qualcosa mostra già un nostro
+interesse nella materia cercata) o reali (attacchi di data-breach, furto di
+identità, ...).
+
+Qui si collega la Sicurezza Informatica e la Privacy. Difendere il sistema per
+difendere l'utente.
+
+			    *ATTACCHI ALLA PRIVACY*
+
+* Furto di Identità---,
+* Profilazione  ------| legati a
+* Data Breach   <-----'
+
+				*IDENTITY THEFT*
+
+Rubare l'identità a qualcuno e spacciarsi per lui con altri.
+
+Spesso i dati si ottengono attraverso:
+	+ Phishing
+	+ Social Engineering
+	+ Dumpster Diving
+	+ DATA BREACHES
+	+ Malware
+	+ Skimming
+I danni più comuni sono:
+	+ Perdite monetarie
+	+ Conseguenze legali
+	+ Danni d'immagine
+	+ Danni psicologici
+
+				*PROFILING*
+
+Mira a creare un profilo psicologico, abitudinale e comportamentale di qualcuno
+con lo scopo di influenzare la sua esperienza di shopping o le sue opinioni.
+
+Spesso non bisogna nemmeno "stancarsi" per ottenere i dati, basta offrire un
+buon servizio e chiedere in cambio informazioni anziché soldi("tanto è gratis")
+
+				*DATA BREACH*
+
+Attacco ad infrastrutture o contenitori di informazioni sensibili per vendita o
+sfruttamento diretto.
+
+Possono essere svolti in svariati modi con anche le modalità nella sezione di
+sicurezza offensiva precedente.
+
+Il Data Breach più famoso fu fatto da Edward Snowden.
+Altri importanti furono Cambridge Analitica e Ashley Madison
+
+			*SOCIETÀ DELLA SORVEGLIANZA*
+
+Tutte le attività sono loggate e monitorate tramite il nostro uso quotidiano e
+quando non collaboriamo attivamente ci pensa il resto della infrastruttura di
+difesa (CCTV,....)
+
+Combinando tutte le nostre informazioni si può ricreare una copia 1:1 di noi
+stessi.
+
+Si aggiungeranno in futuro problemi ulteriori sulla parte biometrica
+
+THE AGE OF SURVEILLANCE CAPITALISM
+
+		   *COME SI TENTA DI PROTEGGERE LA PRIVACY*
+
+Lato LEGALE:
+La legge è ovviamente arrivata dopo i primi fattacci.
+L'approccio legale è tipicamente europeo mentre quello statunitense è più
+"flessibile" e si basa sulla autoregolazione da parte delle aziende, ora stanno
+pian piano muovendo nella direzione europea, ma per ora solo a livello statale.
+In EU si usano LEGGI COMPRENSIVE come il GDPR
+
+Lato UTENTE:
+Evitare la diffusione di informazioni tramite alcuni step:
+	* Privacy Enhancing Technology - ad esempio PGP
+	* Self Regulation - evitare di raccontare i fatti propri
+	* Privacy Education - spiegare come non raccontare i fatti propri
+
+Lato PROGRAMMATORE:
+	* Anonimity - renderebbe superfluo il resto ma non è sicuro
+	* Pseudo-Anonimity - si è noti solo in alcuni contesti
+	* Unobservability - non si può essere visti mentre si usa
+	* Unlinkability - non si può collegare l'uso all'usatore
+
+				   *GDPR*
+
+General Data Protection Regulation --> è una direttiva, DEVE essere seguita.
+Prevede pene pari al 4% del fatturato annuo o 20 milioni di euro (il più grande)
+Ispirato dalle leggi sulla privacy italiane (presenti dal '94)
+Può anche generare casi di indagini penali
+
+Detta anche determinati diritti:
+	* il diritto all'accesso
+	* il diritto all'oblio
+	* il diritto allo spostamento dei dati
+	* il diritto ad essere informati all'aggiunta dei dati
+	* il diritto a far correggere le informazioni
+	* il diritto a limitare la processazione dei dati
+	* il diritto alla obiezione
+	* il diritto alla notifica
+
+Detta cosa è informazione personale:
+	* nome
+	* indirizzo
+	* telefono
+	* mail
+	* COOKIE
+	* IP
+
+Le organizzazioni sono OBBLIGATE ad informare precisamente le informazioni che
+vogliono raccogliere e come le vorranno usare
+C'è dibattito sulla significatività del CONSENSO
+
+NON VIETA la raccolta, ma è regolamentata, deve essere annunciata all'utente e
+deve essere adeguatamente protetta
+
+In caso di Data Breach l'organizzazione è obbligata ad avvisare il Garante Della
+Privacy entro 24 ore e da lì parte una indagine per verificare l'adeguata
+protezione dei dati
+
+				*DEPERSONALIZZAZIONE*
+
+Raccoglimento di informazioni NON riconducibili ad una persona
+
+			   *PRIVACY ENHANCING TECHNOLOGY*
+
+Nome collettivo per software e tecnologie che aiutano ad aumentare la privacy
+dell'utente. Ad esempio:
+	* Tor (The Onion Router)
+	* TEE (Trusted Execution Enviroment) - fa in modo ce il codice eseguito
+	  ed i dati acceduti siano in un ambiente sicuro e protetto in
+	  confidenzialità e integrità --> Netflix su telefono ad esempio
+	* End2End --> WhatsApp
+	* Proxy - "passaggio" attraverso il quale la connessione transita che
+	  nasconde la connessione originale
+	  		A ----> Proxy ----> B
+				 ??
+				Terzo vede Proxy vero B, non A verso B
+			Può essere lento
+			Se uno lo "rompe" può vedere A -> B
+
+				     *TOR*
+
+Creato dal DARPA e dalla US Naval Intelligence
+E' un "proxy multiplo" --> sistema la problematica del "singolo nodo" del PROXY
+		       |   normale
+		       |-> sono svariati nodi tra me e la fonte
+		       |-> le comunicazioni tra utente e nodo, nodo e nodo e
+		       |   nodo server sono criptate --> A CIPOLLA
+		       |	|
+		       |	v
+		       |   su tre livelli --> 3 inizializzazioni con scambio
+		       |                      chiavi tra me e nodo
+		       |
+		       |  :-) [[[P]]] -> A [[P]] -> B [P] -> C P -> Server 
+		       |	DA C A SERVER SE SI USA HTTP E' IN CHIARO
+		       |	TOR BROWSER FORZA HTTPS PER OVVIARE
+		       |  P :-) [[[P]]] <- A [[P]] <- B [P] <- C P <- Server P
+		       |  
+		       |  Se il sito è .onion i nodi NON sono A,B e C ma J, H e
+		       |  G
+		       |-> gli URL sono alfanumerici e non sono facilmente
+		       |   memorizzabili da un umano --> spesso raccolti in
+		       |   elenchi tipo quelli del telefono e potrebbero non
+		       |   funzionare più
+		       |-> i nodi sono sia server sia altri utenti
+		       |-> i nodi possono essere non VICINI
+		       |-> i nodi rallentano la connessione
+		       '-> è possibile fare attacchi di correlazione al 1° e 3°
+		           nodo
