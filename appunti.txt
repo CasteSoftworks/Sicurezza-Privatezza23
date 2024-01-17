@@ -105,7 +105,7 @@ inglesi o dal simbolo chimico dell'oro Au:
 Sono tre concetti fondamentali per la sicurezza in un sistema informatico
 
 Altre tre regole fondamentali e legate alle auree sono:
-	* Availability o Confidenzialità --> la capacità del sistema di gestire
+	* Availability o Disponibilità --> la capacità del sistema di gestire
 	  				     l'accesso alla informazione
 	* Confidentiality o Confidenzialità --> la capacità di garantire
 	  					 l'accesso solo agli utenti 
@@ -127,7 +127,7 @@ applicate:___________________________________________________
 | di     | 	        |                 |                  |
 | Comuni=|	        |                 |                  |
 | cazione|	        |                 |                  |
-'--------+--------------+-----------------+------------------+
+'--------+--------------+-----------------+------------------'
 
 				*ASSET DI UN SISTEMA*
 
@@ -425,7 +425,7 @@ Ogni soggetto può avere 3 operazioni --> si necessita di 3 bit
 
 chmod fa modificare i diritti di accesso
 	sia con numeri sia con parole
-		sudo chmod 0754 file.txt ->user tutto, group leggi esegui, 
+		sudo chmod 0754 file.txt ->owner tutto, group leggi esegui, 
 		other solo leggi
 
 Ogni utente ha una sua directory di cui possiede tutti i permessi (rwx) e può 
@@ -651,11 +651,10 @@ Molto potente
 			UNICI MANIPOLABILI
 					
 
-	Byte B 			=      ~1/2B~   =	4b
-	word			=	1B	=	8b
-	double word		=	2B	=	16b
-	quadruple word		=	4B	=	32b
-	double quadruple word	=	8B	=	64b
+	Byte B 			=      	1B	=	 8b
+	word			=	2B	=	16b
+	double word		=	4B	=	32b
+	quadruple word		=	8B	=	64b
 
 	Registri sia a 64b, che 32b, che 16b che 8b a seconda di quali bit
 	voglio
@@ -665,7 +664,7 @@ Molto potente
 			ax  = 16b -> ah+al (higher e lower)
 			al  = 8b
 	
-	LITTLE ENDIAN!!!!
+	dati salvati in LITTLE ENDIAN (al contrario)
 
 	SOLO DUE TIPI DI DATO	
 		* NUMERI --> notazione binaria
@@ -751,11 +750,11 @@ neg dest	#...
 cmp dest,src    #confronta (b-a) e poi <0,>0,=0 modifica STATUS REGISTER a 
 		 seconda
 
-mul 	dest,src	#a=a*b SENZA segno
-    	può essere uno solo, l'altro è supposto in rax
-imul	dest,src	#a=a*b CON segno
-div
-idiv
+mul 	dest/src	#a=a*b SENZA segno <---, 
+    	può essere uno solo, l'altro è supposto in rax -------,
+imul	dest,src	#a=a*b CON segno da specificare       |
+div	dest/src <--------------------------------------------'
+idiv	dest,src 	#come imul
 
 CONTROLLO DI FLUSSO
 opcode label
@@ -1151,7 +1150,7 @@ Poi sono nati dei META-MALWARE --> generano il codice malevolo a partire da
 					*CHI LO FA*
 
 * Chi ha motivazioni politiche				--> ?
-* Criminali 						--> pochi
+* Criminali solitari					--> pochi
 * Organizzazioni Criminali 				--> mafia?
 * Organizzazioni che vendono al miglior offerente	--> data brokers
 * Intelligence						--> CIA, NSA, FSB, 
@@ -1177,7 +1176,8 @@ Tecniche specifiche di attacco e di mimesi
 Programmi che INFETTANO un altro programma --> appiccicandosi al programma 
 ospite (intero alla fine/inizio o a pezzi in giro)
 		|
-		'-----> sposta l'entry point al pezzo di virus e poi all'inizio dell'ospite --> file ELF
+		'-----> sposta l'entry point al pezzo di virus e poi all'inizio
+			dell'ospite --> file ELF
 		'-----> può fare tutto ciò che può fare l'ospite --> se root 
 					|			     sono guai
 					'---> può provare a fare Privilege 
