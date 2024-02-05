@@ -191,44 +191,48 @@ Mandatory access control (MAC)
 
 Matrice che associa un utente ai permessi per ogni risorsa
 
-	------------------------
-	| s\o | car | tas | ...
-	------+-----+-----+-----
-	| us1 |  x  |  -  | ...
-	------+-----+-----+-----
-	| us2 |  -  |  -  | ...
-	------+-----+-----+-----
-	| us3 |  x  |  x  | ...
-	------+-----+-----+-----
-	| ... | ... | ... | ...
-	------------------------
+			,-----------------------
+			| s\o | car | tas | ...
+			|-----+-----+-----+-----
+			| us1 |  x  |  -  | ...
+			|-----+-----+-----+-----
+			| us2 |  -  |  -  | ...
+			|-----+-----+-----+-----
+			| us3 |  x  |  x  | ...
+			|-----+-----+-----+-----
+			| ... | ... | ... | ...
+			'-----------------------
 
 Per tanti utenti non è gestibile --> COME POSSIAMO SFRUTTARE LE NOSTRE 
 CONOSCENZE PER COMPRIMERE LA STRUTTURA DATI SENZA PERDERE PEZZI?
 
-* divido le persone/utenti secondo il loro ruolo e posizione (se ho 50k utenti 
+	  		   *ACCESS CONTROL LIST*
+
+Divido le persone/utenti secondo il loro ruolo e posizione (se ho 50k utenti 
 ma essi fanno parte di 5 gruppi da 10k -> anziché avere 50k linee ne avrò 5) 
 ACCES CONTROL LIST ACL
-	------------------------
-	| g\o | car | tas | ... 
-	------+-----+-----+-----
-	| gr1 |  x  |  x  | ...
-	------+-----+-----+-----
-	| gr2 |  -  |  -  | ...
-	------+-----+-----+-----
-	| ... | ... | ... | ...
-	------------------------
+			,-----------------------
+			| g\o | car | tas | ... 
+			|-----+-----+-----+-----
+			| gr1 |  x  |  x  | ...
+			|-----+-----+-----+-----
+			| gr2 |  -  |  -  | ...
+			|-----+-----+-----+-----
+			| ... | ... | ... | ...
+			'-----------------------
 	DA TENERE IN UN LUOGO SICURO PER TENERE SANA E SALVA LA POLICY - 
 	in Linux/Unix è contenuta nella I-NODE
 		I-NODE -> struttura dati su HD in struttura chiamata I-NODE 
 		TABLE e contenete i metadati dei file 
 
-					*CAPABILITY*
+				*CAPABILITY*
 
 Garantisce l'accesso attraverso dei TOKEN
 tenuta nel KERNEL dell'SO per mantenere la protezione alta -> se qualcuno ne 
 entra in possesso E' quella persona per il computer -> IMPORTANTE
 usato in Windows
+
+				*ACL vs CL*
 
 Una banca tiene traccia di chi ha l'accesso alla cassetta di sicurezza, deve 
 tenere al sicuro l'elenco -> ACCESS CONTROL LIST
@@ -239,9 +243,9 @@ tenere al sicuro l'elenco -> ACCESS CONTROL LIST
                 ELIMINAZIONE   - è facile da rimuovere una entry
 
 Io ho le chiavi della cassetta e posso decidere a chi darle, se voglio darle -> 
-CAPABILITY
-		AUTENTICAZIONE - la banca non controlla
-		PARTECIPAZIONE - la banca non partecipa
+CAPABILITY LIST						  ^
+		AUTENTICAZIONE - la banca non controlla --|
+		PARTECIPAZIONE - la banca non partecipa --'
 		FALSIFICAZIONE - la chiave non è modificabile/copiabile
 		DELEGAZIONE    - la chiave può essere data a chiunque
 		ELIMINAZIONE   - è difficile farsi dare la chiave indietro
@@ -484,30 +488,30 @@ Composto da:
 	* Segmenti
 
 
-			-------------------------
+			,-----------------------,
 			|	ELF Header      |
-			-------------------------
+			|-----------------------|
 			| program header table  |
-			-------------------------
+			|-----------------------|
 			| .text			|
-			-------------------------
+			|-----------------------|
 			| .rodata               |
-			-------------------------
+			|-----------------------|
 			| .bss                  |
-			-------------------------
+			|-----------------------|
 			| .plt		        |
-			-------------------------
+			|-----------------------|
 			| .got		        |
-			-------------------------
+			|-----------------------|
 			| .got.plt              |
-			|------------------------
+			|-----------------------|
 			|.symtab		|
-			-------------------------
+			'-----------------------'
 
 HEADER
 
 readelf -h nome --> permette di leggere il file elf di un eseguibile per leggere
-le informazioni
+le informazioni successive
 
 e_entry: entry point in memoria centrale
 e_phoff: offset della Program Header Table
@@ -527,7 +531,7 @@ sh_offset:
 .......
 
 SEGMENTI
-dividono il file elf in spezzoni per .....
+dividono il file elf in spezzoni per l'esecuzione
 
 readelf -l nome
 
@@ -659,10 +663,14 @@ Molto potente
 	Registri sia a 64b, che 32b, che 16b che 8b a seconda di quali bit
 	voglio
 		ESEMPIO
-			rax = 64b
-			eax = 32b
-			ax  = 16b -> ah+al (higher e lower)
-			al  = 8b
+			rax   = 64b
+			eax   = 32b
+			ax    = 16b -> ah+al (higher e lower)
+			ah/al = 8b
+						     ----ax-----
+			 ____________________________|_________|
+			|       rax        |   eax   | ah | al |
+			'--------------------------------------'			
 	
 	dati salvati in LITTLE ENDIAN (al contrario)
 
@@ -706,7 +714,7 @@ Molto potente
 		--------                         --------
 		| 1000-|------> memoria -------> | .... |
 		--------        ad indirizzo     --------
-		                1000
+		                1000		  1000
 						
 	INDIRIZZAMENTO DIRETTO è intuitivo ma poco flessibile
 	"              INDIRETTO non è intuitivo ma è flessibile
@@ -850,20 +858,20 @@ Usata da Morris per l'Internet Worm
 E' possibile corrompere lo stack con l'overflow di un array e causare un salto 
 ad una routine casuale
 
-	---------------------
+	,-------------------,
 	|    kernel space   |
-	---------------------
+	|-------------------|
 	|     stack         | --> roba in main --> int a,b;
-	---------------------
+	|-------------------|
 	|     heap          | --> roba in heap (malloc,...) --> 
 	|		    |	  int *ptr=(int *)malloc(2*sizeof(int));
-	---------------------
+	|-------------------|
 	|     bss           | --> roba non inizializzata --> static int i;
-	---------------------
+	|-------------------|
 	|     data          | --> roba inizializzata --> int x=2; (in globale)
-	---------------------
+	|-------------------|
 	|     text          | --> programma vero e proprio
-	---------------------
+	'-------------------'
 
 					*LO STACK*
 
@@ -909,21 +917,21 @@ gestione dello STACK
 Lo stack contiene i function pointer --> si allocano sia le funzioni sia i 
 parametri passati ad esse <-- l'insieme di queste si dice STACK FRAME
 
-	---------
-	|   jj  | | --> bar
-	---------
-	|   ii  | |
-	--------- |
-	| iiii  | |
-	--------- | --> foo
-	|  iii  | |
-	--------- |
-	|   ii  | |
-	---------
-	|   10  | | 
-	--------- | --> main
-	|   x   | |
-	---------
+			,-------,
+			|   jj  | | --> bar
+			|-------|
+			|   ii  | |
+			|-------| |
+			| iiii  | |
+			|-------| | --> foo
+			|  iii  | |
+			|-------| |
+			|   ii  | |
+			|-------|
+			|   10  | | 
+			|-------| | --> main
+			|   x   | |
+			'-------'
 
 Contiene inoltre gli INDIRIZZI DI RITORNO dalle funzioni (prima che ne venga 
 chiamata una salva si salva sullo stack l'indirizzo della istruzione successiva
@@ -979,13 +987,7 @@ Prima del return il compilatore aggiunge tre istruzioni dette EPILOGO
 
 				*STRATEGIA DI ATTACCO*
 
-INIETTARE:
-	come le iniezioni in aula
-		shell code scritto
-GIA' PRONTO:
-
-
---> devo fare l'hijack del flusso di controllo
+Devo fare l'hijack del flusso di controllo
 	|			FOTO/retHijack.c scopri quale xx e modifica +8 a
 	|			+16/24/32 (scopri) e fai funzionare (value of 
 	|			x=13)
@@ -1044,14 +1046,15 @@ LATO SVILUPPATORE:	Non usare funzioni vulnerabili tipo gets() e scanf() ma
 			funzioni come strncpy,strncat,... che sono SICURE (la N)
 			|------> NON far copiare più B di quanti devono
 			'------> PROBLEMA PER SOFTWARE LEGACY (vecchio)
+
 LATO SO:		Randomizzare il layout dell'address space --> ASLR
 			|------> risolve per il software legacy su sistemi 
 			|	 MODERNI
-			'------> rende molto difficile trovare i RA
-					|
-					'------> ci sono metodi per superare 
-						 ma sono molto complessi
-							|
+			|------> rende molto difficile trovare i RA
+			v		|
+randomizza l'indirizzo delle funzioni   '------> ci sono metodi per superare 
+di libreria più importanti e la heap		 ma sono molto complessi
+e lo stack							|
 							v
 si può scoprire tramite programmino che stampa l'indirizzo in HEAP e STACK di 
 due variabili
@@ -1070,10 +1073,13 @@ LATO COMPILATORE:	Implementare una Stack Guard --> disabilitata da
 	   	|	se viene trovata una  modifica blocca la esecuzione	
 		|--> 00 termina gets()			  |
 		|--> a0 termina scanf()			  |
-		'--> detto TERMINATOR			  '--> segna di errore di stack smashing
+		'--> detto TERMINATOR			  '--> segna di errore 
+								di stack 
+								smashing
 
 LATO HARDWARE:		Non permettere l'esecuzione dallo Stack
-(ma anche SW)			|	'
+(ma anche SW)			|	|-> Not eXecute Bit in AMD
+	|			|       '-> Execute Disabled Bit in Intel
 	|			'--> si contravviene leggermente il principio 
 	|			     di Von Neumann e si decide che lo stack 
 	|			     NON può contenere codice
@@ -1102,9 +1108,9 @@ Diversi tipi --> Worm, Trojan, Backdoor, Keylogger, Logic Bomb, ...
 
 				*COMPOSIZIONE DI UN MALWARE*
 
-		--------------------------
+		,------------------------,
 		| Propagazione | Payload | --> COSA FA
-		--------------------------	|
+		'------------------------'	|
 						|
 						'---> COME SI MUOVE
 
@@ -1147,11 +1153,11 @@ Poi sono nati dei META-MALWARE --> generano il codice malevolo a partire da
 		|----> Zeus e Angler
 		'----> Comprabili da soggetti poco raccomandabili
 							
-					*CHI LO FA*
+				*CHI LO FA*
 
-* Chi ha motivazioni politiche				--> ?
+* Chi ha motivazioni politiche				--> dittatori, governi
 * Criminali solitari					--> pochi
-* Organizzazioni Criminali 				--> mafia?
+* Organizzazioni Criminali 				--> mafia
 * Organizzazioni che vendono al miglior offerente	--> data brokers
 * Intelligence						--> CIA, NSA, FSB, 
 							    Mossad, ...
@@ -1159,7 +1165,7 @@ Poi sono nati dei META-MALWARE --> generano il codice malevolo a partire da
 
 Grossi movimenti di soldi, molto difficile ormai
 
-					*ADVANCED PERSISTENT THREAT*
+			    *ADVANCED PERSISTENT THREAT*
 
 Avanzato e persistente, come da nome
 |--------------> usato dall'intelligence     |
@@ -1183,11 +1189,11 @@ ospite (intero alla fine/inizio o a pezzi in giro)
 					'---> può provare a fare Privilege 
 					      Escalation
 
-				--------
-				 HEADER
-				--------
-				PROGRAM
-				--------
+				,-------,
+				| HEADER|
+				|-------|
+				|PROGRAM|
+				'-------'
 
 COME INFETTANO 			--> infection vector
 QUANDO SI ATTIVANO		--> trigger 
@@ -1196,8 +1202,8 @@ COSA FANNO			--> payload
 FASI
 		IDLE/DORMIENTE --> non fa nulla finché non c'è un trigger 
 			       --> non sempre presente
-		ATTIVAZIONE    --> il trigger avviene
-			PROPAGAZIONE --> si riproduce
+		ATTIVAZIONE    --> il trigger avviene (se presente)
+			PROPAGAZIONE --> si riproduce (non sempre)
 			ESECUZIONE   --> esegue il payload
 
 MACRO VIRUS
@@ -1213,8 +1219,9 @@ MACRO VIRUS
 	  '---> si attivava se il minuto era = all'ora
 
 Una volta venivano identificati dalla SIGNATURE --> stringa UNIVOCA nel codice, quando trovata veniva aggiunta alla lista
-					'-->ORA NON PIÙ --> sono stati sviluppa
-							     ti VIRUS CIFRATI
+					'-->ORA NON PIÙ --> sono stati 
+							    sviluppa ti 
+							    VIRUS CIFRATI
 									|
 									|
 									v
@@ -1228,8 +1235,8 @@ Una volta venivano identificati dalla SIGNATURE --> stringa UNIVOCA nel codice, 
 							v
 					evitabile attraverso la modifica (ogni 
 					volta) della routine --> la signature 
-					|			cambia ogni 
-					|			volta
+					|			 cambia ogni 
+					|			 volta
 					| 	VIRUS POLIMORFICO <-'
 					v
 					Kaspersky capisce che POST decriptazione
@@ -1243,7 +1250,7 @@ Una volta venivano identificati dalla SIGNATURE --> stringa UNIVOCA nel codice, 
 		generazione in generazione
 		| '--> VIRUS METAMORFICO
 		v
-	sgamabile in esecuzione per vedere cosa fa --> se fa cose sospette lo 
+	sgamabile in esecuzione osservando cosa fa --> se fa cose sospette lo 
 						       flaggo
 					                '-> ANALISI DINAMICA
 
@@ -1380,6 +1387,7 @@ Il più famoso era PEGASUS della NSO, usato spesso dalle agenzie d'intelligence
 
 PHISHING
 Rubare in maniera fraudolenta le informazioni di qualcuno attraverso inganni
+Simile al Social Engeneering
 
 BACKDOOR
 	Punto di ingresso nascosto nella macchina ad uso futuro creato DURANTE la creazione O aggiunto in seguito -> ad esempio il servizio di rete
@@ -1398,7 +1406,7 @@ ROOTKIT
 	Ad esempio cambiano le syscall
 	MOLTO COMPLESSO
 
-				*COME E' STATO CONTRASTATO NEGLI ANNI*
+			*COME E' STATO CONTRASTATO NEGLI ANNI*
 
 Idealmente la difesa da una QUALUNQUE minaccia è divisa in tre fasi
 	PREVENZIONE
@@ -1463,7 +1471,7 @@ ORA SONO CHIAMATI EDR --> Endpoint Detection & Recovery			|
 									  |
 		detti Next Generation Antivirus <-------------------------'
 
-					*ABRA WORM*
+				*ABRA WORM*
 
 Presentato a Purdue Uni
 Worm --> infetta una e tenta di infettare altre
@@ -1610,8 +1618,8 @@ PROTOCOLLI
 		FISICO
 
 ARP e ARC
-	ARP request vuole mandare una cosa --> chiede indirizzo, chi lo ha risponde
-	                                   |   e poi si invia
+	ARP request vuole mandare una cosa --> chiede indirizzo, chi lo ha 
+					   |   risponde e poi si invia
 					   '-> se nessuno risponde NON manda su
 					       LAN ma su Internet
 
@@ -1671,20 +1679,20 @@ facile/utile
 
 Esistono KIT SNIFFER (tipo quelli da malware) per sniffare e analizzare i 
 pacchetti su una rete --> Wireshark
-		'-> sia per scopi benevoli
+		|-> sia per scopi benevoli
 		'-> sia per scopi malevoli
 
 Difficilmente scopribile in quanto attacco PASSIVO
 
 Evitabile attraverso la criptazione dei pacchetti
 
-					*FINGERPRINTING*
+				*FINGERPRINTING*
 
 Prima fase di un attacco, è ricognizione
 Sfrutta i protocolli di rete --> fa l'impronta di un sistema per poterlo 
 riconoscere (scoprire tutte le informazioni) e da lì analizzarlo
 
-					*PORT SCANNING*
+				*PORT SCANNING*
 
 Sondare le porte di rete di un sistema mandando pacchetti a ciascuna per 
 analizzare la loro risposta (se sono aperte, che servizi ospitano, ...)
@@ -1694,7 +1702,7 @@ ciascuno
 Si può fare con nmap, ma ormai si sa come funziona --> difficile farlo ormai, 
 troppe richieste fanno partire l'allarme
 
-					*PROTOCOLLO ARP*
+				*PROTOCOLLO ARP*
 
 Pacchetto ip (livello 3):
 			|IPsrc|IPdst| IP | data |
@@ -1737,7 +1745,7 @@ aggiornate le entry (che durano poco, vedi sopra)
 E' stateless, non si ricorda delle richieste --> se riceve una risposta "si 
 fida" di avere fatto una domanda a riguardo e che il dato sia giusto
 	|
-	'--> può essere fregato mandando risposte a richieste NON eseguite
+	|--> può essere fregato mandando risposte a richieste NON eseguite
 	'--> si può dire di essere una macchina con diverso IP mandando
 	     una reply con l'IP da sostituire e il proprio MAC
 Mandiamo risposte senza avere ricevuto richieste --> GRATUITOUS REQUESTS
@@ -1853,7 +1861,7 @@ Mitnick (da ora in poi M) esegue
 Subito dopo l'attacco ne avvennero molti altri finché il protocollo il TCP
 ORA molto difficile fare il punto 3 perché hanno migliorato gli algoritmi
 
-					*DOS E DDOS*
+				*DOS E DDOS*
 
 Denial Of Service e Distributed Denial Of Service --> vanno a minare la 
 DISPONIBILITÀ di un servizio --> non si riesce a difendere
@@ -1897,6 +1905,7 @@ Comodo fare così:
 
 				*TCP DOS*
 
+Il SYN FLOOD di Mitnik
 Va a saturare la tabella delle connessioni TCP di una macchina
 
 	La connessione TCP funziona a SYN e ACK in THREE HAND-SHAKE
@@ -1980,10 +1989,10 @@ Vedi xss game appspot (tipo pwn/bandit)
 				*SQL*
 
     	http conn          tcp conn                   DB access
-    +-----------------------------------------------------------------------+
+    ,-----------------------------------------------------------------------,
     | :-) -----> WEB SERVER ------> APPLICATION SERVER -------> DB SERVER   |
     |            statico          dinamico (di back-end)        (opzionale) |
-    +-----------------------------------------------------------------------+
+    '-----------------------------------------------------------------------'
 
 Useremo PostgresSQL
 Funziona a query
@@ -2117,7 +2126,7 @@ di un meccanismo diverso --> trovato negli anni 60-70
 		v
 	è in due fasi
 	1) autocertificazione dell'utente -------------------,
-	2) controllo della affermazione da parte dell'utente  |
+	2) controllo della affermazione dell'utente  	     |
 							     v
 		1 è diviso in diverse tipologie a seconda delle organizzazioni 
 		(Nome e Cognome, stringa alfanumerica, mail, ...) --> USERNAME
@@ -2270,8 +2279,7 @@ Usa un oggetto o attivo o passivo:
 			*WHAT YOU HAVE - VULNERABILITA'*
 
 Bancomat Skimming --> si rubano i dati attraverso un falso bancomat
-'--> solo per carte a BANCA MAGNETICA
-Chiamata che punta a registrare e campionare la voce
+'--> solo per carte a BANDA MAGNETICA
 
 			*MULTI-FACTOR AUTHENTICATION*
 
@@ -2450,8 +2458,8 @@ Scritti dalla accensione allo spegnimento
 Su Linux è su var/log/
 	Diverse zone che segnano cose diverse (login, traffico internet, ...)
 	Diversi formati a seconda della versione
-Su un portatile quando il Log è pieno si sovrascrive --> circa ogni due 
-							 settimane
+Su un PC normale quando il Log è pieno si sovrascrive --> circa ogni due 
+							  settimane
 Ogni log ha un codice di Severity da 0 a 7 che indica il pericolo, più basso è 
 più è grave
 Ogni log ha un codice di Facility che dice chi lo ha generato (su Linux da 0 a 
@@ -2585,7 +2593,7 @@ Usato dagli Stati Uniti per i file segretati
 
 				*LA CHIAVE PUBBLICA*
 
-Teorizzata nel '77 da Deefy e Dellman, che presero il premio Turing
+Teorizzata nel '77 da Diffle e Hellman, che presero il premio Turing
 Ognuno ha DUE chiavi: una pubblica e una privata
 	* sono generate a coppie
 	* le cifrate con la privata possono essere decifrate dalla pubblica
@@ -2614,12 +2622,12 @@ Garantisco la AUTENTICITÀ e mi impedisco la NEGAZIONE in campo giuridico
 						v
 					la NON RIPUDIABILITÀ
 
-				*PROBLEMI DELLA CHIAVE PUBBLICA*
+			  *PROBLEMI DELLA CHIAVE PUBBLICA*
 
 * MITM può mettersi in mezzo e dare/ricevere la sua/altrui chiave e intercettare  le comunicazioni facendo sembrare che tutto sia ok
 * 10k volte più lenta di quella a chiave privata (chiavi da 4kb)
 				
-				*PROBLEMI GENERALI DELLA CRIPTAZIONE*
+			*PROBLEMI GENERALI DELLA CRIPTAZIONE*
 
 Il messaggio può essere modificato da vari fattori volontari o meno durante la
 trasmissione che corrompe i dati e rende diverso il messaggio decriptato
@@ -2639,7 +2647,7 @@ PROPRIETÀ
 			      |   file m1 e m2 diversi
 			      |   hash(m1) = hash(m2) MOLTO DIFFICILE
 			      |   	quasi un secolo <-'
-			      |-> questo le rende suriettive
+			      |-> questo le rende suriettive <- tanto in poco
 			      |-> utile a capire se un file è corrotto durante
 			      |   il download
 			      '-> le password su etc/shadow sono salvate in 
@@ -2663,27 +2671,27 @@ chiave privata attraverso l'hashing della cosa da firmare prima di firmare
 Per validare si riceve la firma e l'oggetto O. Si usa la chiave pubblica per 
 decriptare la firma e ottenere la hash dell'oggetto, dopo di che si hasha O e si
 confrontano l'hash(O) NOSTRO con l'hash(O) FIRMA --> se combaciano si conferma
-l'identità
-
-				*HASH PIÙ COMUNI*
-
-MD5  --> la sua collision resistance rotta nel 2005
-SHA1 --> la collision resistance è considerata compromessa (è possibile in 2^80
-         tentativi)
-SHA2 --> ora come ora la collision resistance è considerata sicura
-
-			*AGGIUNGERE PIÙ INTEGRITÀ*
-
-KEYED-HASH MESSAGE AUTHENTICATION CODE
-Si usa la funzione di hash e una chiave K
-
-				1:	hash(| K xor ipad | messaggio |)
-					|
-					v
-	2:	hash(|k xor opad |	   |) -> HMAC(K,M)
-
-		Si riceve M e HMAC(K,M), si estrae da 2 1 e si rieffettua 1 
-		se 1_rifatto e 1_originale sono uguali tutto ok
+l'identità								     ^	
+									     |	
+				*HASH PIÙ COMUNI*			     |
+									     |	
+MD5  --> la sua collision resistance rotta nel 2005			     |
+SHA1 --> la collision resistance è considerata compromessa (è possibile in   |
+	 2^80 tentativi)						     |
+SHA2 --> ora come ora la collision resistance è considerata sicura           |
+									     |
+			*AGGIUNGERE PIÙ INTEGRITÀ*			     |
+									     |
+KEYED-HASH MESSAGE AUTHENTICATION CODE                                       |
+Si usa la funzione di hash e una chiave K				     |	
+									     |	
+				1:	hash(| K xor ipad | messaggio |)     |
+					|				     |
+					v				     |	
+	2:	hash(|k xor opad |	   |) -> HMAC(K,M)		     |
+									     |
+		Si riceve M e HMAC(K,M), si estrae da 2 1 e si rieffettua 1  |
+		se 1_rifatto e 1_originale sono uguali tutto ok -------------'
 
 			*COME SI PUÒ CONFERMARE LA CHIAVE PUBBLICA*
 
@@ -2730,7 +2738,7 @@ PUBLIC KEY INFRASTRUCTURE
 
 --> usato sulle Carte di Credito a CHIP
 	* esse possiedono un chip con una coppia di chiavi, una privata l'altra
-	  privata
+	  pubblica
 	ALLA AUTENTICAZIONE
 		+ la CARTA invia il certificato a chiave PUBBLICA
 		+ il TERMINALE contiene il certificato con la firma e lo usa per
@@ -2922,7 +2930,7 @@ Offre i seguenti servizi:
 	* Data Origin Authentication
 	* Confidentiality
 	* Connectionless and partial sequence integrity
-		+ Connectionless: sicurezza per il singolo pacchetto
+		+ Connectionless: certifica la non modifica del pacchetto
 		+ Partial sequence integrity per evitare i reply attack
 	* Limited Traffic Flow Confidentiality
 		+ non permette di sapere da fuori chi parla
@@ -2944,7 +2952,7 @@ Ha due metodi di incapsulamento: trasporto e tunnel
 	trasporto
 
 	pacchetto in 
-	modalità       | IP header | IPsec header | pacchetto IP |
+	modalità       | IPsec header | pacchetto IP |
 	tunnel
 
 	La modalità tunnel serve come scalino di metà tra IPv4 e IPv6
@@ -2956,6 +2964,7 @@ Ha due metodi di incapsulamento: trasporto e tunnel
 				
 				*AH*
 
+	,---> parametro per identificare la SA del mandante
 	SPI e Integrity Check
 		|-> si fa un doppio SHA1 del pacchetto e lo si infila nel campo
 		|   (il capo IC è di conseguenza vuoto prima del calcolo)
@@ -3127,11 +3136,13 @@ Record 		--> "macina" i dati nel trasferimento
 
 				*HANDSHAKE*
 
-		C -->    time, n* casuale, cipher suite     --> S
-		C <-- n° random 2, session id, cipher suite <-- S
-		C <--          chiave pubblica              <-- S
-		C <--              server hello             <-- S
-		C -->          connesione competata         --> S 
+		C --> Client HELLO, chipher suite proposal      --> S
+		C <-- Server HELLO, certificate, server key exc <-- S
+		      chipher suite ok/not ok - proposal
+		C --> Client key exc, chipher spec,  chipher    --> S 
+		      suite ok/not ok - proposal
+		      			...
+		C <-- Chipher Spec, Finished			<-- S
 
 	Chipher Suite C chiede cosa usare nella connessione (criptazione,chiave)
 	"       "     S accetto o meno (nel caso propone di nuovo)
@@ -3328,10 +3339,10 @@ Usato anche come frontiera per dividere sottoreti di una stessa organizzazione
 				*TIPI DI FIREWALL*
 
 Ne esistono di diversi tipi:
-	* Packet Filter --> guarda solo l'header IP, non il payload IP
+	* Packet Filter --> guarda solo l'header, non il payload
 			'-> "scarta tutti i pacchetti di X.Y.Z.K"
 			    "fidati di tutti i pacchetti U.O.P.T"
-	* Stateful Inspection --> guarda anche l'header TCP
+	* Stateful Inspection --> guarda anche il payload
 	* proxy Firewall --> si mettono in mezzo alla connessione
 	* Application Gateway --> applica meccanismi di sicurezza a specifiche
 				 applicazioni come TCP, Telnet
@@ -3751,8 +3762,8 @@ E' un "proxy multiplo" --> sistema la problematica del "singolo nodo" del PROXY
 		       |	TOR BROWSER FORZA HTTPS PER OVVIARE
 		       |  P :-) [[[P]]] <- A [[P]] <- B [P] <- C P <- Server P
 		       |  
-		       |  Se il sito è .onion i nodi NON sono A,B e C ma J, H e
-		       |  G
+		       |  Se il sito è .onion i nodi di ritorno NON sono A,B e 
+		       |  C ma J, H e G
 		       |-> gli URL sono alfanumerici e non sono facilmente
 		       |   memorizzabili da un umano --> spesso raccolti in
 		       |   elenchi tipo quelli del telefono e potrebbero non
